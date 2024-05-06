@@ -1,0 +1,22 @@
+---
+title: "les 6-5"
+output: html_document
+date: "2024-05-06"
+---
+
+# Logboek kiemgroenten
+
+## Introductie
+
+Blablablabablaballa kiemgroenten
+
+- Wat is er al bekend
+- Ideeën onderzoeksopzet
+- Is er al data
+- Verwijzing naar protocollen
+
+## 06-05-2024 -- gelogd door [naam]
+ik heb dit gedaan en dat gedaan
+
+`dit is code`
+
