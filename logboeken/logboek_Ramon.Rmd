@@ -1,0 +1,93 @@
+---
+title: "les 6-5"
+output: html_document
+date: "2024-05-06"
+---
+
+# Logboek kiemgroenten
+
+## Introductie
+
+Blablablabablaballa kiemgroenten
+
+- Wat is er al bekend
+- Ideeën onderzoeksopzet
+- Is er al data
+- Verwijzing naar protocollen
+
+## 06-05-2024 -- gelogd door [naam]
+ik heb dit gedaan en dat gedaan
+
+`dit is code`
+
+### 2024-05-07
+Om alvast te kijken hoe we met de data om kunnen gaan, ga ik een basic dataframe maken van 1 van de planten.
+In deze dataframe komt alleen maar de groei van de plant en de oplossing zout te staan.
+Met deze data wordt een histogram gemaakt.
+
+
+```{r}
+library(tidyverse)
+set.seed(0)
+cress_data <- data.frame(species = rep(c("cress", "alfalfa"), each=400),
+                       N = 1:200,
+                       batch_n=rep(c(1, 2), each=200),
+                       Oplossing=rep(c(0,1,5,10), each=50),
+                       cm_groei=c(rnorm(n=50, 5, 1.5),rnorm(n=50, 8,1),rnorm(n=50, 3, 2),rnorm(n=50, 1,0.5), #cress batch 1
+                                  rnorm(n=50, 5.5, 1.6),rnorm(n=50, 7.6,1.2),rnorm(n=50, 2.8, 2.1),rnorm(n=50, 1.2,0.6), #cress batch 2
+                                  rnorm(n=50, 3, 1),rnorm(n=50, 4,0.8),rnorm(n=50, 2, 0.5),rnorm(n=50, 1,0.2),#alfalfa batch 1
+                                  rnorm(n=50, 3.2, 1.1),rnorm(n=50, 3.8,1.1),rnorm(n=50, 2.1, 0.4),rnorm(n=50, 1.2,0.1)), #aflalfa batch 2
+
+                       n_ontkieming=c(rbinom(50, 1, 0.6), rbinom(50, 1, 0.8), rbinom(50, 1, 0.4), rbinom(50, 1, 0.2),
+                                      rbinom(50, 1, 0.6), rbinom(50, 1, 0.8), rbinom(50, 1, 0.4), rbinom(50, 1, 0.2)))
+cress_data
+```
+Hierboven is de dataset gegenereerd
+
+
+### 2024-05-08
+Na de les van michiel moesten we eerst bekijken of de data compleet is.
+Omdat deze data gesimuleerd is, is dit overbodig. Het moet daarintgen wel in onze echte analyse. Dus verwerk ik dit hier nju
+
+```{r}
+head(cress_data)
+```
+De correcte datatypen komen voor in de data set, ook is de header correct.
+
+Het volgende wat gecheckt moet worden is of het aantal observaties overeenkomt met de dataset
+
+```{r}
+str(cress_data)
+```
+400 observaties komt overeen met de 400 zaadjes die geteld en geplant zijn.
+
+Vervolgens voor alle oplossingen een gemiddelde en sd berekenen voor beide batches
+```{r}
+cress_batch1 <- cress_data %>%
+    filter(batch_n == 1)
+
+mean_groei <- aggregate(cm_groei ~ Oplossing, data = cress_batch1, FUN = mean)
+sd_groei <- aggregate(cm_groei ~ Oplossing, data = cress_batch1, FUN = sd)
+
+print("Gemiddelden en sd voor de groei in cm voor batch 1 van de cress plant:")
+do.call(sprintf, c(fmt="oplossing percentage zout: %i, Gemiddelde: %.2f, SD: %.2f",
+                   as.list(mean_groei[1]),
+                   as.list(mean_groei[2]),
+                   sd_groei[2]))
+```
+
+```{r}
+cress_batch2 <- cress_data %>%
+    filter(batch_n == 2)
+
+mean_groei <- aggregate(cm_groei ~ Oplossing, data = cress_batch2, FUN = mean)
+sd_groei <- aggregate(cm_groei ~ Oplossing, data = cress_batch2, FUN = sd)
+print("Gemiddelden en sd voor de groei in cm voor batch 2 van de cress plant:")
+do.call(sprintf, c(fmt="oplossing percentage zout: %i, Gemiddelde: %.2f, SD: %.2f",
+                   as.list(mean_groei[1]),
+                   as.list(mean_groei[2]),
+                   sd_groei[2]))
+```
+Nu is het gemiddelde en de SD berekend voor elke oplossing voor beide batches
+
+0,1,2,3 nieuwe concentraties
