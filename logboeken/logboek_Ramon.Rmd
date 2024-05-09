@@ -91,3 +91,16 @@ do.call(sprintf, c(fmt="oplossing percentage zout: %i, Gemiddelde: %.2f, SD: %.2
 Nu is het gemiddelde en de SD berekend voor elke oplossing voor beide batches
 
 0,1,2,3 nieuwe concentraties
+
+## 2024-05-09
+- 5 liter water gekookt voor 5 minuten.
+- 5, 10, 15 gram zout gewogen
+- deze heb ik opgelost in 3x500 ml water
+- dit zorgt voor 3 verschillende concentraties: 1,2,3% zout
+- Deze oplossingen zijn in een eigen spuitfles gedaan.
+- 500 ml water zonder opgeloste zout ook in een eigen spuitfles gedaan.
+
+- 16 petrischaaltjes gelabeled met soort, batch n en % oplossing
+- 1 keukenpapiertje per schaaltje 2x dubbel gevouwen en gespoten met de oplossing die bij het schaaltje hoort tot het vochtig is aan de bovenkant.
+- keukenpapiertje in schaaltje gedaan en 50 zaadjes er over heen gestrooid.
+- zaadjes gespoten met correcte oplossing water na het het strooien.
