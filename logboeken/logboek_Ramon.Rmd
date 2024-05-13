@@ -44,7 +44,13 @@ cress_data
 ```
 Hierboven is de dataset gegenereerd
 
-
+```{r}
+library(tidyverse)
+cress_new <- cress_data %>%
+    select(-batch_n)
+cress_new
+aggregate(cm_groei ~ species + Oplossing,data=cress_data, FUN=mean)
+```
 ### 2024-05-08
 Na de les van michiel moesten we eerst bekijken of de data compleet is.
 Omdat deze data gesimuleerd is, is dit overbodig. Het moet daarintgen wel in onze echte analyse. Dus verwerk ik dit hier nju
@@ -59,36 +65,8 @@ Het volgende wat gecheckt moet worden is of het aantal observaties overeenkomt m
 ```{r}
 str(cress_data)
 ```
-400 observaties komt overeen met de 400 zaadjes die geteld en geplant zijn.
+800 observaties komt overeen met de 800 zaadjes die geteld en geplant zijn.
 
-Vervolgens voor alle oplossingen een gemiddelde en sd berekenen voor beide batches
-```{r}
-cress_batch1 <- cress_data %>%
-    filter(batch_n == 1)
-
-mean_groei <- aggregate(cm_groei ~ Oplossing, data = cress_batch1, FUN = mean)
-sd_groei <- aggregate(cm_groei ~ Oplossing, data = cress_batch1, FUN = sd)
-
-print("Gemiddelden en sd voor de groei in cm voor batch 1 van de cress plant:")
-do.call(sprintf, c(fmt="oplossing percentage zout: %i, Gemiddelde: %.2f, SD: %.2f",
-                   as.list(mean_groei[1]),
-                   as.list(mean_groei[2]),
-                   sd_groei[2]))
-```
-
-```{r}
-cress_batch2 <- cress_data %>%
-    filter(batch_n == 2)
-
-mean_groei <- aggregate(cm_groei ~ Oplossing, data = cress_batch2, FUN = mean)
-sd_groei <- aggregate(cm_groei ~ Oplossing, data = cress_batch2, FUN = sd)
-print("Gemiddelden en sd voor de groei in cm voor batch 2 van de cress plant:")
-do.call(sprintf, c(fmt="oplossing percentage zout: %i, Gemiddelde: %.2f, SD: %.2f",
-                   as.list(mean_groei[1]),
-                   as.list(mean_groei[2]),
-                   sd_groei[2]))
-```
-Nu is het gemiddelde en de SD berekend voor elke oplossing voor beide batches
 
 0,1,2,3 nieuwe concentraties
 
@@ -104,3 +82,26 @@ Nu is het gemiddelde en de SD berekend voor elke oplossing voor beide batches
 - 1 keukenpapiertje per schaaltje 2x dubbel gevouwen en gespoten met de oplossing die bij het schaaltje hoort tot het vochtig is aan de bovenkant.
 - keukenpapiertje in schaaltje gedaan en 50 zaadjes er over heen gestrooid.
 - zaadjes gespoten met correcte oplossing water na het het strooien.
+
+
+## 2024-05-10
+- 8:40: papier was droog, dus heb elk bakje 2x bemist
+
+Een goede manier om voor elke oplossing een t test te doen tussen de 2 soorten
+```{r}
+result <- cress_data %>%
+    filter(Oplossing == 5) %>%
+    t.test(cm_groei ~ species, data=.)
+result
+```
+
+Om de spreiding weer te geven tussen de 2 batches op elke oplossing van de cress kan je een boxplot gebruiken, zie hieronder
+```{r}
+test <- cress_data %>%
+    filter(species == "cress")
+boxplot(cm_groei ~ batch_n + Oplossing, data=test)
+```
+## 2024-05-11
+- Omdat het papier uitdroogd spuit ik elke ochtend en avond om 9 uur 2x in elk bakje.
+Ook laat ik het dekseltje met een klein spleetje open op het bakje, zodat het vocht in het bakje blijft
+
