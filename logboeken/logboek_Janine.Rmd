@@ -1,0 +1,86 @@
+---
+title: "Logboek_Janine"
+output: html_document
+date: "2024-05-06"
+---
+
+# Logboek kiemgroenten
+
+## Introductie
+
+In dit logboek wordt de voortgang van ons onderzoek bijgehouden.
+
+- Wat is er al bekend
+- Ideeën onderzoeksopzet
+- Is er al data
+- Verwijzing naar protocollen
+
+
+
+`dit is code`
+
+### 2024-05-07
+Om alvast te kijken hoe we met de data om kunnen gaan, ga ik een basic dataframe maken van 1 van de planten.
+In deze dataframe komt alleen maar de groei van de plant en de oplossing zout te staan.
+Met deze data worden verschillende data-outputs gemaakt.
+
+
+```{r}
+library(tidyverse)
+set.seed(0)
+cress_data <- data.frame(species = rep(c("cress", "alfalfa"), each=400),
+                       N = 1:200,
+                       batch_n=rep(c(1, 2), each=200),
+                       Oplossing=rep(c(0,1,2,3), each=50),
+                       cm_groei=c(rnorm(n=50, 5, 1.5),rnorm(n=50, 8,1),rnorm(n=50, 3, 2),rnorm(n=50, 1,0.5), #cress batch 1
+                                  rnorm(n=50, 5.5, 1.6),rnorm(n=50, 7.6,1.2),rnorm(n=50, 2.8, 2.1),rnorm(n=50, 1.2,0.6), #cress batch 2
+                                  rnorm(n=50, 3, 1),rnorm(n=50, 4,0.8),rnorm(n=50, 2, 0.5),rnorm(n=50, 1,0.2),#alfalfa batch 1
+                                  rnorm(n=50, 3.2, 1.1),rnorm(n=50, 3.8,1.1),rnorm(n=50, 2.1, 0.4),rnorm(n=50, 1.2,0.1)), #alfalfa batch 2
+
+                       n_ontkieming=c(rbinom(50, 1, 0.6), rbinom(50, 1, 0.8), rbinom(50, 1, 0.4), rbinom(50, 1, 0.2),
+                                      rbinom(50, 1, 0.5), rbinom(50, 1, 0.7), rbinom(50, 1, 0.5), rbinom(50, 1, 0.25),
+                                      rbinom(50, 1, 0.7), rbinom(50, 1, 0.9), rbinom(50, 1, 0.3), rbinom(50, 1, 0.3),
+                                      rbinom(50, 1, 0.4), rbinom(50, 1, 0.8), rbinom(50, 1, 0.6), rbinom(50, 1, 0.35)),
+                       
+                       n_blaadjes=c(rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5), # C batch 1
+                                    rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5), # C batch 2
+                                    rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5), # A batch 1
+                                    rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5))) # A batch 2
+                        
+cress_data
+```
+
+#standaarddeviatie maken en boxplot soorten over cm groei (~)
+
+```{r}
+aggregate(cm_groei ~ species+Oplossing+batch_n, FUN=sd, data=cress_data)
+```
+
+
+```{r}
+dataset_alfalfa <- cress_data %>%
+    filter(species == "alfalfa")
+boxplot(cm_groei ~ batch_n+Oplossing, data=dataset_alfalfa)
+```
+```{r}
+dataset_cress <- cress_data %>%
+    filter(species == "cress" & Oplossing == 0:1)
+dataset_cress
+t.test(cm_groei ~ Oplossing, data=dataset_cress)
+
+```
+
+
+#Logdata
+## 13-05-204
+
+Onderwerp voor de journalclub presentatie wordt de lollipop graph. Er wordt deze week een presentatie gemaakt en er wordt een markdown document gemaakt waarin verschillende lollipop graph's uitgebeeld staan als voorbeeld.
+
+## 15-05-2024
+
+Begonnen met onderzoek doen voor de journalclub presentatie. Begonnen met een powerpoint presentatie en begonnen met het visualiseren van verschillende lollipop charts. Zie hiervoor lollipop_chart.Rmd
+
+
+
+
+
