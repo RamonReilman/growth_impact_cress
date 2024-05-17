@@ -16,22 +16,23 @@ In dit logboek wordt de voortgang van ons onderzoek bijgehouden.
 - Verwijzing naar protocollen
 
 
-
-`dit is code`
-
 ### 2024-05-07
 Om alvast te kijken hoe we met de data om kunnen gaan, ga ik een basic dataframe maken van 1 van de planten.
 In deze dataframe komt alleen maar de groei van de plant en de oplossing zout te staan.
-Met deze data worden verschillende data-outputs gemaakt.
+Met deze data worden verschillende data-outputs gemaakt.Het test dataframe is opgesteld door Ramon, tot en met n_blaadjes, het laatste deel door mij.
 
 
 ```{r}
 library(tidyverse)
+library(ggplot2)
+library(ggridges)
+library(hrbrthemes)
+
 set.seed(0)
 cress_data <- data.frame(species = rep(c("cress", "alfalfa"), each=400),
                        N = 1:200,
                        batch_n=rep(c(1, 2), each=200),
-                       Oplossing=rep(c(0,1,2,3), each=50),
+                       oplossing=rep(c(0,1,2,3), each=50),
                        cm_groei=c(rnorm(n=50, 5, 1.5),rnorm(n=50, 8,1),rnorm(n=50, 3, 2),rnorm(n=50, 1,0.5), #cress batch 1
                                   rnorm(n=50, 5.5, 1.6),rnorm(n=50, 7.6,1.2),rnorm(n=50, 2.8, 2.1),rnorm(n=50, 1.2,0.6), #cress batch 2
                                   rnorm(n=50, 3, 1),rnorm(n=50, 4,0.8),rnorm(n=50, 2, 0.5),rnorm(n=50, 1,0.2),#alfalfa batch 1
@@ -46,41 +47,145 @@ cress_data <- data.frame(species = rep(c("cress", "alfalfa"), each=400),
                                     rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5), # C batch 2
                                     rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5), # A batch 1
                                     rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5))) # A batch 2
-                        
-cress_data
+                       
+
 ```
 
-#standaarddeviatie maken en boxplot soorten over cm groei (~)
-
-```{r}
-aggregate(cm_groei ~ species+Oplossing+batch_n, FUN=sd, data=cress_data)
-```
-
+# Verwerking 16 mei
 
 ```{r}
 dataset_alfalfa <- cress_data %>%
     filter(species == "alfalfa")
-boxplot(cm_groei ~ batch_n+Oplossing, data=dataset_alfalfa)
+#Door middel van filter kan er een specifieke groep binnen de data geselecteerd worden
+boxplot(cm_groei ~ batch_n+oplossing, data=dataset_alfalfa)
 ```
 ```{r}
 dataset_cress <- cress_data %>%
-    filter(species == "cress" & Oplossing == 0:1)
-dataset_cress
-t.test(cm_groei ~ Oplossing, data=dataset_cress)
+    filter(species == "cress" & oplossing == 0:1)
+t.test(cm_groei ~ oplossing, data=dataset_cress)
+
+```
+
+Histogram van groei in cm van de tuinkers
+```{r}
+data <- cress_data %>%
+    filter(species == "cress")
+
+ggplot(data, aes(x=cm_groei)) +
+    geom_histogram( binwidth=0.5, fill="black", color="red") +
+    labs(title = "Groei van tuinkers") +
+    xlab("Tuinkers") +
+    ylab("Groei in cm")
+    
+```
+# Verwerking 17 mei  
+
+Barplot met kleur en titels
+elke oplossing soort, batch, totaal aantal gegroeide blaadjes
+```{r}
+cress_data %>%
+    aggregate(n_blaadjes ~ species + batch_n + oplossing, FUN = sum) %>%
+    mutate(species_batch = fct_cross(species, as.character(batch_n), sep = "_")) %>%
+    #Fill werkt hier als een split functie voor de batches
+    ggplot(aes(x=oplossing,y=n_blaadjes, fill=species_batch)) +
+    
+    labs(title="Histogram sum van blaadjes", 
+         subtitle = "Voor 0-3% zout", 
+         y="Aantal blaadjes", 
+         x="Oplossing zout") +
+    
+    geom_bar(position = "dodge", stat = "sum",
+             color="black", size=0.5) +
+    
+    #De scalefillbrewer functie is een thema functie 
+    scale_fill_brewer(palette = "Dark2") +
+    theme_minimal() 
+
+
+```
+
+Scatterplot
+```{r}
+ggplot(cress_data, aes(x=oplossing, y=cm_groei)) + 
+    geom_point()
 
 ```
 
 
+Boxplot voor aantal blaadjes per batch per oplossing
+```{r}
+cress_data %>%
+    ggplot(aes(x=species, y=n_blaadjes, fill=as.character(batch_n))) +
+    
+    labs(title="Aantal blaadjes in oplossingen zout",
+         subtitle = "Zoutconcentraties 0-3%",
+         x="Species",
+         y="Aantal blaadjes",
+         fill="Batch N") +
+    
+    geom_boxplot(outlier.colour = "red") +
+    scale_fill_brewer(palette = "YlGn") +
+    theme_minimal() +
+    #De facet_wrap zorgt ervoor met de scales functie dat elk plotje eigen waardes op de y-as heeft naar aanleiding van de data die in het plotje zit
+    facet_wrap(~ oplossing, scales = "free")
+```
+
+Density grafiek van de tuinkers met de oplossingen en cm groei
+
+```{r}
+cress_data %>%
+    ggplot(aes(x=cm_groei, y=species, fill=species)) +
+    geom_density_ridges(scale=0.9)
+    
+```
+
+
+
+
 #Logdata
+## 23-04-2024
+Tijdens statistiek het markdown document (les 01) van Emile volledig ingevuld om bekend te worden met de statistiekverwerking in R.
+
+## 24-04-2024
+Begonnen met protocollen opstellen en uittypen. 
+
+## 25-04-2024
+Statistiek (les 02) volledig ingevuld om bekend te worden met de statistiekverwerking in R.
+
+## 26-04-2024
+De protocollen afgemaakt en laten controleren door Ronald.
+
+## 06-05-2024
+Statistiek (les 03) volledig ingevuld om bekend te worden met de statistiekverwerking in R.
+
+## 08-05-2024
+Statistiek (les 04) volledig ingevuld om bekend te worden met de statistiekverwerking in R.
+
 ## 13-05-204
 
 Onderwerp voor de journalclub presentatie wordt de lollipop graph. Er wordt deze week een presentatie gemaakt en er wordt een markdown document gemaakt waarin verschillende lollipop graph's uitgebeeld staan als voorbeeld.
 
 ## 15-05-2024
 
-Begonnen met onderzoek doen voor de journalclub presentatie. Begonnen met een powerpoint presentatie en begonnen met het visualiseren van verschillende lollipop charts. Zie hiervoor lollipop_chart.Rmd
+Begonnen met onderzoek doen voor de journalclub presentatie. Begonnen met een powerpoint presentatie en begonnen met het visualiseren van verschillende lollipop charts met code in R. Zie hiervoor lollipop_chart.Rmd, staat niet in deze repository.  
+Presentatie en code zo goed als afgerond.  
 
 
+## 16-05-2024
+
+Begonnen met verwerken van de testdata in het logboek_Janine. Te vinden onder subtitel, verwerking 16 mei.  
+
+Nieuwe zoutoplossingen gemaakt in het lab.  
+
+- 0.33 gram voor de 0.03%  
+- 0.62 gram voor de 0.06%  
+- 0.90 gram voor de 0.09%  
+- Gebruikte zout: Sodium chloride, technical. Magazijnnummer Hanze AK4.2-01  
+
+## 17-05-2024  
+
+Verder met verwerken van testdata in logboek_janine. Te vinden onder subtitel, verwerking 17 mei.  
+Half uur gezeten met emile voor extra statistiek uitleg
 
 
 
