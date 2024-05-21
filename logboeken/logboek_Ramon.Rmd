@@ -8,28 +8,16 @@ date: "2024-05-06"
 
 # Logboek kiemgroenten
 
-## Introductie
-
-Blablablabablaballa kiemgroenten
-
-- Wat is er al bekend
-- Ideeën onderzoeksopzet
-- Is er al data
-- Verwijzing naar protocollen
-
-## 06-05-2024 -- gelogd door [naam]
-ik heb dit gedaan en dat gedaan
-
-`dit is code`
-
-### 2024-05-07
+## 2024-05-07
 Om alvast te kijken hoe we met de data om kunnen gaan, ga ik een basic dataframe maken van 1 van de planten.
 In deze dataframe komt alleen maar de groei van de plant en de oplossing zout te staan.
 Met deze data wordt een histogram gemaakt.
 
-
+### Dataset
 ```{r}
 library(tidyverse)
+library(gridExtra)
+library(pwr)
 set.seed(0)
 cress_data <- data.frame(species = rep(c("cress", "alfalfa"), each=400),
                        N = 1:200,
@@ -49,19 +37,28 @@ cress_data <- data.frame(species = rep(c("cress", "alfalfa"), each=400),
                                     rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5), # C batch 2
                                     rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5), # A batch 1
                                     rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5))) # A batch 2
-cress_data
+cress_data <- as.tibble(cress_data)
+head(cress_data)
 ```
 Hierboven is de dataset gegenereerd
 
+### Dataset zonder batch-sep
 ```{r}
+# Data genereren zonder batches
 cress_new <- cress_data %>%
     select(-batch_n)
+
+# Order de data zodat alle oplossingen bij elkaar staan
 cress_new <- cress_new[order(cress_new$Oplossing),]
-cress_new
+head(cress_new)
+
+# Gemiddelde generen voor groei in cm voor elke soort en oplossing
 aggregate(cm_groei ~ species + Oplossing,data=cress_data, FUN=mean)
 ```
-### 2024-05-08
-Na de les van michiel moesten we eerst bekijken of de data compleet is.
+
+## 2024-05-08
+
+### Test data structuur
 Omdat deze data gesimuleerd is, is dit overbodig. Het moet daarintgen wel in onze echte analyse. Dus verwerk ik dit hier nju
 
 ```{r}
@@ -95,7 +92,7 @@ str(cress_data)
 
 ## 2024-05-10
 - 8:40: papier was droog, dus heb elk bakje 2x bemist
-
+### t-test test
 Een goede manier om voor elke oplossing een t test te doen tussen de 2 soorten
 ```{r}
 cress_data %>%
@@ -103,6 +100,7 @@ cress_data %>%
     t.test(cm_groei ~ species, data=.)
 ```
 
+### standaard boxplot showcase
 Om de spreiding weer te geven tussen de 2 batches op elke oplossing van de cress kan je een boxplot gebruiken, zie hieronder
 ```{r}
 test <- cress_data %>%
@@ -123,6 +121,7 @@ Vanwege een fout tijdens het 1e experiment, wat heeft geleid tot extreme uitdrog
 ## 2024-05-13
 - 10 uur in de ochtend 2 keer water gespoten op de zaadjes
 
+### sapply test
 Er moet vast een manier zijn om een functie meerdere keren te herhalen, en die data op te slaan.
 Om dit te testen experimenteer ik met lapply, met het uitvoeren van meerdere t-testen
 ```{r}
@@ -152,22 +151,22 @@ x3 <- cress_data %>%
 Zo krijg je als output de t-test uitslagen van het verschil van cm_groei tussen oplossing van 0% en de overige oplossingen.
 
 
-## 14-05-2024
+##2024-05-14
 - Plantjes water gegeven om 9 uur.
 
+### Proportie
 Vandaag hebben we geleerd hoe we om kunnen gaan met percentages, dit is relevant voor onze ontkieming.
-
 ```{r}
 data_set_ontkieming <- cress_data %>%
     select(n_ontkieming, species, Oplossing)
-data_set_ontkieming
+head(data_set_ontkieming)
 ontkieming_table <- table(data_set_ontkieming$species, data_set_ontkieming$Oplossing+data_set_ontkieming$n_ontkieming)
 (ontkieming_table)
 ```
 
 Nu kunnen we een proptest doen om te kijken of er verschil is tussen de 2 soorten planten
 ```{r}
-str(ontkieming_table)
+ontkieming_table
 ```
 Om het verschil te kunnen zien tussen de 2 soorten en n ontkiemingen kan je een 2-way chisq-test uitvoeren:
 ```{r}
@@ -187,11 +186,10 @@ cat(sprintf("Cohens W: %.3f", W))
 ```
 Cohens W ligt bij 0.10, er is dus een zwak verband tussen de invloed op aantal ontkiemde zaadjes tussen soort plant en zoutoplossing.
 
+### power
 Nu we een conclusie hebben moeten we berekenen of die correct is of niet.
 Dit kan door de power te berekenen:
 ```{r}
-library(pwr)
-
 alpa <- 0.05
 pwr.chisq.test(w=W, N=N, df=df, sig.level = alpa)
 ```
@@ -207,7 +205,7 @@ Dan zouden we dus 1194 planten moeten meten, zo'n 600 per planten soort.
 ## 2024-05-15
 - 7:30 planten water gegeven
 
-
+### ggplot2 plots
 We hebben voor cm_groei een boxplot gemaakt via de basic boxplot functie van R.
 Graag zou ik alle plots willen maken via de ggplot library.
 ```{r}
@@ -220,8 +218,10 @@ cress_data%>%
          subtitle = "For 0-3% salt",
          fill="batch n")+
     scale_fill_brewer(palette = "YlGn") + 
-    geom_boxplot(outlier.color = "red",)
+    geom_boxplot(outlier.color = "red",) +
+    theme_minimal()
 ```
+  
 Zo is de boxplot wat mooier en makkelijker af te lezen.
 Hetzelfde kan gedaan worden voor de andere planten soort
 ```{r}
@@ -234,36 +234,40 @@ cress_data %>%
          subtitle = "For 0-3% salt",
          fill="species_batchN") +
     scale_fill_brewer(palette = "YlGn") +
-    geom_boxplot(outlier.color = "red")
+    geom_boxplot(outlier.color = "red") +
+    theme_minimal()
 ```
+  
 Dit is best onleesbaar, vooral oplossing 3. Een betere manier om dit te doen is dit te plotten is losse charts op 1 pagina.
-Dit kan met een library
+Dit kan met een library: gridExtra
 ```{r}
-library(gridExtra)
-plot_data_func <- function (data, variable_oplossing){
+
+plot_data_box <- function (data, variable_oplossing){
     data %>%
         filter(Oplossing == variable_oplossing) %>%
         ggplot(mapping = aes(x = species, y = cm_groei, fill=as.character(batch_n))) +
         labs(y = "groei (cm)",
          x = "Soort plant",
-         title = "Spread of plant growth",
-         subtitle = sprintf("For %i salt", variable_oplossing),
+         subtitle = sprintf("For %i%% salt", variable_oplossing),
          fill="batch n") +
         scale_fill_brewer(palette = "YlGn") +
-        geom_boxplot(outlier.color = "red")
-        
-}
+        geom_boxplot(outlier.color = "red")+
+        theme_minimal()}
 ```
 
 Functie is gemaakt om makkelijk te plotten
 ```{r}
-p1 <- plot_data_func(cress_data, 0)
-p2 <- plot_data_func(cress_data, 1)
-p3 <- plot_data_func(cress_data, 2)
-p4 <- plot_data_func(cress_data, 3)
-grid.arrange(p1, p2, p3 ,p4)
+p1 <- plot_data_box(cress_data, 0)
+p2 <- plot_data_box(cress_data, 1)
+p3 <- plot_data_box(cress_data, 2)
+p4 <- plot_data_box(cress_data, 3)
+grid.arrange(p1, p2, p3 ,p4, top = "Histogrammen van de groei van de planten voor elke oplossing")
 ```
-<br>
+  
+Deze page heeft 4 boxplotjes.
+Voor elke oplossing geeft het de spreiding van groei in cm weer, voor de soort en batch.
+De rode puntjes zijn de uitschieters.
+  
 
 Er kan op deze manier ook een histogram gemaakt worden die het aantal ontkiemde zaadjes bevat
 ```{r}
@@ -276,15 +280,154 @@ cress_data %>%
          x = "Oplossing zout (%)",
          title = "Histogram van N ontkiemde zaadjes",
          subtitle = "For 0-3% salt",
-         fill="spcies_batchN") +
+         fill="species_batchN") +
     
     scale_fill_brewer(palette = "Dark2") +
     
-    geom_histogram(position = position_dodge(0.53),
-                   binwidth = 0.3,)+
-    
-    stat_bin(aes(label= ifelse(after_stat(count)>0, after_stat(count), "")),
-             geom = "text", binwidth = 0.3, position = position_dodge(0.53), vjust=-.45)
+    geom_bar(position = "dodge", color = "black")+
+    theme_minimal()
+
+```
+
+In deze grafiek zie je het aantal ontkiemde zaadjes per oplossing, voor alle batches en plant soorten.
+
+```{r}
+plot_data_hist <- function (data, variable_oplossing, v_species){
+    data %>%
+        filter(Oplossing == variable_oplossing & species == v_species) %>%
+        ggplot(mapping = aes(x = cm_groei, fill=as.character(batch_n))) +
+        labs(y = "n",
+         x = "groei (cm)",
+         title = sprintf("Hist of growth of %s\n", v_species),
+         subtitle = sprintf("For %i%% salt", variable_oplossing),
+         fill="Batch")+
+        
+        scale_fill_brewer(palette = "Set2")+
+        
+        geom_histogram(position = "dodge",)+
+        theme_minimal()}
 ```
 
 
+```{r}
+p1 <- plot_data_hist(cress_data, 0, "cress")
+p2 <- plot_data_hist(cress_data, 1, "cress")
+p3 <- plot_data_hist(cress_data, 2, "cress")
+p4 <- plot_data_hist(cress_data, 3, "cress")
+```
+  
+```{r}
+grid.arrange(p1, p2, p3 ,p4)
+```
+  
+Hierboven een histogram van de tuinkers, deze histogram geeft de groei in cm weer voor elke zoutoplossing.
+Ook kan je het verschil zien tussen de 2 batches.
+  
+```{r}
+averages_data_frame <- aggregate(cbind(cm_groei, n_blaadjes) ~ species+batch_n+Oplossing, data = cress_data, FUN=mean)
+colnames(averages_data_frame) <- c("species", "batch_n", "Oplossing", "av_cm_groei", "av_n_blaadjes")
+temp <- aggregate(cbind(cm_groei, n_blaadjes) ~ species+batch_n+Oplossing, data = cress_data, FUN = sd)
+
+averages_data_frame$sd_cm_groei <- temp$cm_groei
+averages_data_frame$sd_n_blaadjes <- temp$n_blaadjes
+head(averages_data_frame)
+```
+Zo krijg je een dataframe met de gemiddelden en standaard deviaties van cm_groei, en n_blaadjes.
+
+## 2024-05-16
+
+Facet-wrap gebruiken om makkelijker meerdere plotjes te plotten in 1 chart.
+```{r}
+cress_data %>%
+    filter(species == "cress") %>%
+    ggplot(mapping = aes(x = cm_groei, fill=as.character(batch_n))) +
+    labs(y = "n",
+     x = "groei (cm)",
+     title = sprintf("Plant groei tuinkers"),
+     subtitle = sprintf("voor zout oplossing 0-3%%"),
+     fill="Batch num")+
+        
+    scale_fill_brewer(palette = "Dark2")+
+        
+    geom_histogram(position = "dodge",) +
+    facet_wrap(~ Oplossing,
+               labeller = labeller(Oplossing = c("0" = "0% zout oplossing",
+                                                 "1" = "1% zout oplossing",
+                                                 "2" = "2% zout oplossing",
+                                                 "3" = "3% zout oplossing")),
+               scales = "free")+
+    theme_minimal()
+    
+```
+  
+Hetzelfde kan gedaan worden met de eerder gemaakte boxplotjes
+```{r}
+cress_data %>%
+    ggplot(mapping = aes(x = species, y = cm_groei, fill=as.character(batch_n))) +
+    labs(y = "groei (cm)",
+         x = "Soort plant",
+         title = "Spread of plant growth",
+         subtitle = "For 0-3% salinity",
+         fill="batch n") +
+    scale_fill_brewer(palette = "YlGn") +
+    geom_boxplot(outlier.colour = "red") +
+    theme_minimal()+
+    facet_wrap(~ Oplossing, scales = "free")
+```
+  zo zijn 4 plots, zonder nog een externe library in 1 chart gedaan. Zo is het mooi overzichtelijk, en kan je snel het verschil in spreiding zien tussen batches, soorten en zoutoplossingen.
+  
+  
+-22:00, 0.33, 0.62, 0.90 gram zout opgelost in 3x1 liter water.
+- 50 N zaadjes in bakjes gedaan voor de soorten en oplossingen in duplo.
+- 3 keer de bijbehorende oplossing in het bakje gesproeid.
+- bakje met deksel op vensterbank gezet.
+
+
+## 2024-05-17
+- 9:00 plantjes water gegeven
+
+Na de les van gisteren hebben we geleerd om de 2 way anova test toe te passen.
+Deze test kan gebruikt worden om het verschil weer te geven tussen 2 factoren, dat geldt voor ons: 2 soorten en 4 oplossingen
+```{r}
+model <- aov(cm_groei ~ species+Oplossing + species*Oplossing, data = cress_data)
+(res <- summary(model))
+```
+Uit deze test blijkt dat:
+- Er een significante interactie is tussen de planten soort en zout concentratie, de p-waarde < 0.05. Omdat deze interactie significant is, houd in dat zowel soort als zout concentratie beide een significant effect hebben op de groei van de plant.
+
+Effect sterkte.
+```{r}
+SS.a <- res[[1]]$Sum[1]
+SS.b <- res[[1]]$Sum[2]
+SS.ab <- sum(res[[1]]$Sum[3])
+SS.tot <- sum(res[[1]]$Sum)
+
+eta2_a <- SS.a / SS.tot
+eta2_b <- SS.b / SS.tot
+eta2_ab <- SS.ab / SS.tot
+
+cat("Effect sterkten:\n")
+cat(sprintf("Effect sterkte: eta2_a (soort): %.3f\n", eta2_a))
+cat(sprintf("Effect sterkte: eta2_b (zout): %.3f\n", eta2_b))
+cat(sprintf("Effect sterkte: eta2_ab (soort*zout): %.3f\n", eta2_ab))
+```
+We zien de volgende dingen:
+* De interactie van soort*zout heeft een matig effect sterkte (eta2_ab ~ 0.06) op de groei van planten. Dit betekend dat er wel een interactie is tussen oplossing en soort.
+soort en oplossing hebben een sterk effect op de groei (eta2_a ~ 0.14, eta2_b > 0.14).
+
+- 20:00 Plantjes water gegeven.
+
+## 2024-05-18
+- 9:00 plantjes water gegeven.
+Aantal ontkiemingen gezien, bij alle %
+Gedurende de dag elke 2 uur gekeken en water gegeven op basis van de droogte.
+
+## 2024-05-19
+Deksel moesten van een aantal bakjes om plant groei niet te belemmeren.
+Elke 2 uur gecontroleerd op droogte, en water gegeven op basis van die droogte.
+
+## 2024-05-20
+Elke 2 uur gecontroleerd op droogte, en water gegeven op basis van die droogte.
+
+## 2024-05-21
+- 9:00 en 11:00 water gegeven.
