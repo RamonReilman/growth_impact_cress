@@ -268,7 +268,13 @@ colour_df <- cress_data %>%
 ```{r}
 x <- cress_data %>%
     mutate(species_oplossing = fct_cross(species, as.character(oplossing), sep = "_"))
+
 table(x$species_oplossing, x$kleur_blaadjes)
+
+con_table <- table(cress_data$species, cress_data$Oplossing, cress_data$kleur_blaadjes)
+
+con_table
+log_linear_model <- 
 ```
 
 
