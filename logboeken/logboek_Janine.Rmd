@@ -1,7 +1,8 @@
 ---
 title: "Logboek_Janine"
 output: html_document
-date: "2024-05-06"
+date: "06-05-20 t/m 04-06-2024"
+lang: nl
 ---
 
 # Logboek kiemgroenten
@@ -60,6 +61,65 @@ Habibi, Armin & Abdoli, Majid. (2013). Influence of salicylic acid pre-treatment
 Osmosis in plant cells - Transport across membranes - National 5 Biology Revision - BBC Bitesize. (2023, 17 februari). BBC Bitesize. https://www.bbc.co.uk/bitesize/guides/zqdhjty/revision/6 
 
 
+# Logdata  
+
+### 23-04-2024
+Tijdens statistiek het markdown document (les 01) van Emile volledig ingevuld om bekend te worden met de statistiekverwerking in R.
+
+### 24-04-2024
+Begonnen met protocollen opstellen en uittypen. 
+
+### 25-04-2024
+Statistiek (les 02) volledig ingevuld om bekend te worden met de statistiekverwerking in R.
+
+### 26-04-2024
+De protocollen afgemaakt en laten controleren door Ronald.
+
+### 06-05-2024
+Statistiek (les 03) volledig ingevuld om bekend te worden met de statistiekverwerking in R.
+
+### 07-05-2024
+Data set is gemaakt door Ramon, behalve de data van de kleur van de blaadjes die heb ik gemaakt op 21 mei. Ik heb de dataset overgenomen om mee te kunnen experimenteren. 
+
+### 08-05-2024
+Statistiek (les 04) volledig ingevuld om bekend te worden met de statistiekverwerking in R.
+
+### 13-05-204
+
+Onderwerp voor de journalclub presentatie wordt de lollipop graph. Er wordt deze week een presentatie gemaakt en er wordt een markdown document gemaakt waarin verschillende lollipop graph's uitgebeeld staan als voorbeeld.
+
+### 15-05-2024
+
+Begonnen met onderzoek doen voor de journalclub presentatie. Begonnen met een powerpoint presentatie en begonnen met het visualiseren van verschillende lollipop charts met code in R. Zie hiervoor lollipop_chart.Rmd, staat niet in deze repository.  
+Presentatie en code zo goed als afgerond.  
+
+### 16-05-2024
+
+Begonnen met verwerken van de testdata in het logboek_Janine. Te vinden onder subtitel, verwerking 16 mei.
+
+Nieuwe zoutoplossingen gemaakt in het lab.  
+
+- 0.33 gram voor de 0.03%  
+- 0.62 gram voor de 0.06%  
+- 0.90 gram voor de 0.09%  
+- Gebruikte zout: Sodium chloride, technical. Magazijnnummer Hanze AK4.2-01  
+
+### 17-05-2024  
+
+Verder met verwerken van testdata in logboek_janine. Te vinden onder subtitel, verwerking 17 mei.  
+Half uur gezeten met emile voor extra statistiek uitleg
+
+### 21-05-2024
+
+Dataset aangemaakt voor kleur van blaadjes en hiermee geëxperimenteerd. Te vinden onder subtitel, verwerking 21-05-2024.
+Logboek aangevuld met theorie, plan van aanpak en protocollen.
+
+### 22-05-2024
+
+Begonnen met onderzoek doen naar de two sample chi-square test om te kijken hoe we deze goed kunnen toepassen voor de verwerking van de kleur blaadjes.
+
+# Verwerking
+
 ## Verwerking 7 mei
 Om alvast te kijken hoe we met de data om kunnen gaan, ga ik een basic dataframe maken van 1 van de planten.
 In deze dataframe komt alleen maar de groei van de plant en de oplossing zout te staan.
@@ -98,7 +158,7 @@ cress_data <- data.frame(species = rep(c("cress", "alfalfa"), each=400),
 ```
 
 
-# Verwerking 16 mei
+## Verwerking 16 mei
 Boxplot met oplossing op de x as en cm groei op de y as.Gemaakt door een ingebouwde functie van R. 
 Deze boxplot klopt niet daarom wordt er later gewerkt met de library ggplot2.
 ```{r}
@@ -203,58 +263,14 @@ colour_df <- cress_data %>%
 ```
 
 
+## Verwerking 22 mei
+
+```{r}
+x <- cress_data %>%
+    mutate(species_oplossing = fct_cross(species, as.character(oplossing), sep = "_"))
+table(x$species_oplossing, x$kleur_blaadjes)
+```
 
 
-#Logdata
-### 23-04-2024
-Tijdens statistiek het markdown document (les 01) van Emile volledig ingevuld om bekend te worden met de statistiekverwerking in R.
-
-### 24-04-2024
-Begonnen met protocollen opstellen en uittypen. 
-
-### 25-04-2024
-Statistiek (les 02) volledig ingevuld om bekend te worden met de statistiekverwerking in R.
-
-### 26-04-2024
-De protocollen afgemaakt en laten controleren door Ronald.
-
-### 06-05-2024
-Statistiek (les 03) volledig ingevuld om bekend te worden met de statistiekverwerking in R.
-
-### 07-05-2024
-Data set is gemaakt door Ramon, behalve de data van de kleur van de blaadjes die heb ik gemaakt op 21 mei. Ik heb de dataset overgenomen om mee te kunnen experimenteren. 
-
-### 08-05-2024
-Statistiek (les 04) volledig ingevuld om bekend te worden met de statistiekverwerking in R.
-
-### 13-05-204
-
-Onderwerp voor de journalclub presentatie wordt de lollipop graph. Er wordt deze week een presentatie gemaakt en er wordt een markdown document gemaakt waarin verschillende lollipop graph's uitgebeeld staan als voorbeeld.
-
-### 15-05-2024
-
-Begonnen met onderzoek doen voor de journalclub presentatie. Begonnen met een powerpoint presentatie en begonnen met het visualiseren van verschillende lollipop charts met code in R. Zie hiervoor lollipop_chart.Rmd, staat niet in deze repository.  
-Presentatie en code zo goed als afgerond.  
-
-### 16-05-2024
-
-Begonnen met verwerken van de testdata in het logboek_Janine. Te vinden onder subtitel, verwerking 16 mei.
-
-Nieuwe zoutoplossingen gemaakt in het lab.  
-
-- 0.33 gram voor de 0.03%  
-- 0.62 gram voor de 0.06%  
-- 0.90 gram voor de 0.09%  
-- Gebruikte zout: Sodium chloride, technical. Magazijnnummer Hanze AK4.2-01  
-
-### 17-05-2024  
-
-Verder met verwerken van testdata in logboek_janine. Te vinden onder subtitel, verwerking 17 mei.  
-Half uur gezeten met emile voor extra statistiek uitleg
-
-### 21-05-2024
-
-Dataset aangemaakt voor kleur van blaadjes en hiermee geëxperimenteerd. Te vinden onder subtitel, verwerking 21-05-2024.
-Logboek aangevuld met theorie, plan van aanpak en protocollen.
 
 
