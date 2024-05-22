@@ -153,7 +153,7 @@ cress_data <- data.frame(species = rep(c("cress", "alfalfa"), each=400),
                                     rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5), # A batch 1
                                     rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5)), # A batch 2 
                        
-                       kleur_blaadjes=rep(c(sample(kleur_array, 800, replace = TRUE)))
+                       kleur_blaadjes=c(sample(kleur_array, 800, replace = TRUE))
                        ) 
 ```
 
@@ -266,15 +266,12 @@ colour_df <- cress_data %>%
 ## Verwerking 22 mei
 
 ```{r}
-x <- cress_data %>%
-    mutate(species_oplossing = fct_cross(species, as.character(oplossing), sep = "_"))
-
-table(x$species_oplossing, x$kleur_blaadjes)
-
-con_table <- table(cress_data$species, cress_data$Oplossing, cress_data$kleur_blaadjes)
-
-con_table
-log_linear_model <- 
+library(MASS)
+temp_table <- xtabs(~ species + oplossing + kleur_blaadjes, data = cress_data)
+model1 <- loglm(~ species * oplossing * kleur_blaadjes, data = temp_table)
+model2 <- loglm(kleur_blaadje ~ oplossing+species + oplossing*species , data=temp_table)
+model3 <- loglm(~ species + oplossing + kleur_blaadjes + species:oplossing , data=temp_table)
+summary(model3)
 ```
 
 
