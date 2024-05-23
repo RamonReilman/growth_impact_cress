@@ -259,6 +259,10 @@ Histogram voor kleur blaadjes per batch, soort en oplossing
 ```{r}
 colour_df <- cress_data %>%
     select(species, batch_n, oplossing)
+temp_table <- xtabs(~ species + oplossing + kleur_blaadjes + batch_n, data = cress_data)
+temp_table <- prop.table(temp_table)
+temp_df <- as.data.frame(temp_table)
+temp_df
 
 ```
 
@@ -271,7 +275,7 @@ temp_table <- xtabs(~ species + oplossing + kleur_blaadjes, data = cress_data)
 model1 <- loglm(~ species * oplossing * kleur_blaadjes, data = temp_table)
 model2 <- loglm(kleur_blaadje ~ oplossing+species + oplossing*species , data=temp_table)
 model3 <- loglm(~ species + oplossing + kleur_blaadjes + species:oplossing , data=temp_table)
-summary(model3)
+summary(model2)
 ```
 
 
