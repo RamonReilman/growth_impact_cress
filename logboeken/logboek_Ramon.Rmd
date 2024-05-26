@@ -1,8 +1,8 @@
 ---
 title: "les 6-5"
 output:
-  html_document: default
   pdf_document: default
+  html_document: default
 date: "2024-05-06"
 ---
 
@@ -556,3 +556,7 @@ cress_data %>%
 ```
   
 Als je de batches samen neemt is het duidelijker af te lezen. Je ziet in deze grafiek dat de planten het meeste groeien bij 1%, en het slechtste bij 3%.  
+
+## 2024-05-22
+- 8 en 1 uur plantjes water gegeven
+bezig geweest met log lineaire dingen, zie janine haar logboek.
