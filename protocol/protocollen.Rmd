@@ -173,7 +173,7 @@ Proces: <br>
 
 - Elk persoon van het experiment werkt met zijn eigen logboek. [Logboek Ramon](../logboeken/logboek_Ramon.html), [Logboek Janine](../logboeken/logboek_Janine.html)
 
-- Bij elk gegeven dat gelogd wordt, wordt code, datum en tijd genoteerd 
+- Bij elk gegeven dat gelogd wordt, datum en tijd genoteerd 
 
 - Hetgeen dat gelogd wordt, wordt zoveel mogelijk in detail gelogd.
 

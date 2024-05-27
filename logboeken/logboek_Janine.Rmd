@@ -1,8 +1,10 @@
 ---
 title: "Logboek_Janine"
-output: html_document
 date: "06-05-20 t/m 04-06-2024"
 lang: nl
+output:
+  html_document:
+    toc: yes
 ---
 
 # Logboek kiemgroenten
@@ -78,7 +80,7 @@ De protocollen afgemaakt en laten controleren door Ronald.
 Statistiek (les 03) volledig ingevuld om bekend te worden met de statistiekverwerking in R.
 
 ### 07-05-2024
-Data set is gemaakt door Ramon, behalve de data van de kleur van de blaadjes die heb ik gemaakt op 21 mei. Ik heb de dataset overgenomen om mee te kunnen experimenteren. 
+Data set is grotendeels gemaakt door Ramon, behalve de data van de kleur van de blaadjes die heb ik gemaakt op 21 mei. Ik heb de dataset overgenomen om mee te kunnen experimenteren. 
 
 ### 08-05-2024
 Statistiek (les 04) volledig ingevuld om bekend te worden met de statistiekverwerking in R.
@@ -94,7 +96,7 @@ Presentatie en code zo goed als afgerond.
 
 ### 16-05-2024
 
-Begonnen met verwerken van de testdata in het logboek_Janine. Te vinden onder subtitel, verwerking 16 mei.
+Begonnen met verwerken van de testdata in het logboek_Janine. Te vinden onder subtitel, verwerking 16 mei. [Verwerking 16 mei](#16mei)
 
 Nieuwe zoutoplossingen gemaakt in het lab.  
 
@@ -105,17 +107,17 @@ Nieuwe zoutoplossingen gemaakt in het lab.
 
 ### 17-05-2024  
 
-Verder met verwerken van testdata in logboek_janine. Te vinden onder subtitel, verwerking 17 mei.  
+Verder met verwerken van testdata in logboek_janine. Te vinden onder subtitel, [Verwerking 17 mei](#17mei)  
 Half uur gezeten met emile voor extra statistiek uitleg
 
 ### 21-05-2024
 
-Dataset aangemaakt voor kleur van blaadjes en hiermee geëxperimenteerd. Te vinden onder subtitel, verwerking 21-05-2024.
+Dataset aangemaakt voor kleur van blaadjes en hiermee geëxperimenteerd. Te vinden onder subtitel, [verwerking 21 mei](#21mei)
 Logboek aangevuld met theorie, plan van aanpak en protocollen.
 
 ### 22-05-2024
 
-Begonnen met onderzoek doen naar de two sample chi-square test om te kijken hoe we deze goed kunnen toepassen voor de verwerking van de kleur blaadjes. Te vinden onder subtitel, verwerking 22 mei.
+Begonnen met onderzoek doen naar de two sample chi-square test om te kijken hoe we deze goed kunnen toepassen voor de verwerking van de kleur blaadjes. Te vinden onder subtitel, [Verwerking 22 mei](#22mei)
 
 ### 23-05-2024
 
@@ -126,8 +128,8 @@ Alle data verzameld van alle plantjes.
 Het werk voor de paper verdeeld en op papier gezet.<br>
 Logboek afgemaakt en protocollen in een Rmd bestand gezet. <br>
 Uitgezocht hoe hyperlinks werken en deze in mijn logboek verwerkt. <br>
-Begonnen met dataverwerking in logboek. Te vinden in subtitel, Verwerking 27 mei<br>
-Data ingelezen in R.
+Begonnen met dataverwerking in logboek. Te vinden in subtitel, [Verwerking 27 mei](#27mei)<br>
+
 
 # Verwerking
 
@@ -169,7 +171,7 @@ cress_data <- data.frame(species = rep(c("cress", "alfalfa"), each=400),
 ```
 
 
-## Verwerking 16 mei
+## Verwerking 16 mei {#16mei}
 Boxplot met oplossing op de x as en cm groei op de y as.Gemaakt door een ingebouwde math functie van R, boxplot(). Omdat deze boxplot niet erg mooi is en ggplot makkelijker is in gebruik, gebruiken we in ons onderzoek alleen ggplot. 
 
 ```{r}
@@ -202,7 +204,7 @@ ggplot(data, aes(x=cm_groei)) +
     ylab("Groei in cm")
     
 ```
-## Verwerking 17 mei  
+## Verwerking 17 mei {#17mei}
 
 In deze barplot staan voor elke soort, batch en oplossing het aantal blaadjes. <br>
 Op de x-as staat de oplossing, op de y-as staat het aantal blaadjes. Verder is er per species en per batch gekeken naar het aantal blaadjes per oplossing. <br>
@@ -271,7 +273,7 @@ cress_data %>%
     
 ```
 
-## Verwerking 21 mei
+## Verwerking 21 mei {#21mei}
 Stacked bar plot voor kleur blaadjes per soort en oplossing
 ```{r}
 oplossing0 <- cress_data %>%
@@ -295,7 +297,7 @@ table3 <- prop.table(table(oplossing0$species, oplossing0$kleur_blaadjes))
 ```
 
 
-## Verwerking 22 mei
+## Verwerking 22 mei {#22mei}
 
 Samen met Ramon ben ik de hele ochtend bezig geweest om een manier te vinden om de afwijking te vinden als gekeken wordt naar kleur blaadjes, per oplossing en species. We denken dat logistische lineariteit hier toegepast kan worden. Emile is ingeschakeld om hierover mee te denken. 
 ```{r}
@@ -307,7 +309,7 @@ model3 <- loglm(~ species + oplossing + kleur_blaadjes + species:oplossing , dat
 summary(model2)
 ```
 
-## Verwerking 27 mei
+## Verwerking 27 mei {#27mei}
 Data inlezen
 ```{r}
 data <- read.csv("../raw_data/raw_data.csv")
