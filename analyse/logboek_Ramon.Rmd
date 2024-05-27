@@ -1,8 +1,8 @@
 ---
 title: "les 6-5"
 output:
-  pdf_document: default
   html_document: default
+  pdf_document: default
 date: "2024-05-06"
 ---
 
@@ -558,5 +558,39 @@ cress_data %>%
 Als je de batches samen neemt is het duidelijker af te lezen. Je ziet in deze grafiek dat de planten het meeste groeien bij 1%, en het slechtste bij 3%.  
 
 ## 2024-05-22
-- 8 en 1 uur plantjes water gegeven
+- 8, 1 en 21 uur plantjes water gegeven
 bezig geweest met log lineaire dingen, zie janine haar logboek.
+
+## 2024-05-23
+- 8, 1 en 21 uur water gegeven
+
+## 2024-05-24
+Plantjes gemeten volgens protocol en data op de git gezet.
+
+## 2024-05-27
+De data staat nu op github, en zal ingelezen moeten worden, vandaag is het plant om de spreiding weer te geven tussen de verschillende duplo's.
+Dit ga ik doen door eerst een boxplot te maken, hier de spreiding van te lezen. Ook mogelijk t-testen uitvoeren om significant tussen duplo's te kunnen testen.
+```{r}
+dataframe <- read.csv("../raw_data/raw_data_plants.csv")
+head(dataframe)
+```
+
+
+Nu de data geladen is en de correcte waarden heeft
+```{r}
+dataframe %>%
+# Maak nieuwe kolom die soort en batch combineert.
+    mutate(species_batch = fct_cross(species, as.character(batch), sep = "_")) %>%
+    ggplot(mapping = aes(x = as.character(oplossing), y = groei, fill = species_batch,)) +
+    # Lavels
+    labs(y = "groei (cm)",
+    x = "Oplossing zout (%)",
+    title = "Spread of plant growth",
+    subtitle = "For 0-3% salt",
+    fill="species_batchN") +
+    # Theming
+    scale_fill_brewer(palette = "YlGn") +
+    geom_boxplot(outlier.color = "red") +
+    theme_minimal()
+```
+
