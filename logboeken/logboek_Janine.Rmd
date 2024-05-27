@@ -9,9 +9,8 @@ lang: nl
 
 ## Introductie
 
-# To DO
-- Tekst boven plotjes aanvullen
-- Protocollen toevoegen
+In dit logboek is het verloop van mijn onderzoek te lezen. Dit onderzoek heb ik uitgevoer met Ramon Reilman in periode 4, leerjaar 1, van de opleiding bio-informatica. <br>
+In dit onderzoek gaan we kijken naar de invloed van verschillende zoutconcentraties op de groei van tuinkers en alfalfa. Voor de loggegevens van Ramon Reilman zie [Logboek Ramon](./logboek_Ramon.html)
 
 # Onderzoeksopzet
 ### Plan van aanpak
@@ -37,7 +36,7 @@ Een oplopende zoutconcentratie hoger dan 0.03% zal een negatieve invloed hebbe
 
 # Protocollen
 
-Verwijzing naar protocollen... komt nog
+Via de volgende link kunnen de protocollen bekeken worden die gebruikt zijn voor dit onderzoek. [Protocollen](../protocol/protocollen.html)
 
 # Theoretische achtergrond 
 De concentratie van opgeloste stoffen in water, welke in de omgeving van een plant is, kan een grote invloed hebben op de plant en de groei van deze plant. In een hypotonische omgeving, de omgeving heeft dan een lagere concentratie opgeloste stoffen, zal het water van de omgeving in de cel van de plant gaan. De cel zal onder meer druk komen te staan, en opzwellen, wanneer deze situatie voor langere tijd niet veranderd zal de cel knappen. In een hypertonische situatie zal water de cellen van de plant verlaten, en zal de plant dus uitdrogen en dood gaan. (Osmosis in Plant Cells - Transport Across Membranes - National 5 Biology Revision - BBC Bitesize, 2023) <br>
@@ -116,14 +115,26 @@ Logboek aangevuld met theorie, plan van aanpak en protocollen.
 
 ### 22-05-2024
 
-Begonnen met onderzoek doen naar de two sample chi-square test om te kijken hoe we deze goed kunnen toepassen voor de verwerking van de kleur blaadjes.
+Begonnen met onderzoek doen naar de two sample chi-square test om te kijken hoe we deze goed kunnen toepassen voor de verwerking van de kleur blaadjes. Te vinden onder subtitel, verwerking 22 mei.
+
+### 23-05-2024
+
+Alle data verzameld van alle plantjes.
+
+### 27-05-2024
+
+Het werk voor de paper verdeeld en op papier gezet.<br>
+Logboek afgemaakt en protocollen in een Rmd bestand gezet. <br>
+Uitgezocht hoe hyperlinks werken en deze in mijn logboek verwerkt. <br>
+Begonnen met dataverwerking in logboek. Te vinden in subtitel, Verwerking 27 mei<br>
+Data ingelezen in R.
 
 # Verwerking
 
 ## Verwerking 7 mei
-Om alvast te kijken hoe we met de data om kunnen gaan, ga ik een basic dataframe maken van 1 van de planten.
-In deze dataframe komt alleen maar de groei van de plant en de oplossing zout te staan.
-Met deze data worden verschillende data-outputs gemaakt.Het test dataframe is opgesteld door Ramon, tot en met n_blaadjes, het laatste deel door mij.
+Om alvast te kijken hoe we met de data om kunnen gaan, is er een test dataframe gemaakt
+In deze dataframe zitten alle datatypen die uiteindelijk ook voor het onderzoek gebruikt worden. <br>
+Met deze data worden verschillende data-outputs gemaakt.Het test dataframe is door Ramon en mij samen opgesteld. Ik heb de testdata van kleur_blaadjes gemaakt, ramon heeft de overige testdata gemaakt.
 
 
 ```{r echo=FALSE}
@@ -159,8 +170,8 @@ cress_data <- data.frame(species = rep(c("cress", "alfalfa"), each=400),
 
 
 ## Verwerking 16 mei
-Boxplot met oplossing op de x as en cm groei op de y as.Gemaakt door een ingebouwde functie van R. 
-Deze boxplot klopt niet daarom wordt er later gewerkt met de library ggplot2.
+Boxplot met oplossing op de x as en cm groei op de y as.Gemaakt door een ingebouwde math functie van R, boxplot(). Omdat deze boxplot niet erg mooi is en ggplot makkelijker is in gebruik, gebruiken we in ons onderzoek alleen ggplot. 
+
 ```{r}
 dataset_alfalfa <- cress_data %>%
     filter(species == "alfalfa")
@@ -168,7 +179,8 @@ dataset_alfalfa <- cress_data %>%
 boxplot(cm_groei ~ batch_n+oplossing, data=dataset_alfalfa)
 ```
 
-Welch Two sample T-test. Uitgevoerd voor oefening in R, alleen toepasbaar in de duplo's in ons onderzoek.
+Welch Two sample T-test op basis van cm groei en oplossing.
+Uitgevoerd voor oefening in R, alleen toepasbaar in de duplo's in ons onderzoek.
 ```{r}
 dataset_cress <- cress_data %>%
     filter(species == "cress" & oplossing == 0:1)
@@ -176,8 +188,9 @@ t.test(cm_groei ~ oplossing, data=dataset_cress)
 
 ```
 
-Histogram van groei in cm van de tuinkers ter oefening in R. Deze histogram heeft de tuinkers op de x as en groei in cm op de y as. 
-Deze histogram klopt niet helemaal, maar zou wel bruikbaar kunnen zijn voor onze paper.
+Histogram van groei in cm van de tuinkers ter oefening in R. <br>
+Deze histogram heeft de species tuinkers op de x as en groei in cm op de y as. <br>
+Deze histogram klopt is niet mooi, maar zou wel bruikbaar kunnen zijn voor onze paper. <br>
 ```{r}
 data <- cress_data %>%
     filter(species == "cress")
@@ -191,7 +204,8 @@ ggplot(data, aes(x=cm_groei)) +
 ```
 ## Verwerking 17 mei  
 
-In deze barplot staan voor elke soort, batch en oplossing het aantal getelde (gevisualiseerde) data. 
+In deze barplot staan voor elke soort, batch en oplossing het aantal blaadjes. <br>
+Op de x-as staat de oplossing, op de y-as staat het aantal blaadjes. Verder is er per species en per batch gekeken naar het aantal blaadjes per oplossing. <br>
 Deze barplot gaan we zeker gebruiken voor onze paper.
 ```{r}
 cress_data %>%
@@ -216,7 +230,7 @@ cress_data %>%
 
 ```
 
-Scatterplot van oplossing op de x as tegenover cm_groei op de y as. Deze plot is niet leesbaar door teveel datapunten op 1 hoop. 
+Scatterplot van oplossing op de x as tegenover cm_groei op de y as. Deze plot is niet leesbaar door teveel datapunten op 1 punt. Hierdoor gaan we deze scatterplot niet gebruiken voor ons onderzoek. 
 ```{r}
 ggplot(cress_data, aes(x=oplossing, y=cm_groei)) + 
     geom_point()
@@ -224,8 +238,10 @@ ggplot(cress_data, aes(x=oplossing, y=cm_groei)) +
 ```
 
 
-Boxplot voor aantal blaadjes per batch per oplossing. Deze boxplot is zeer bruikbaar voor onze paper. 
-Er is overzichtelijk te zien voor elke soort en batch de hoeveelheid blaadjes in de verschillende zoutconcentraties.
+Boxplot voor aantal blaadjes per batch per oplossing. <br>
+Op de x-as staan de species, op de y-as staan het aantal blaadjes. Er wordt ook gekeken naar batch 1 en batch 2 (de duplo).
+Deze boxplot is zeer bruikbaar voor onze paper, en gaan we dan ook gebruiken in onze paper. 
+
 ```{r}
 cress_data %>%
     ggplot(aes(x=species, y=n_blaadjes, fill=as.character(batch_n))) +
@@ -243,8 +259,9 @@ cress_data %>%
     facet_wrap(~ oplossing, scales = "free")
 ```
 
-Density plot van de tuinkers met de oplossingen en cm groei. Ik heb dit plotje gemaakt om te oefenen met verschillende grafieken in r.
-Dit plotje is bruikbaar, maar niet voor iedereen even duidelijk. 
+Density plot van de tuinkers met de oplossingen en cm groei. Ik heb dit plotje gemaakt om te oefenen met verschillende grafieken in r.<br>
+Op de x-as staat groei in cm en op de y-as de species. <br>
+Dit plotje is bruikbaar, maar niet voor iedereen even duidelijk af te lezen.<br>
 Nog onduidelijk of deze gebruikt gaat worden in de paper.
 
 ```{r}
@@ -255,20 +272,32 @@ cress_data %>%
 ```
 
 ## Verwerking 21 mei
-Histogram voor kleur blaadjes per batch, soort en oplossing
+Stacked bar plot voor kleur blaadjes per soort en oplossing
 ```{r}
-colour_df <- cress_data %>%
-    select(species, batch_n, oplossing)
-temp_table <- xtabs(~ species + oplossing + kleur_blaadjes + batch_n, data = cress_data)
-temp_table <- prop.table(temp_table)
-temp_df <- as.data.frame(temp_table)
-temp_df
+oplossing0 <- cress_data %>%
+    filter(oplossing == 0)
+table0 <- prop.table(table(oplossing0$species, oplossing0$kleur_blaadjes))
+
+oplossing1 <- cress_data %>%
+    filter(oplossing == 1)
+table1 <- prop.table(table(oplossing0$species, oplossing0$kleur_blaadjes))
+
+oplossing2 <- cress_data %>%
+    filter(oplossing == 2)
+table2 <- prop.table(table(oplossing0$species, oplossing0$kleur_blaadjes))
+
+oplossing3 <- cress_data %>%
+    filter(oplossing == 3)
+table3 <- prop.table(table(oplossing0$species, oplossing0$kleur_blaadjes))
+
+
 
 ```
 
 
 ## Verwerking 22 mei
 
+Samen met Ramon ben ik de hele ochtend bezig geweest om een manier te vinden om de afwijking te vinden als gekeken wordt naar kleur blaadjes, per oplossing en species. We denken dat logistische lineariteit hier toegepast kan worden. Emile is ingeschakeld om hierover mee te denken. 
 ```{r}
 library(MASS)
 temp_table <- xtabs(~ species + oplossing + kleur_blaadjes, data = cress_data)
@@ -278,6 +307,11 @@ model3 <- loglm(~ species + oplossing + kleur_blaadjes + species:oplossing , dat
 summary(model2)
 ```
 
+## Verwerking 27 mei
+Data inlezen
+```{r}
+data <- read.csv("../raw_data/raw_data.csv")
+```
 
 
 

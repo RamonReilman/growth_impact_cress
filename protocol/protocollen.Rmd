@@ -1,0 +1,181 @@
+---
+title: "Protocollen kiemgroenten"
+output: html_document
+date: "2024-05-27"
+Author: Janine Postmus & Ramon Reilman
+---
+
+## Inhoud 
+
+## Protocollen
+
+- 1.1 Zoutoplossingen 
+
+- 1.2 Groei van zaadjes 
+
+- 1.3 Verzorgen van plantjes 
+
+- 1.4 Data verzamelen 
+
+- 1.5 Dataverwerking 
+
+- 1.6 Loggen 
+
+ 
+
+## Bijlagen
+
+- Bijlage_1_zoutoplossingen 
+
+- Bijlage_2 _dataverwerking 
+
+- Bijlage _3 _kleurschaal 
+
+- Bijlage_4_logboek 
+
+ 
+
+## 1.1 Zoutoplossingen 
+
+Benodigdheden:<br>
+
+- Spuitflessen, met sprayfunctie is aan te raden  <br>
+
+- 4 stuks <br>
+
+- Gekookt leidingwater<br>
+
+- Natriumchloride (zo zuiver mogelijk)<br>
+
+- Weegflesje of iets om de natriumchloride in af te wegen<br>
+
+ 
+
+Proces: <br>
+
+- Weeg de benodigde hoeveelheden natriumchloride af op een analytische balans in een weegflesje (voor percentages zie bijlage 1.1 - Zoutoplossingen) <br>
+
+- Vul de spuitflessen vast voor ¾e met water <br>
+
+- Spoel vervolgens de natriumchloride kwantitatief over in de spuitfles, zorg dat er niks achterblijft in het weegflesje <br>
+
+- Vul de spuitfles vervolgens aan tot de rand <br>
+
+
+## 1.2 Groei van de zaadjes 
+
+Benodigdheden: <br>
+
+- Plastic petrischalen, 16 stuks <br>
+
+- Keukenrol (hetzelfde merk aanhouden gedurende het proces) <br>
+
+- Spuitflessen gevuld met de zoutoplossingen <br>
+
+
+
+    Tuinkers zaadjes: <br> 
+
+- Alfalfa zaadjes <br>
+
+- Van beide 400 zaadjes nodig dus 2 of 3 zakjes per plant <br>
+
+Proces: <br>
+
+- Zaadjes worden ingezaaid op keukenrol in een petrischaal <br>
+
+- 1 vel keukenrol gevouwen in een vierkant, dus 2 keer dubbelgevouwen <br> 
+
+- De keukenrol moet goed nat worden gemaakt met demiwater voor de zaadjes erop gaan. De keukenrol mag geen vocht lekken, dus even uitknijpen voor het zaaien <br>
+
+- 50 zaadjes per petrischaal en op gevoel gelijkwaardig verdelen <br>
+
+- Vervolgens elke dag de zaadjes verzorgen tot deze ontkiemen. Verzorging bestaat uit elke dag 1 keer water geven in de avond <br>  
+
+- Water geven door middel van een plantenspuit met de benodigde zoutpercentages. [Bijlage 1 zoutoplossingen](../protocol/Bijlage_1_Zoutoplossingen.xlsx) <br>
+
+- De periode van inzaaien tot de telling bedraagt 6 dagen, dus op de 6e dag worden alle zaadjes/plantjes geteld en gemeten in lengte <br>
+
+
+## 1.3 Verzorgen van de plantjes 
+
+Benodigdheden: <br> 
+
+- De petrischaaltjes met ingezaaide kiemplantjes <br>
+
+- De spuitflessen met verschillende zoutconcentraties <br> 
+
+Proces: <br>
+
+- Spuit dagelijks de plantjes dusdanig vaak dat het papier altijd vochtig blijft <br>
+
+- De plantjes moeten licht vochtig blijven, het water mag niet ophopen in de petrischaal <br>
+
+
+## 1.4 Data verzamelen 
+
+Benodigdheden:
+
+- De petrischalen met gegroeide plantjes <br>
+
+- Een liniaal, geodriehoek of meetlint die makkelijk en snel af te lezen is <br>
+
+- Een laptop/computer met Excel sheet [bijlage 2 data_verwerking](../protocol/Bijlage_2 _data_verwerking.xlsx) om de data in te voeren <br>
+
+Proces:<br>
+
+- Er worden 4 soorten data verzameld namelijk <br>
+
+- Hoeveel zaadjes zijn ontkiemt <br>
+
+- Hoe lang is het plantje gegroeid (in millimeter (mm)) <br>
+
+- Hoeveel blaadjes heeft het plantje <br>
+
+- Welke kleur groen op de kleurschaal heeft het plantje [bijlage 3 kleurschaal](../protocol/Bijlage_3_Kleurschaal.png) <br> 
+
+Noteren: <br>
+
+- Per petrischaal zijn 50 zaadjes ingezaaid, tel hoeveel zaadjes er ontkiemd zijn en niet ontkiemd zijn, noteer dit in de Excel sheet voor elke petrischaal <br>
+
+- Meet elk ontkiemd plantje op en noteer, in mm, in de Excel sheet <br>
+
+- Meetbereik vanaf begin steel, dit is meestal meer verdikt dan de wortel, tot splitspunt blaadjes <br>
+
+- Tel bij elk ontkiemd plantje hoeveel blaadjes aan de top zitten en noteer dit, in hele getallen, in de Excel sheet <br>
+
+- Hou elk ontkiemd plantje op de kleurschaal en noteer de uitkomst in de Excel sheet <br>
+
+## 1.5 Dataverwerking 
+
+Benodigdheden: <br>  
+
+- Een computer/laptop met Rstudio <br>
+
+- De ingevulde Excelsheet met alle data <br>
+
+- Kennis van Rstudio <br>
+
+- Kennis van statistiek <br>
+
+Proces: <br>
+ 
+
+## 1.6 Loggen 
+
+Benodigdheden: <br>
+
+- Laptop/computer met een tekstverwerker 
+
+[Bijlage 4 loggen](../protocol/Bijlage_4_Loggen.docx)
+
+Proces: <br>
+
+- Elk persoon van het experiment werkt met zijn eigen logboek. [Logboek Ramon](../logboeken/logboek_Ramon.html), [Logboek Janine](../logboeken/logboek_Janine.html)
+
+- Bij elk gegeven dat gelogd wordt, wordt code, datum en tijd genoteerd 
+
+- Hetgeen dat gelogd wordt, wordt zoveel mogelijk in detail gelogd.
+
+- De wat, waarom en hoe wordt zo veel mogelijk toegepast
+  
