@@ -571,7 +571,7 @@ Plantjes gemeten volgens protocol en data op de git gezet.
 De data staat nu op github, en zal ingelezen moeten worden, vandaag is het plant om de spreiding weer te geven tussen de verschillende duplo's.
 Dit ga ik doen door eerst een boxplot te maken, hier de spreiding van te lezen. Ook mogelijk t-testen uitvoeren om significant tussen duplo's te kunnen testen.
 ```{r}
-dataframe <- read.csv("../raw_data/raw_data_plants.csv")
+dataframe <- read.csv("../raw_data/raw_data_planten.csv")
 head(dataframe)
 ```
 
@@ -579,18 +579,43 @@ head(dataframe)
 Nu de data geladen is en de correcte waarden heeft
 ```{r}
 dataframe %>%
-# Maak nieuwe kolom die soort en batch combineert.
-    mutate(species_batch = fct_cross(species, as.character(batch), sep = "_")) %>%
-    ggplot(mapping = aes(x = as.character(oplossing), y = groei, fill = species_batch,)) +
-    # Lavels
+    ggplot(mapping = aes(x = species, y = groei, fill=as.character(batch))) +
+    
+    # Labels
     labs(y = "groei (cm)",
-    x = "Oplossing zout (%)",
-    title = "Spread of plant growth",
-    subtitle = "For 0-3% salt",
-    fill="species_batchN") +
+         x = "Soort plant",
+         title = "Spread of plant growth",
+         subtitle = "For 0-0.09% salinity",
+         fill="batch n") +
+    
     # Theming
     scale_fill_brewer(palette = "YlGn") +
-    geom_boxplot(outlier.color = "red") +
-    theme_minimal()
+    geom_boxplot(outlier.colour = "red") +
+    theme_minimal()+
+    facet_wrap(~ oplossing, scales = "free")
+```
+Wat we kunnen zien is dat er bij de verschillende oplossingen er geen extreem verschil zit tussen de duplo's. Er zijn hier wel een paar die opvallen en verder getest moeten worden: alfalfa en cress bij oplossing 0.03 en cress bij 0.06%.
+
+Dit doen we met een t.test
+```{r}
+alfalfa_003 <- dataframe %>%
+    dplyr::filter(oplossing == 0.03 & species == "alfalfa") %>%
+    t.test(groei ~ as.character(batch), data=.)
+cat(sprintf("De p-waarde van alfalfa bij 0.03%%: %.6f, dit ligt onder 0.05 en er is dus significant verschil tussen de 2 batches. \n", alfalfa_003$p.value))
+```
+
+
+```{r}
+cress_003 <- dataframe %>%
+    dplyr::filter(oplossing == 0.03 & species == "cress") %>%
+    t.test(groei ~ as.character(batch), data=.)
+cat(sprintf("De p-waarde van cress bij 0.03%%: %.4f, dit ligt onder 0.05 en er is dus significant verschil tussen de 2 batches. \n", cress_003$p.value))
+```
+
+```{r}
+cress_006 <- dataframe %>%
+    dplyr::filter(oplossing == 0.06 & species == "cress") %>%
+    t.test(groei ~ as.character(batch), data=.)
+cat(sprintf("De p-waarde van cress bij 0.06%%: %.4f, dit ligt onder 0.05 en er is dus significant verschil tussen de 2 batches. \n", cress_006$p.value))
 ```
 
