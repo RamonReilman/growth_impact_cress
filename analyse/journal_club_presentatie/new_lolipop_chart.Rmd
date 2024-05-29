@@ -1,0 +1,177 @@
+---
+title: "lollipop_chart"
+output: html_document
+date: "2024-05-15"
+names: "Janine Postmus & Ramon Reilman"
+---
+## Dataframe
+
+Er is een test dataframe gebruikt met de volgende soorten data die in de grafieken worden gebruikt:<br>
+- batch_n voor 2 batches met elk 200 datapunten <br>
+- oplossing, voor zoutoplossingen genummerd 0, 1, 2, 3 <br>
+- cm_groei, voor groei in cm per oplossing per batch
+
+
+
+```{r, include=FALSE}
+library(tidyverse)
+set.seed(0)
+cress_data <- data.frame(species = rep(c("cress", "alfalfa"), each=400),
+                       N = 1:200,
+                       batch_n=rep(c(1, 2), each=200),
+                       Oplossing=rep(c(0,1,2,3), each=50),
+                       cm_groei=c(rnorm(n=50, 5, 1.5),rnorm(n=50, 8,1),rnorm(n=50, 3, 2),rnorm(n=50, 1,0.5), #cress batch 1
+                                  rnorm(n=50, 5.5, 1.6),rnorm(n=50, 7.6,1.2),rnorm(n=50, 2.8, 2.1),rnorm(n=50, 1.2,0.6), #cress batch 2
+                                  rnorm(n=50, 3, 1),rnorm(n=50, 4,0.8),rnorm(n=50, 2, 0.5),rnorm(n=50, 1,0.2),#alfalfa batch 1
+                                  rnorm(n=50, 3.2, 1.1),rnorm(n=50, 3.8,1.1),rnorm(n=50, 2.1, 0.4),rnorm(n=50, 1.2,0.1)), #aflalfa batch 2
+
+                       n_ontkieming=c(rbinom(50, 1, 0.6), rbinom(50, 1, 0.8), rbinom(50, 1, 0.4), rbinom(50, 1, 0.2),
+                                      rbinom(50, 1, 0.5), rbinom(50, 1, 0.7), rbinom(50, 1, 0.5), rbinom(50, 1, 0.25),
+                                      rbinom(50, 1, 0.7), rbinom(50, 1, 0.9), rbinom(50, 1, 0.3), rbinom(50, 1, 0.3),
+                                      rbinom(50, 1, 0.4), rbinom(50, 1, 0.8), rbinom(50, 1, 0.6), rbinom(50, 1, 0.35)),
+                       
+                       n_blaadjes=c(rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5), # C batch 1
+                                    rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5), # C batch 2
+                                    rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5), # A batch 1
+                                    rnorm(n=50, 3, 1),rnorm(n=50, 4, 1),rnorm(n=50, 2, 1),rnorm(n=50, 1, 0.5))) # A batch 2
+                        
+
+```
+
+## Gebruikte libraries
+```{r}
+# Voor plotten
+library(ggplot2)
+
+# Voor data-verwerking
+library(dplyr)
+
+# Theming
+library(hrbrthemes)
+```
+
+
+## Lollipop verticaal
+
+In ggplot wordt de grafiek geplot. 
+Met geom_point kunnen de bolletjes aangepast worden in kleur, grootte en vorm.
+Met geom_segment kan de lijn worden aangepast in kleur, grootte en lijntype (Andere mogelijke waarden zijn "solid", "dotted", "dotdash", "longdash", en "twodash".)
+
+```{r}
+# Filter data
+data_filter <- cress_data %>%
+    filter(species == "cress") %>%
+    mutate(id = row_number())
+
+# Plotting
+ggplot(data_filter, aes(x=id, y=cm_groei)) +
+    
+    # Plot dots
+    geom_point(color = "red") +
+    
+    # Plot lines
+    geom_segment(aes(x=id, xend=id, y=0, yend=cm_groei), color = "black", linewidth = 0.5, linetype = "solid") +
+    
+    # Theming and labs
+    theme_minimal() +
+    labs(title = "Lollipop plot verticaal", x = "Cress", y = "Groei in cm")
+
+    
+```
+Wat we hier uit kunnen halen is dat dit soort data niet echt geschikt is voor een lolipop plot.  
+Er zijn teveel punten waardoor het onoverzichtelijk wordt. Beter kan je voor een histogram of barchart gebruiken in dit soort situaties.  
+
+Dit kan dus beter, met minder data
+```{r}
+plot_correct <- cress_data %>%
+    # Filter data
+    filter(species == "cress" & Oplossing == 0) %>%
+    mutate(id = row_number()) %>%
+    
+    # Plot data
+    ggplot(aes(x = id, y=cm_groei))+
+    
+    # Plot dots
+    geom_point(color="red") +
+    
+    # Plot lines
+    geom_segment(aes(x=id, xend=id, y=0, yend=cm_groei), color="black", linewidth=0.5, linetype="solid")+
+    
+    # Themes and labs
+    theme_minimal()+
+    labs(title = "Lollipop plot verticaal", x = "Cress", y = "Groei in cm")
+plot_correct
+```
+Nu er minder punten zijn is de plot een stuk meer overzichtelijk. Zo kan je gemakkelijk hoge en lage punten vinden in je dataset.  
+
+## Lollipop plot horizontaal
+
+In onderstaande plot heb ik de kleuren en vormen enigzins aangepast en de plot horizontaal gemaakt in plaats van verticaal. Het omdraaien van de plot gebeurt bij door de functie coord_flip toe te voegen.
+
+```{r}
+# Filter data
+data_filter <- cress_data %>%
+    filter(species == "cress") %>%
+    mutate(id = row_number())
+           
+ggplot(data_filter, aes(x=id, y=cm_groei)) +
+    
+    # Plot lines
+    geom_segment(aes(x=id, xend=id, y=0, yend=cm_groei), color = "black", linewidth = 0.5, linetype = "solid") +
+    
+    # Plot dots
+    geom_point(color = "white", shape=5) +
+    
+    # Theming and labs
+    theme_light() +
+    
+    # Flip plot
+    coord_flip() +
+    labs(title = "Lollipop plot horizontaal", x = "Species", y = "Groei in cm")
+
+```
+Om dezelfde redenen is dit onoverzichtelijk, maar dit kan je ook doen met de overzichtelijke plot  
+
+```{r}
+# Flip correct plot
+plot_correct + coord_flip()
+```
+Ik vind de verticale makkelijker om te lezen de lijnen lijken zo minder duidelijk.  
+## Cleveland dot plot
+
+In onderstaande grafiek staat een cleveland dot plot. Hierin kunnen meerdere variabelen worden uitgezet.
+
+```{r}
+# Calculate means
+averages <- aggregate(cm_groei ~ species+batch_n+Oplossing, data=cress_data, FUN = mean)
+
+averages %>%
+    
+    # Create new column for Oplossing and batch merged
+    mutate(Oplossing_batch = fct_cross(as.character(Oplossing), as.character(batch_n, sep="_")))%>%
+    
+    # Plotting
+    ggplot( aes(x=cm_groei, y = Oplossing_batch, fill=species)) +
+    
+        # Theming and colors
+        scale_fill_brewer(palette = "Dark2")+
+    
+        # Plotting line and dots
+        geom_line(aes(group = Oplossing_batch)) +
+        geom_point(aes(color = species)) + 
+    labs(title = "Kiemgroenten")
+
+```
+Dit is een betere manier om deze plotjes te gebruiken voor onze data. Het geeft de gemiddelde groei in cm weer voor de soorten, voor de duplo's en oplossingen. Zo kan je gemakkelijk zien wat voor verschil er tussen de gemiddelden liggen.
+  
+## Voordelen
+- Makkelijk het verschil tussen gemiddelden weergeven.
+- Makkelijk hoge en lage punten te vinden in je dataset
+- Zien er mooier uit dan barcharts
+
+## Nadelen
+- Snel onoverzichtelijk wanneer er te veel datapunten zijn
+- Soms lastig om te zien welke waarde je punt heeft.
+- Puntjes kunnen boven de echte waarde komen te liggen, wat het een kleine inaccuraatheid geeft.
+
+
