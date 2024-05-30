@@ -19,7 +19,6 @@ output:
     fig_caption: true  # includes figure captions with numbering in output
     includes:  
         in_header: include_tex_header.tex #will include rules for linespacing and figure floating
-
 ---
 
 # Introductie op deze template
@@ -40,6 +39,9 @@ knitr::opts_chunk$set(out.width = '100%', dpi=300) # configuratie voor figuur gr
 knitr::opts_chunk$set(echo = FALSE) # Deze regel zorgt ervoor GEEN ENKELE chunk getoond wordt! 
 # Laad alle gebruikte bibliotheken hier
 library(ggplot2)
+library(dplyr)
+data_set_plants <- read.csv("../raw_data/raw_data_planten.csv")
+source("../analyse/scripts/fucntions.R")
 ```
 
 **NB** Gebruik altijd een naam voor iedere chunk. Dat maakt het *debuggen* van problemen bij het *knitten* van je RMarkdown document veel gemakkelijker.
@@ -79,7 +81,7 @@ De introductie bevat tussen de 400-800 woorden.
 
 
 # Materialen en Methoden
-
+Github repo: https://github.com/RamonReilman/blog_ish
 Materialen en Methoden beschrijft verhalend wat je hebt gebruikt (data, tools) en wat je hebt gedaan (ontwikkelde methodes). **_Het is essentieel dat dit hoofdstuk je onderzoek reproduceerbaar en valideerbaar maakt_**. Verwijs bij de start van dit hoofdstuk naar je code repository (meestal je github link).
 
 Neem referenties op!
@@ -95,8 +97,90 @@ Beschrijf wat je zelf in het kader van dit onderzoek hebt ontwikkeld aan methodo
 
 Deze sectie bevat tussen de 400-800 woorden.
 
-# Resultaten
+Om antwoord te krijgen op onze onderzoeks vraag is de data getest, verwerkt en gevisualiseerd met R.  
+-R, versie: 4.4.0  
+-Rstudio, versie: 2024.04.  
 
+Om de data makkelijk en mooi te visualiseren, maar ook de data te verwerken is de library genaamd tidyverse:2.2.0.  
+tidyverse is een collectie van verschillende libraries die data verwerking en visualisatie een stuk makkelijker maakt.
+Ook is gebruik gemaakt van Conflicted:1.2.0. Deze library veranderd de manier waarop R met conflicted libraries omgaat.  
+
+In de logboeken is gebruik gemaakt van pwr:1.3.0 en gridExtra:2.3. pwr kan de power van een test berekenen. 
+Voor dit onderzoek is pwr ook gebruikt om te kijken wat de sample size moet zijn voor het onderzoek. 
+gridExtra is gebruikt om meerdere plotjes op 1 chart te maken, maar dit bleek ook mogelijk te zijn met de facet wrap functie in R.
+
+Voor het testen van de data maken we gebruik van een aantal verschillende testen:
+-2 way anova test voor de groei van de plantjes.
+-2 way chisq test voor ontkieming van de zaadjes.
+
+
+# Resultaten
+Aan het einde van de datacollectie is de lengte en de kleur van de plaatjes bepaald van 800 plantjes verspreid over 2 soorten en 4 verschillende zout oplossingen. Omdat er met duplos gewerkt is is er eerst gekeken naar verschil tussen duplo's (figuur 1).
+```{r boxplotduplo, warning=FALSE, fig.cap="spreiding van groei (cm) van de 2 soorten over elke oplossing. Deze grafiek geeft de spreiding van de groei van de plantjes weer voor elke oplossing en soort plant. waarbij de x-as de platen soort is en de y-as de groei in cm. Ook zijn de duplo's van elkaar gesplitst, zo kan het verschil tussen deze duplo's gevisualiseerd worden. Uitschieters zijn weergegeven als de zwarte punten."}
+# The palette with black:
+cbp2 <- c("#56B4E9", "#009E73", "#000000", "#E69F00",
+          "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
+
+data_set_plants %>%
+    ggplot(aes(x = species, y = groei, fill = as.character(batch))) +
+    geom_boxplot() +
+    labs(y = "groei (cm)",
+         x = "Soort plant",
+         fill="duplo") +
+    theme_minimal() +
+    scale_fill_manual(values = cbp2)+
+    facet_wrap(~ oplossing) 
+```
+
+De spreiding van groei tussen de duplo's van tuinkers bij een oplossing van 0.09% en 0% is niet heel groot, de boxen liggen zo goed als naast elkaar. Bij 0.06 en 0.03 van de tuinkers blijkt het verschil iets groter. Bij alfalfa zijn de boxen bij 0.09 0.06% niet helemaal even groot, maar de gemiddelden zijn wel gelijk. bij 0 en 0.03% wijken de boxen en gemiddelden meer af van elkaar.   
+  
+
+  Bij een aantal duplo's is het niet duidelijk of er een significant verschil tussen zit, om deze reden zijn er t-testen uitgevoerd voor de volgende duplo's: alfalfa en cress bij oplossing 0.03, cress bij oplossing 0.06, en alfalfa bij 0%.  
+```{r}
+result_test_cress_0.03 <- duplo_test(soort = "cress", get_oplossing = 0.03, data = data_set_plants)
+result_test_alfalfa_0.03 <- duplo_test(soort = "alfalfa", get_oplossing = 0.03, data = data_set_plants)
+result_test_cress_0.06 <- duplo_test(soort = "cress", get_oplossing = 0.06, data = data_set_plants)
+
+result_test_alfalfa_0.00 <- duplo_test(soort = "alfalfa", get_oplossing = 0, data = data_set_plants)
+```
+Voor alle 4 de testen geldt p < 0.05, dus er zit bij deze een significant verschil tussen de geteste duplos.  
+Om te bepalen of dit verschil relevant is, is Cohen's d berekend.  
+```{r}
+d_cress_0.03 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.03, soort = "cress", get_stats = result_test_cress_0.03$statistic)
+
+d_alfalfa_0.03 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.03, soort = "alfalfa", get_stats = result_test_alfalfa_0.03$statistic)
+
+d_cress_0.06 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.06, soort = "cress", get_stats = result_test_cress_0.06$statistic)
+
+d_alfalfa_0.00 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.00, soort = "alfalfa", get_stats = result_test_alfalfa_0.00$statistic)
+```
+Cohen's |d| voor cress 0.03% en alfalfa 0.03% ligt rond de 0.85 er kan dus gesproken worden over een groot verschil tussen deze duplo's.
+Cohen's |d| voor cress bij 0.06% ligt rond de 0.68, er kan dus gesproken worden over een matig/groot verschil tussen deze duplo's. Cohen's |d| voor alfalfa 0% ligt rond de 0.5, er kan dus over een matig verschil gesproken worden tussen deze duplo's.
+
+
+Als er gekeken wordt naar de groei van de plantjes
+
+```{r}
+data_set_plants %>%
+    dplyr::filter(species == "cress") %>%
+    ggplot(aes(x=groei,)) +
+    geom_histogram()+
+    labs(x = "groei (cm)",
+         y = "n",
+         fill="soort") +
+    theme_minimal()+
+    scale_fill_manual(values = cbp2)+
+    facet_wrap(~ oplossing)
+```
+Om te bepalen of soort, zout en de interactie van deze 2 variabelen invloed heeft op de groei van de planten is een 2-way anova test uitgevoerd. 
+```{r}
+
+model <- aov(groei ~ oplossing + species + oplossing*species ,data=data_set_plants)
+res <- summary(model)
+```
+Hieruit blijkt dat er geen significante interactie is tussen zout oplossing en planten soort. (p = 0.372 > 0.05).
+De planten soort en zout oplossing hebben individueel wel een significante impact op de groei van planten (p-soort = 3.56e-15 & p-oplossing = 2e-16 < 0.05).
+  
 Presenteer je resultaten in een logische volgorde. Beschrijf wat er te zien is en werk toe naar het beantwoorden van je doelstelling. Beschrijf indien mogelijke de logica van de keuze voor opeenvolgende experimenten. In elke paragraaf worden de feitelijke conclusies gegeven (bv ‘de vergelijking laat zien dat het gemiddelde van groep A significant afwijkt van het gemiddelde van groep B, met een p-waarde van … Dit komt niet overeen met de in de literatuur (REF) beschreven waardes.’)
 
 Gebruik zo veel mogelijk figuren om je informatie uit je resultaten over te brengen. Gebruik tabellen wanneer figuren minder geschikt zijn. In de tekst worden figuren en tabellen geïntroduceerd, besproken en de belangrijkste aspecten toegelicht.
@@ -157,8 +241,8 @@ Ook de code zelf is waar nodig natuurlijk goed gedocumenteerd.
 Voeg aan het eind een woord-telling in:
 
 ```{r wordcount, message=FALSE}
-#install.packages(devtools)
-#devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
+#install.packages("devtools")
+#devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE, force = TRUE)
 wordcountaddin:::text_stats()
 ```
 
