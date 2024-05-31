@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024/Arch Linux) (preloaded format=pdflatex 2024.5.28)  30 MAY 2024 11:25
+This is pdfTeX, Version 3.141592653-2.6-1.40.26 (TeX Live 2024/Arch Linux) (preloaded format=pdflatex 2024.5.28)  31 MAY 2024 11:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -602,43 +602,43 @@ File: simple_template_files/figure-latex/boxplotduplo-1.pdf Graphic file (type
 pdf)
 <use simple_template_files/figure-latex/boxplotduplo-1.pdf>
 Package pdftex.def Info: simple_template_files/figure-latex/boxplotduplo-1.pdf 
- used on input line 227.
+ used on input line 229.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [3]
-LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-244.
-(/usr/share/texmf-dist/tex/latex/lm/ts1lmtt.fd
-File: ts1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [4 <./simple_template_files/figure-latex/boxplotduplo-1.pdf>]
-<simple_template_files/figure-latex/unnamed-chunk-3-1.pdf, id=55, 469.755pt x 3
-25.215pt>
-File: simple_template_files/figure-latex/unnamed-chunk-3-1.pdf Graphic file (ty
-pe pdf)
-<use simple_template_files/figure-latex/unnamed-chunk-3-1.pdf>
-Package pdftex.def Info: simple_template_files/figure-latex/unnamed-chunk-3-1.p
-df  used on input line 246.
+<simple_template_files/figure-latex/cresshist-1.pdf, id=48, 469.755pt x 325.215
+pt>
+File: simple_template_files/figure-latex/cresshist-1.pdf Graphic file (type pdf
+)
+<use simple_template_files/figure-latex/cresshist-1.pdf>
+Package pdftex.def Info: simple_template_files/figure-latex/cresshist-1.pdf  us
+ed on input line 247.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 246--248
-[][]
- []
-
-<simple_template_files/figure-latex/plot-demo-1.pdf, id=56, 469.755pt x 325.215
+[4 <./simple_template_files/figure-latex/boxplotduplo-1.pdf>]
+<simple_template_files/figure-latex/alfalfahist-1.pdf, id=59, 469.755pt x 325.2
+15pt>
+File: simple_template_files/figure-latex/alfalfahist-1.pdf Graphic file (type p
+df)
+<use simple_template_files/figure-latex/alfalfahist-1.pdf>
+Package pdftex.def Info: simple_template_files/figure-latex/alfalfahist-1.pdf  
+used on input line 253.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[5 <./simple_template_files/figure-latex/cresshist-1.pdf>] [6 <./simple_templat
+e_files/figure-latex/alfalfahist-1.pdf>]
+<simple_template_files/figure-latex/plot-demo-1.pdf, id=82, 469.755pt x 325.215
 pt>
 File: simple_template_files/figure-latex/plot-demo-1.pdf Graphic file (type pdf
 )
 <use simple_template_files/figure-latex/plot-demo-1.pdf>
 Package pdftex.def Info: simple_template_files/figure-latex/plot-demo-1.pdf  us
-ed on input line 259.
+ed on input line 282.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[5{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc} <./simple_template_file
-s/figure-latex/unnamed-chunk-3-1.pdf>]
+[7 <./simple_template_files/figure-latex/plot-demo-1.pdf>]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
-73.
+96.
 (/usr/share/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [6 <./simple_template_files/figure-latex/plot-demo-1.pdf>] [7] (./simple_temp
-late.aux)
+) [8{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}] (./simple_template.a
+ux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-02-20>
@@ -648,13 +648,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 15181 strings out of 476076
- 239760 string characters out of 5793775
+ 15165 strings out of 476076
+ 239705 string characters out of 5793775
  1938187 words of memory out of 5000000
- 36888 multiletter control sequences out of 15000+600000
- 629718 words of font info for 147 fonts, out of 8000000 for 9000
+ 36865 multiletter control sequences out of 15000+600000
+ 629662 words of font info for 149 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 83i,7n,93p,1012b,642s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 83i,7n,93p,1012b,488s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/share/texmf-dis
 t/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/lm
 /lmbx9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb></usr/share
@@ -663,10 +663,10 @@ public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr17.pfb></us
 r/share/texmf-dist/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf-dist/fonts/
 type1/public/lm/lmr9.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmri10.pf
 b></usr/share/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on simple_template.pdf (7 pages, 329235 bytes).
+Output written on simple_template.pdf (8 pages, 335132 bytes).
 PDF statistics:
- 191 PDF objects out of 1000 (max. 8388607)
- 150 compressed objects within 2 object streams
- 24 named destinations out of 1000 (max. 500000)
- 39024 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 212 PDF objects out of 1000 (max. 8388607)
+ 169 compressed objects within 2 object streams
+ 29 named destinations out of 1000 (max. 500000)
+ 39045 words of extra memory for PDF output out of 42996 (max. 10000000)
 
