@@ -19,6 +19,7 @@ output:
     fig_caption: true  # includes figure captions with numbering in output
     includes:  
         in_header: include_tex_header.tex #will include rules for linespacing and figure floating
+linkcolor: blue
 ---
 
 # Introductie op deze template
@@ -110,10 +111,18 @@ In de logboeken is gebruik gemaakt van pwr:1.3.0 en gridExtra:2.3. pwr kan de po
 Voor dit onderzoek is pwr ook gebruikt om te kijken wat de sample size moet zijn voor het onderzoek. 
 gridExtra is gebruikt om meerdere plotjes op 1 chart te maken, maar dit bleek ook mogelijk te zijn met de facet wrap functie in R.
 
-Voor het testen van de data maken we gebruik van een aantal verschillende testen:
--2 way anova test voor de groei van de plantjes.
--2 way chisq test voor ontkieming van de zaadjes.
+De gebruikte workflow staat weergegeven in de aankomende flowchart.  
+![Caption flowchart.](../analyse/imgs/flowchart_correct.drawio.pdf)  
+*flowchart 1, de workflow van het analyseren van de data.*  
 
+De gebruikte workflow was relatief simpel, we hebben een hoofdvraag. En om die te beantwoorden moesten we kijken naar verschillende variabelen van de plant. Groei, kleur, aantal blaadjes, etc. Dus voor elke variabele was een nieuwe vraag. Deze vragen hebben we verwerkt door de data eerst te manipuleren en daarna visualiseren. Vervolgens is er gekeken naar deze visualisaties om te kijken of er opvallende nummers waren, of mogelijk zelfs duidelijke verschillen tussen factoren. Als er iets opvallends te zien was in de visualisatie zijn er vervolgens statistische testen uitgevoerd op de data. Dit is gedaan om te controleren of er een statistisch signficant verschil zit tussen de invloed op de variabele tussen 1 of meer factoren.  
+Als de gestelde vraag niet beantwoord was, begonnen we overnieuw. Mogelijk met een net wat andere vraag. In het geval dat de vraag beantwoord is, is de power van de test berekend. En is er gekeken naar de volgende stap: Zijn er nog meer vragen? Of kan er een conclusie geformuleerd worden?  
+
+Voor het testen van de data maken we gebruik van een aantal verschillende testen:  
+-2 way anova test voor de groei van de plantjes.  
+-2 way chisq test voor ontkieming van de zaadjes.  
+
+Voor het onderzoek zijn ook een paar functies gemaakt in R, deze zijn te vinden in: [Functies](../analyse/scripts/fucntions.R)  
 
 # Resultaten
 ## Duplo's
