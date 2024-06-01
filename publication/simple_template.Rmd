@@ -40,6 +40,10 @@ knitr::opts_chunk$set(out.width = '100%', dpi=300) # configuratie voor figuur gr
 knitr::opts_chunk$set(echo = FALSE) # Deze regel zorgt ervoor GEEN ENKELE chunk getoond wordt! 
 # Laad alle gebruikte bibliotheken hier
 library(ggplot2)
+library(dplyr)
+library(pwr)
+library(forcats)
+data_set_plants <- read.csv("../raw_data/raw_data_planten.csv")
 ```
 
 **NB** Gebruik altijd een naam voor iedere chunk. Dat maakt het *debuggen* van problemen bij het *knitten* van je RMarkdown document veel gemakkelijker.
@@ -79,7 +83,7 @@ De introductie bevat tussen de 400-800 woorden.
 
 
 # Materialen en Methoden
-
+Github repo: https://github.com/RamonReilman/blog_ish
 Materialen en Methoden beschrijft verhalend wat je hebt gebruikt (data, tools) en wat je hebt gedaan (ontwikkelde methodes). **_Het is essentieel dat dit hoofdstuk je onderzoek reproduceerbaar en valideerbaar maakt_**. Verwijs bij de start van dit hoofdstuk naar je code repository (meestal je github link).
 
 Neem referenties op!
@@ -96,12 +100,13 @@ Beschrijf wat je zelf in het kader van dit onderzoek hebt ontwikkeld aan methodo
 Deze sectie bevat tussen de 400-800 woorden.
 
 # Resultaten
-### Ontkieming
-Eerst wordt er een histogram gemaakt om te kijken of er statistische testen uitgevoerd moeten worden. <br>
 
-```{r}
+### Ontkieming
+Om te kijken naar hoeveel impact de zoutoplossingen hebben op de groei van de plant wordt gekeken naar de ontkieming van de zaadjes. <br>
+
+```{r, fig.cap= "Ontkieming per soort voor elke oplossing. Deze grafiek geeft het aantal ontkiemde zaadjes weer. Op de x-as staan de oplossingen, op de y-as staat het aantal ontkiemde zaadjes"}
 nw_oplossing <- data_set_plants %>%
-    filter(oplossing == rep(c(0, 0.03, 0.06, 0.09), each=50))
+    filter(oplossing == rep(c(0, 0.03, 0.06, 0.09), each=50)) 
 
 nw_oplossing %>%
     ggplot(aes(x = factor(oplossing), fill = factor(ontkiemt))) +
@@ -113,57 +118,55 @@ nw_oplossing %>%
          y = "Aantal ontkiemt") +
     scale_fill_brewer(palette = "YlGn") +
     theme_minimal()
-
 ```
 In de barplot is te zien dat bijna alles ontkiemd is, om te kijken of hier nog significant verschil in zit worden er een aantal statistische testen uitgevoerd.
 
-Om te kijken of de zoutoplossingen impact hebben op de ontkieming van de plantjes kunnen een aantal statistische testen worden uitgevoerd. Eerst wordt er een nieuwe dataset gemaak van de ontkieming per species per oplossing. <br>
-```{r}
+Om te kijken of de zoutoplossingen impact hebben op de ontkieming van de plantjes kunnen een aantal statistische testen worden uitgevoerd. Eerst wordt er een nieuwe dataset gemaak van de ontkieming per species per oplossing. <br> 
+```{r, echo=FALSE}
 data_set_ontkieming <- data_set_plants %>%
     # Selecteer de juiste kolommen
     select(ontkiemt, species, oplossing) %>%
-    mutate(species_oplossing = fct_cross(species, as.character(oplossing), sep = "-"))
-head(data_set_ontkieming)
+    # Paste wordt gebruikt om species en oplossing samen te voegen
+    # Factor zet een vector om naar een categorie
+    mutate(species_oplossing = factor(paste(as.character(species), as.character(oplossing), sep = "-")))
 ```
+
 Vervolgens wordt daarvan een tabel gemaakt waarin het aantal ontkiemde zaadjes per soort en per zoutoplossing uitgezet wordt.<br>
-```{r}
+```{r, echo=FALSE}
 ontkieming_table <- table(data_set_ontkieming$species,data_set_ontkieming$oplossing + data_set_ontkieming$ontkiemt)
-ontkieming_table
 ```
 
 Vervolgens wordt gecontroleerd of alle waarden zijn meegenomen doormiddel van de sum functie.<br>
-```{r}
+```{r, echo=FALSE}
 addmargins(ontkieming_table)
 ```
 
 Om het verschil te kunnen zien tussen de 2 soorten en n ontkiemingen wordt een 2-way chi-square test uitgevoerd. <br>
-```{r}
+```{r, echo=FALSE}
 # 2-way chisq uitvoeren om verschil te kunnen testen
-(res <- chisq.test(x = ontkieming_table))
-cat(sprintf("De p-waarde is groter dan 0.05: %.2f\n", res$p.value))
+res <- chisq.test(x = ontkieming_table)
 ```
 Omdat de p-waarde groter is dan 0.05 is er geen significant verschil van ontkieming tussen de twee plantensoorten op basis van alle zoutoplossingen. <br>
 
 Om te weten of het een relevant verschil is, moet de effectsterkte berekend worden.
 Voor proportie wordt Cohen's M gebruikt.<br>
-```{r}
+```{r, echo=FALSE}
 chi2 <- res$statistic
 N <- sum(ontkieming_table)
 W <- sqrt(chi2 / N)
 df <- res$parameter
-cat(sprintf("Cohens W: %.3f", W))
 ```
 Met een effectgrootte van 0.075 is er nagenoeg geen verband tussen de invloed op ontkiemde zaadjes tussen plant, en zoutoplossingen. <br>
 
 Om te controleren of deze conclusie, gebaseerd op statistiek, correct is wordt de power berekend.<br>
-```{r}
+```{r, echo=FALSE}
 alpha <- 0.05
 pwr.chisq.test(w=W, N=N, df=df, sig.level = alpha)
 ```
 De power is 0.29. Daarmee kunnen we zeggen dat onze conclusie, er is geen sigfnicant verschil gevonden van het aantal ontkiemde zaadjes tussen de 2 planten over de verschillende oplossingen, een 29% kans heeft om correct te zijn.<br>
 
 Hoeveel metingen hebben we nodig om 0.8 power te krijgen, met een W van 0.1?<br>
-```{r}
+```{r, echo=FALSE}
 pwr.chisq.test(w = 0.1, df = df, sig.level = 0.05, power = 0.80)
 ```
 Om een correcte statistische uitkomst te krijgen zouden er dus 1194 planten geplant moeten worden, zo'n 600 per planten soort. <br>
@@ -171,7 +174,7 @@ Om een correcte statistische uitkomst te krijgen zouden er dus 1194 planten gepl
 ### Aantal blaadjes
 
 Om te kijken hoe de zoutoplossingen impact hebben op de groei van het aantal blaadjes is dit uitgezet in onderstaande barplot. <br>
-```{r}
+```{r, fig.cap="Aantal blaadjes per batch per zoutoplossing. Deze barplot geeft het aantal blaadjes per plant per zoutoplossing weer. Op de x-as de zoutoplossingen, op de y-as het aantal blaadjes"}
 data_set_plants %>%
     aggregate(blaadjes ~ species + batch + oplossing, FUN = sum) %>%
     #fct_cross maakt nieuwe kolom en combineert hetgene wat erin staat
@@ -187,8 +190,8 @@ data_set_plants %>%
     geom_bar(position = "dodge", stat = "sum",
              color="black", size=0.5) +
     
-    #De scalefillbrewer functie is een thema functie 
     scale_fill_brewer(palette = "Dark2") +
+    facet_wrap(species~batch) +
     theme_minimal() 
 ```
 De alfalfa heeft minder blaadjes dan de tuinkers, verder is te zien dat alleen alfalfa in oplossing 0.03% afwijkt qua bladgroei.
@@ -222,30 +225,8 @@ ggplot(combined_df, aes(x=oplossing, fill=bladkleur)) +
          y="Aantal plantjes") +
     theme_minimal() + 
     facet_wrap(species~batch)
-
 ```
 In deze stacked barchart is te zien welke bladkleur er gemeten is per plant, per batch, per zoutoplossing. Wat opvalt is dat alfalfa batch 1 en alfalaf batch 2 nagenoeg geen bladkleur hebben. 
-
-
-
-Presenteer je resultaten in een logische volgorde. Beschrijf wat er te zien is en werk toe naar het beantwoorden van je doelstelling. Beschrijf indien mogelijke de logica van de keuze voor opeenvolgende experimenten. In elke paragraaf worden de feitelijke conclusies gegeven (bv ‘de vergelijking laat zien dat het gemiddelde van groep A significant afwijkt van het gemiddelde van groep B, met een p-waarde van … Dit komt niet overeen met de in de literatuur (REF) beschreven waardes.’)
-
-Gebruik zo veel mogelijk figuren om je informatie uit je resultaten over te brengen. Gebruik tabellen wanneer figuren minder geschikt zijn. In de tekst worden figuren en tabellen geïntroduceerd, besproken en de belangrijkste aspecten toegelicht.
-
-Voorzie je figuren van een nummer en een beschrijvende titel. Zorg voor correcte as-labels (eenheid en grootheid), legenda en bijschrift. Hier is een voorbeeldje.
-
-```{r plot-demo, warning=FALSE, fig.cap='Ozon concentraties geplot tegen zonlicht intensiteit, vergeleken over verschillende maanden. Lineaire modellen (blauwe lijnen) en confidence intervals (grijze gebieden) zijn hieraan toegevoegd.'}
-airquality$Month_f = factor(airquality$Month, levels = 5:9, labels = month.abb[5:9])
-ggplot(data = airquality, mapping = aes(x = Solar.R, y = Ozone)) +
-    geom_smooth(method = "lm", formula = y ~ x) +
-    geom_point(aes(color = Month_f), alpha = 0.7) + 
-    facet_wrap(. ~ Month_f) +
-    ylab("Ozone (ppb)") +
-    xlab("Solar radiation (lang)") +
-    theme(legend.title = element_blank())
-```
-
-
 
 
 Geef tabellen bovenaan een titel en bijschrift die de inhoud beschrijft en onderaan voetnoten die kolomnamen of specifieke waardes verklaren.
@@ -288,10 +269,11 @@ Ook de code zelf is waar nodig natuurlijk goed gedocumenteerd.
 Voeg aan het eind een woord-telling in:
 
 ```{r wordcount, message=FALSE}
-#install.packages(devtools)
-#devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE)
+#install.packages("devtools")
+#devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE, force = TRUE)
 wordcountaddin:::text_stats()
 ```
+
 
 # Referenties
 
