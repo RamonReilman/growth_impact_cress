@@ -180,7 +180,7 @@ data_set_plants %>%
     #fct_cross maakt nieuwe kolom en combineert hetgene wat erin staat
     mutate(species_batch = fct_cross(species, as.character(batch), sep = "_")) %>%
     #Fill werkt hier als een split functie voor de batches
-    ggplot(aes(x=oplossing,y=blaadjes, fill=species_batch)) +
+    ggplot(aes(x=as.character(oplossing),y=blaadjes, fill=species_batch)) +
     
     labs(title="Barplot sum van blaadjes", 
          subtitle = "Voor 0%-0.09% zout", 
