@@ -106,7 +106,7 @@ Voor het manipuleren en visualiseren is gebruikt gemaakt van dplyr:1.1.4 en ggpl
 
 In de logboeken is gebruik gemaakt van pwr:1.3.0 en gridExtra:2.3. pwr kan de power van een test berekenen. 
 Voor dit onderzoek is pwr ook gebruikt om te kijken wat de sample size moet zijn voor het onderzoek. 
-gridExtra is gebruikt om meerdere plotjes op 1 chart te maken, maar dit bleek ook mogelijk te zijn met de facet wrap functie in R.
+gridExtra is gebruikt om meerdere plotjes op 1 chart te maken, maar dit bleek ook mogelijk te zijn met de facet wrap functie in R. [@pwr; @gridExtra]
 
 De gebruikte workflow staat weergegeven in de aankomende flowchart.  
 ![Caption flowchart.](../analyse/imgs/flowchart_correct.drawio.pdf)  
@@ -116,17 +116,20 @@ De gebruikte workflow was relatief simpel, we hebben een hoofdvraag. En om die t
 Als de gestelde vraag niet beantwoord was, begonnen we overnieuw. Mogelijk met een net wat andere vraag. In het geval dat de vraag beantwoord is, is de power van de test berekend. En is er gekeken naar de volgende stap: Zijn er nog meer vragen? Of kan er een conclusie geformuleerd worden?  
 
 Voor het testen van de data maken we gebruik van een aantal verschillende testen.  
-Dit omdat we verschillende soorten data hebben. Er is gebruik gemaakt van een 2-way t-test. De t-test wordt gebruikt om het verschil te vinden tussen 2 datasets, met 1 factor die verschillend is. Deze is gebruikt voor het testen of er een significant verschil is tussen 2 duplo's. De effect sterkte tussen de 2 duplo's te berekenen is gedaan door cohen's d te berekenen. 
+Dit omdat we verschillende soorten data hebben. Er is gebruik gemaakt van een 2-way t-test. De t-test wordt gebruikt om het verschil te vinden tussen 2 datasets, met 1 factor die verschillend is. Deze is gebruikt voor het testen of er een significant verschil is tussen 2 duplo's. Om effect sterkte tussen de 2 duplo's te berekenen is cohen's D gebruikt. 
+
+Om te bepalen of er een significant tussen de groei van de oplossingen en planten soort is gebruik gemaakt van de 2-way anova test, voor effect sterkte is bij deze test Fisher's eta2 berekend. Om de power te berekenen is de library pwr2 gebruikt. 
+
 -2 way chisq test voor ontkieming van de zaadjes.  
 
-Voor het onderzoek zijn ook een paar functies gemaakt in R, deze zijn te vinden in: [Functies](../analyse/scripts/fucntions.R)  
+Voor het onderzoek zijn ook een paar functies gemaakt in R, deze zijn te vinden in: [Functies](https://github.com/RamonReilman/growth_impact_cress/tree/main/analyse)  
 De volgende functies zijn gemaakt en gebruikt:  
 -duplo_test, een functie die gemakkelijk het verschil tussen de 2 duplo's test.  
 -cohens_d_duplo, een functie die cohen's d berekend voor 2 gegeven duplo's.  
 
 # Resultaten
 ## Duplo's
-Aan het einde van de datacollectie is de lengte en de kleur van de plaatjes bepaald van 800 plantjes verspreid over 2 soorten en 4 verschillende zout oplossingen. Omdat er met duplos gewerkt is is er eerst gekeken naar verschil tussen duplo's (figuur 1).
+Aan het einde van de datacollectie is de lengte en de kleur van de plaatjes bepaald van 800 plantjes verspreid over 2 soorten en 4 verschillende zout oplossingen. Omdat er met duplos gewerkt is is er eerst gekeken naar verschil tussen duplo's (figuur \@ref(fig:boxplotduplo)).  
 ```{r boxplotduplo, warning=FALSE, fig.cap="spreiding van groei (cm) van de 2 soorten over elke oplossing. Deze grafiek geeft de spreiding van de groei van de plantjes weer voor elke oplossing en soort plant. waarbij de x-as de platen soort is en de y-as de groei in cm. Ook zijn de duplo's van elkaar gesplitst, zo kan het verschil tussen deze duplo's gevisualiseerd worden. Uitschieters zijn weergegeven als de zwarte punten."}
 # The palette with black:
 cbp2 <- c("#56B4E9", "#009E73", "#000000", "#E69F00",
@@ -208,7 +211,7 @@ data_set_plants %>%
 Als we de 2 soorten met elkaar vergelijken zien we snel dat tuinkers minder spreiding heeft dan alfalfa.
 
 Om te bepalen of soort, zout en de interactie van deze 2 variabelen invloed heeft op de groei van de planten is een 2-way anova test uitgevoerd. 
-```{r}
+```{r 2WayAnova}
 data_set_plants$oplossing_factor <- factor(data_set_plants$oplossing,
                                            levels = c(0, 0.03, 0.06, 0.09))
 data_set_plants$species_factor <- factor(data_set_plants$species,
