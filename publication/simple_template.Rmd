@@ -19,6 +19,7 @@ output:
     fig_caption: true  # includes figure captions with numbering in output
     includes:  
         in_header: include_tex_header.tex #will include rules for linespacing and figure floating
+linkcolor: blue
 ---
 
 # Introductie op deze template
@@ -41,11 +42,15 @@ knitr::opts_chunk$set(echo = FALSE) # Deze regel zorgt ervoor GEEN ENKELE chunk 
 # Laad alle gebruikte bibliotheken hier
 library(ggplot2)
 library(dplyr)
+<<<<<<< HEAD
 library(pwr)
 library(conflicted)
 library(tidyverse)
 library(gridExtra)
 library(pwr)
+=======
+library(pwr2)
+>>>>>>> ac5ea571d2c8c32013378fccf72de0820dab99eb
 data_set_plants <- read.csv("../raw_data/raw_data_planten.csv")
 source("../analyse/scripts/fucntions.R")
 ```
@@ -105,7 +110,7 @@ Deze sectie bevat tussen de 400-800 woorden.
 
 Om antwoord te krijgen op onze onderzoeksvraag is de data getest, verwerkt en gevisualiseerd met R.  
 -R, versie: 4.4.0  
--Rstudio, versie: 2024.04.  
+-Rstudio, versie: 2024.04.1 Build 748
 
 Om de data makkelijk en mooi te visualiseren, maar ook de data te verwerken is de library genaamd tidyverse:2.2.0.  
 tidyverse is een collectie van verschillende libraries die data verwerking en visualisatie een stuk makkelijker maakt.
@@ -115,15 +120,27 @@ In de logboeken is gebruik gemaakt van pwr:1.3.0 en gridExtra:2.3. pwr kan de po
 Voor dit onderzoek is pwr ook gebruikt om te kijken wat de sample size moet zijn voor het onderzoek. 
 gridExtra is gebruikt om meerdere plotjes op 1 chart te maken, maar dit bleek ook mogelijk te zijn met de facet wrap functie in R.
 
-Voor het testen van de data maken we gebruik van een aantal verschillende testen:
--2 way anova test voor de groei van de plantjes.
--2 way chisq test voor ontkieming van de zaadjes.
+De gebruikte workflow staat weergegeven in de aankomende flowchart.  
+![Caption flowchart.](../analyse/imgs/flowchart_correct.drawio.pdf)  
+*flowchart 1, de workflow van het analyseren van de data.*  
 
+De gebruikte workflow was relatief simpel, we hebben een hoofdvraag. En om die te beantwoorden moesten we kijken naar verschillende variabelen van de plant. Groei, kleur, aantal blaadjes, etc. Dus voor elke variabele was een nieuwe vraag. Deze vragen hebben we verwerkt door de data eerst te manipuleren en daarna visualiseren. Vervolgens is er gekeken naar deze visualisaties om te kijken of er opvallende nummers waren, of mogelijk zelfs duidelijke verschillen tussen factoren. Als er iets opvallends te zien was in de visualisatie zijn er vervolgens statistische testen uitgevoerd op de data. Dit is gedaan om te controleren of er een statistisch signficant verschil zit tussen de invloed op de variabele tussen 1 of meer factoren.  
+Als de gestelde vraag niet beantwoord was, begonnen we overnieuw. Mogelijk met een net wat andere vraag. In het geval dat de vraag beantwoord is, is de power van de test berekend. En is er gekeken naar de volgende stap: Zijn er nog meer vragen? Of kan er een conclusie geformuleerd worden?  
+
+Voor het testen van de data maken we gebruik van een aantal verschillende testen:  
+-2 way anova test voor de groei van de plantjes.  
+-2 way chisq test voor ontkieming van de zaadjes.  
+
+Voor het onderzoek zijn ook een paar functies gemaakt in R, deze zijn te vinden in: [Functies](../analyse/scripts/fucntions.R)  
 
 # Resultaten
+<<<<<<< HEAD
 
 ### Groei in cm
 
+=======
+## Duplo's
+>>>>>>> ac5ea571d2c8c32013378fccf72de0820dab99eb
 Aan het einde van de datacollectie is de lengte en de kleur van de plaatjes bepaald van 800 plantjes verspreid over 2 soorten en 4 verschillende zout oplossingen. Omdat er met duplos gewerkt is is er eerst gekeken naar verschil tussen duplo's (figuur 1).
 ```{r boxplotduplo, warning=FALSE, fig.cap="spreiding van groei (cm) van de 2 soorten over elke oplossing. Deze grafiek geeft de spreiding van de groei van de plantjes weer voor elke oplossing en soort plant. waarbij de x-as de platen soort is en de y-as de groei in cm. Ook zijn de duplo's van elkaar gesplitst, zo kan het verschil tussen deze duplo's gevisualiseerd worden. Uitschieters zijn weergegeven als de zwarte punten."}
 # The palette with black:
@@ -166,14 +183,34 @@ d_alfalfa_0.00 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.00, s
 Cohen's |d| voor cress 0.03% en alfalfa 0.03% ligt rond de 0.85 er kan dus gesproken worden over een groot verschil tussen deze duplo's.
 Cohen's |d| voor cress bij 0.06% ligt rond de 0.68, er kan dus gesproken worden over een matig/groot verschil tussen deze duplo's. Cohen's |d| voor alfalfa 0% ligt rond de 0.5, er kan dus over een matig verschil gesproken worden tussen deze duplo's.
 
+## Groei van de planten
+Om te bepalen of iets invloed heeft gehad op de groei van een plant is het een goede eerste stap om naar de groei te kijken van een plant. De gemeten groei van elke plant kan gevonden worden in figuur \@ref(fig:cresshist) en \@ref(fig:alfalfahist).
 
-Als er gekeken wordt naar de groei van de plantjes
-
-```{r}
+```{r cresshist, fig.cap="Verdeling van groei in cm van cress voor elke oplossing.  Deze grafiek geeft de verdeling weer van de groei van cress voor elke oplossing. Waarbij de x-as de groei in cm is, en de y-as hoeveel deze groei voorkomt. Boven elke grafiek staat een nummer, deze representeert de oplossing."}
 data_set_plants %>%
     dplyr::filter(species == "cress") %>%
     ggplot(aes(x=groei,)) +
-    geom_histogram()+
+    geom_histogram(bins = 25,
+                   color = "black",
+                   fill = "#009E73",)+
+    labs(x = "groei (cm)",
+         y = "n",
+         fill="soort") +
+    theme_minimal()+
+    scale_fill_manual(values = cbp2)+
+    facet_wrap(~ oplossing)+
+    coord_cartesian(xlim = c(-1, 30))
+```
+  
+  Wat zichtbaar is uit deze grafiek is dat bij 0.09% de verdeling een stuk meer naar rechts licht dan bij de andere oplossingen. de verdeling van groei bij 0, 0.03 en 0.06 blijkt allemaal wel in de buurt te liggen van elkaar. Alleen is de spreiding bij 0.06 een stuk minder breed.
+
+```{r alfalfahist, fig.cap="Verdeling van groei in cm van alfalfa voor elke oplossing.  Deze grafiek geeft de verdeling weer van de groei van alfalfa voor elke oplossing. Waarbij de x-as de groei in cm is, en de y-as hoeveel deze groei voorkomt. Boven elke grafiek staat een nummer, deze representeert de oplossing."}
+data_set_plants %>%
+    dplyr::filter(species == "alfalfa") %>%
+    ggplot(aes(x=groei,)) +
+    geom_histogram(bins = 25,
+                   color = "black",
+                   fill = "#009E73",)+
     labs(x = "groei (cm)",
          y = "n",
          fill="soort") +
@@ -181,14 +218,65 @@ data_set_plants %>%
     scale_fill_manual(values = cbp2)+
     facet_wrap(~ oplossing)
 ```
+  
+  Wat zichtbaar is uit deze grafiek is dat de data van de alfalfa veel meer is verspreid dan bij tuinkers. Dit kon ook al gelezen worden uit figuur \@ref(fig:boxplotduplo). Als we deze oplossingen vergelijken met elkaar blijkt er niet veel verschil tussen te zijn. Oplossing 0.06 is de enige die hier wel buiten valt, deze oplossing is de enige met een grote piek.  
+Als we de 2 soorten met elkaar vergelijken zien we snel dat tuinkers minder spreiding heeft dan alfalfa.
+
 Om te bepalen of soort, zout en de interactie van deze 2 variabelen invloed heeft op de groei van de planten is een 2-way anova test uitgevoerd. 
 ```{r}
+data_set_plants$oplossing_factor <- factor(data_set_plants$oplossing,
+                                           levels = c(0, 0.03, 0.06, 0.09))
+data_set_plants$species_factor <- factor(data_set_plants$species,
+                                         levels = c("cress", "alfalfa"))
 
-model <- aov(groei ~ oplossing + species + oplossing*species ,data=data_set_plants)
+
+model <- aov(groei ~ oplossing_factor + species_factor + oplossing_factor*species_factor ,data=data_set_plants)
 res <- summary(model)
 ```
+<<<<<<< HEAD
 Hieruit blijkt dat er geen significante interactie is tussen zout oplossing en planten soort. (p = 0.372 > 0.05).
 De planten soort en zout oplossing hebben individueel wel een significante impact op de groei van planten (p-soort = 3.56e-15 & p-oplossing = 2e-16 < 0.05).
+=======
+Hieruit blijkt dat er een significante interactie is tussen de zout oplossingen en planten soort. (p = 2e-16 < 0.05).
+
+
+Fisher's eta2 van licht, vocht en de interactie van deze 2 variabelen is berekend om de effect sterkte te bepalen.
+```{r}
+SS.A <- res[[1]]$Sum[1]
+SS.B <- res[[1]]$Sum[2] 
+SS.AB <- res[[1]]$Sum[3] 
+
+SS.tot <- sum(res[[1]]$Sum)
+eta2.oplossing <- SS.A / SS.tot
+eta2.soort <- SS.B / SS.tot
+eta2.interactie <- SS.AB / SS.tot
+```
+De interactie tussen oplossing en soort plant heeft een sterk effect op de groei van de planten (eta2.interactie ~ 0.13).
+De verschillende percentages zout hebben een sterk effect gehad op de groei van de planten (eta2.oplossing ~ 0.2).
+De 2 soorten hebben een matig effect gehad op de groei van de planten (eta2.soort ~ 0.06).
+
+De pwr van deze test is berekend.
+```{r}
+a = 4
+size.a = 200
+b = 2
+size.b = 400
+
+x <- pwr.2way(a = a, b=b, alpha = 0.05, size.A=size.a, size.B=size.b, f.A = eta2.oplossing, f.B = eta2.soort)
+
+```
+Uit deze berekening is een power van ~96% gekomen.
+
+Er is een log lineaire test uitgevoerd op de verdeling van kleur over soort en oplossing.
+```{r}
+#head(data_set_plants)
+    prop_table_plants <- xtabs(~ species + bladkleur + oplossing, data = data_set_plants)
+#    prop_table_plants
+#model <- fisher.test(prop_table_plants)
+#summary(model)
+```
+Presenteer je resultaten in een logische volgorde. Beschrijf wat er te zien is en werk toe naar het beantwoorden van je doelstelling. Beschrijf indien mogelijke de logica van de keuze voor opeenvolgende experimenten. In elke paragraaf worden de feitelijke conclusies gegeven (bv ‘de vergelijking laat zien dat het gemiddelde van groep A significant afwijkt van het gemiddelde van groep B, met een p-waarde van … Dit komt niet overeen met de in de literatuur (REF) beschreven waardes.’)
+>>>>>>> ac5ea571d2c8c32013378fccf72de0820dab99eb
 
 ### Ontkieming
 Eerst wordt er een histogram gemaakt om te kijken of er statistische testen uitgevoerd moeten worden. <br>
@@ -319,6 +407,7 @@ ggplot(combined_df, aes(x=oplossing, fill=bladkleur)) +
 
 ```
 In deze stacked barchart is te zien welke bladkleur er gemeten is per plant, per batch, per zoutoplossing. Wat opvalt is dat alfalfa batch 1 en alfalaf batch 2 nagenoeg geen bladkleur hebben. 
+
 
 
 

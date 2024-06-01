@@ -1,12 +1,17 @@
 ---
-title: "les 6-5"
+title: "Logboek_Ramon"
+date: "06-05-20 t/m 04-06-2024"
+lang: nl
 output:
-  html_document: default
-  pdf_document: default
-date: "2024-05-06"
+  html_document:
+    toc: yes
 ---
 
 # Onderzoeksopzet
+
+### Intro
+Janine haar [logboek](./logboek_Janine.html)  
+
 ### Plan van aanpak
 
 In dit plan van aanpak wordt globaal beschreven hoe dit experiment wordt aangepakt, er wordt verwezen naar protocollen die als bijlage bijgevoegd zijn. Alle documenten die benodigd zijn om dingen in te voeren zijn ook bijgevoegd. <br>
@@ -30,7 +35,7 @@ Een oplopende zoutconcentratie hoger dan 0.03% zal een negatieve invloed hebbe
 
 # Protocollen
 
-Verwijzing naar protocollen... komt nog
+voor protocollen zie: [Protocollen](../protocol/protocollen.html)
 
 # Theoretische achtergrond 
 De concentratie van opgeloste stoffen in water, welke in de omgeving van een plant is, kan een grote invloed hebben op de plant en de groei van deze plant. In een hypotonische omgeving, de omgeving heeft dan een lagere concentratie opgeloste stoffen, zal het water van de omgeving in de cel van de plant gaan. De cel zal onder meer druk komen te staan, en opzwellen, wanneer deze situatie voor langere tijd niet veranderd zal de cel knappen. In een hypertonische situatie zal water de cellen van de plant verlaten, en zal de plant dus uitdrogen en dood gaan. (Osmosis in Plant Cells - Transport Across Membranes - National 5 Biology Revision - BBC Bitesize, 2023) <br>
@@ -609,6 +614,7 @@ cat(sprintf("De p-waarde van alfalfa bij 0.03%%: %.6f, dit ligt onder 0.05 en er
 cress_003 <- dataframe %>%
     dplyr::filter(oplossing == 0.03 & species == "cress") %>%
     t.test(groei ~ as.character(batch), data=.)
+cress_003
 cat(sprintf("De p-waarde van cress bij 0.03%%: %.4f, dit ligt onder 0.05 en er is dus significant verschil tussen de 2 batches. \n", cress_003$p.value))
 ```
 
@@ -619,3 +625,8 @@ cress_006 <- dataframe %>%
 cat(sprintf("De p-waarde van cress bij 0.06%%: %.4f, dit ligt onder 0.05 en er is dus significant verschil tussen de 2 batches. \n", cress_006$p.value))
 ```
 
+## 2024-05-29
+- Halve les bezig geweest met fixen van Janine haar r-studio
+
+## 2024-05-30
+- 10:00-12:00 en 13:00-15:00 bezig geweest met verwerking van duplo's en groei van de plantjes publicatie
