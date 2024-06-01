@@ -42,15 +42,11 @@ knitr::opts_chunk$set(echo = FALSE) # Deze regel zorgt ervoor GEEN ENKELE chunk 
 # Laad alle gebruikte bibliotheken hier
 library(ggplot2)
 library(dplyr)
-<<<<<<< HEAD
 library(pwr)
+library(pwr2)
 library(conflicted)
 library(tidyverse)
 library(gridExtra)
-library(pwr)
-=======
-library(pwr2)
->>>>>>> ac5ea571d2c8c32013378fccf72de0820dab99eb
 data_set_plants <- read.csv("../raw_data/raw_data_planten.csv")
 source("../analyse/scripts/fucntions.R")
 ```
@@ -140,9 +136,8 @@ Voor het onderzoek zijn ook een paar functies gemaakt in R, deze zijn te vinden 
 
 =======
 ## Duplo's
->>>>>>> ac5ea571d2c8c32013378fccf72de0820dab99eb
 Aan het einde van de datacollectie is de lengte en de kleur van de plaatjes bepaald van 800 plantjes verspreid over 2 soorten en 4 verschillende zout oplossingen. Omdat er met duplos gewerkt is is er eerst gekeken naar verschil tussen duplo's (figuur 1).
-```{r boxplotduplo, warning=FALSE, fig.cap="spreiding van groei (cm) van de 2 soorten over elke oplossing. Deze grafiek geeft de spreiding van de groei van de plantjes weer voor elke oplossing en soort plant. waarbij de x-as de platen soort is en de y-as de groei in cm. Ook zijn de duplo's van elkaar gesplitst, zo kan het verschil tussen deze duplo's gevisualiseerd worden. Uitschieters zijn weergegeven als de zwarte punten."}
+```{r boxplotduplo, warning=FALSE, fig.cap="spreiding van groei (cm) van de 2 soorten over elke oplossing.} Deze grafiek geeft de spreiding van de groei van de plantjes weer voor elke oplossing en soort plant. waarbij de x-as de platen soort is en de y-as de groei in cm. Ook zijn de duplo's van elkaar gesplitst, zo kan het verschil tussen deze duplo's gevisualiseerd worden. Uitschieters zijn weergegeven als de zwarte punten."}
 # The palette with black:
 cbp2 <- c("#56B4E9", "#009E73", "#000000", "#E69F00",
           "#F0E442", "#0072B2", "#D55E00", "#CC79A7")
@@ -162,7 +157,7 @@ De spreiding van groei tussen de duplo's van tuinkers bij een oplossing van 0.09
   
 
   Bij een aantal duplo's is het niet duidelijk of er een significant verschil tussen zit, om deze reden zijn er t-testen uitgevoerd voor de volgende duplo's: alfalfa en cress bij oplossing 0.03, cress bij oplossing 0.06, en alfalfa bij 0%.  
-```{r}
+```{r} 
 result_test_cress_0.03 <- duplo_test(soort = "cress", get_oplossing = 0.03, data = data_set_plants)
 result_test_alfalfa_0.03 <- duplo_test(soort = "alfalfa", get_oplossing = 0.03, data = data_set_plants)
 result_test_cress_0.06 <- duplo_test(soort = "cress", get_oplossing = 0.06, data = data_set_plants)
@@ -171,7 +166,7 @@ result_test_alfalfa_0.00 <- duplo_test(soort = "alfalfa", get_oplossing = 0, dat
 ```
 Voor alle 4 de testen geldt p < 0.05, dus er zit bij deze een significant verschil tussen de geteste duplos.  
 Om te bepalen of dit verschil relevant is, is Cohen's d berekend.  
-```{r}
+```{r} 
 d_cress_0.03 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.03, soort = "cress", get_stats = result_test_cress_0.03$statistic)
 
 d_alfalfa_0.03 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.03, soort = "alfalfa", get_stats = result_test_alfalfa_0.03$statistic)
@@ -187,7 +182,7 @@ Cohen's |d| voor cress bij 0.06% ligt rond de 0.68, er kan dus gesproken worden 
 Om te bepalen of iets invloed heeft gehad op de groei van een plant is het een goede eerste stap om naar de groei te kijken van een plant. De gemeten groei van elke plant kan gevonden worden in figuur \@ref(fig:cresshist) en \@ref(fig:alfalfahist).
 
 ```{r cresshist, fig.cap="Verdeling van groei in cm van cress voor elke oplossing.  Deze grafiek geeft de verdeling weer van de groei van cress voor elke oplossing. Waarbij de x-as de groei in cm is, en de y-as hoeveel deze groei voorkomt. Boven elke grafiek staat een nummer, deze representeert de oplossing."}
-data_set_plants %>%
+data_set_plants %>% 
     dplyr::filter(species == "cress") %>%
     ggplot(aes(x=groei,)) +
     geom_histogram(bins = 25,
@@ -208,7 +203,7 @@ data_set_plants %>%
 data_set_plants %>%
     dplyr::filter(species == "alfalfa") %>%
     ggplot(aes(x=groei,)) +
-    geom_histogram(bins = 25,
+    geom_histogram(bins = 25, 
                    color = "black",
                    fill = "#009E73",)+
     labs(x = "groei (cm)",
@@ -225,7 +220,7 @@ Als we de 2 soorten met elkaar vergelijken zien we snel dat tuinkers minder spre
 Om te bepalen of soort, zout en de interactie van deze 2 variabelen invloed heeft op de groei van de planten is een 2-way anova test uitgevoerd. 
 ```{r}
 data_set_plants$oplossing_factor <- factor(data_set_plants$oplossing,
-                                           levels = c(0, 0.03, 0.06, 0.09))
+                                           levels = c(0, 0.03, 0.06, 0.09)) 
 data_set_plants$species_factor <- factor(data_set_plants$species,
                                          levels = c("cress", "alfalfa"))
 
@@ -245,7 +240,7 @@ Fisher's eta2 van licht, vocht en de interactie van deze 2 variabelen is bereken
 SS.A <- res[[1]]$Sum[1]
 SS.B <- res[[1]]$Sum[2] 
 SS.AB <- res[[1]]$Sum[3] 
-
+ 
 SS.tot <- sum(res[[1]]$Sum)
 eta2.oplossing <- SS.A / SS.tot
 eta2.soort <- SS.B / SS.tot
@@ -259,7 +254,7 @@ De pwr van deze test is berekend.
 ```{r}
 a = 4
 size.a = 200
-b = 2
+b = 2 
 size.b = 400
 
 x <- pwr.2way(a = a, b=b, alpha = 0.05, size.A=size.a, size.B=size.b, f.A = eta2.oplossing, f.B = eta2.soort)
@@ -270,7 +265,7 @@ Uit deze berekening is een power van ~96% gekomen.
 Er is een log lineaire test uitgevoerd op de verdeling van kleur over soort en oplossing.
 ```{r}
 #head(data_set_plants)
-    prop_table_plants <- xtabs(~ species + bladkleur + oplossing, data = data_set_plants)
+    prop_table_plants <- xtabs(~ species + bladkleur + oplossing, data = data_set_plants) 
 #    prop_table_plants
 #model <- fisher.test(prop_table_plants)
 #summary(model)
@@ -283,7 +278,7 @@ Eerst wordt er een histogram gemaakt om te kijken of er statistische testen uitg
 
 ```{r}
 nw_oplossing <- data_set_plants %>%
-    filter(oplossing == rep(c(0, 0.03, 0.06, 0.09), each=50))
+    filter(oplossing == rep(c(0, 0.03, 0.06, 0.09), each=50)) 
 
 nw_oplossing %>%
     ggplot(aes(x = factor(oplossing), fill = factor(ontkiemt))) +
@@ -295,11 +290,10 @@ nw_oplossing %>%
          y = "Aantal ontkiemt") +
     scale_fill_brewer(palette = "YlGn") +
     theme_minimal()
-
 ```
 In de barplot is te zien dat bijna alles ontkiemd is, om te kijken of hier nog significant verschil in zit worden er een aantal statistische testen uitgevoerd.
 
-Om te kijken of de zoutoplossingen impact hebben op de ontkieming van de plantjes kunnen een aantal statistische testen worden uitgevoerd. Eerst wordt er een nieuwe dataset gemaak van de ontkieming per species per oplossing. <br>
+Om te kijken of de zoutoplossingen impact hebben op de ontkieming van de plantjes kunnen een aantal statistische testen worden uitgevoerd. Eerst wordt er een nieuwe dataset gemaak van de ontkieming per species per oplossing. <br> 
 ```{r}
 data_set_ontkieming <- data_set_plants %>%
     # Selecteer de juiste kolommen
