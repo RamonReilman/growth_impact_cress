@@ -130,6 +130,16 @@ Logboek afgemaakt en protocollen in een Rmd bestand gezet. <br>
 Uitgezocht hoe hyperlinks werken en deze in mijn logboek verwerkt. <br>
 Begonnen met dataverwerking in logboek. Te vinden in subtitel, [Verwerking 27 mei](#27mei)<br>
 
+## 29-05-2024
+Journalclub presentatie op school gehouden. <Br>
+De hele middag besteed aan een error in R, niet opgelost <br>
+
+## 30-05-2024
+De error in R opgelost, begonnen met dataverwerking in de wetenschappelijke paper <br>
+
+## 31-05-2024
+Verder met wetenschappelijker paper <br>
+Dataverwerking in paper afgemaakt <br>
 
 # Verwerking
 

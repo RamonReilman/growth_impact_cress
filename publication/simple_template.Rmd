@@ -23,6 +23,7 @@ output:
 
 # Introductie op deze template
 
+
 **Dit hoofdstuk niet in je eigen paper toevoegen!**
 
 Dit template bevat alle verplichte onderdelen van de paper die je moet schrijven. De titels van de secties mag je NIET wijzigen. Voor elk onderdeel is gegeven wat erin thuis hoort en hoe je dat kan aanpakken. Ook is er aangegeven hoeveel woorden er minimaal en maximaal in de sectie gebruikt mogen worden. In totaal mag je artikel niet minder dan 1000 en niet meer dan 2000 woorden bevatten.
@@ -40,6 +41,11 @@ knitr::opts_chunk$set(echo = FALSE) # Deze regel zorgt ervoor GEEN ENKELE chunk 
 # Laad alle gebruikte bibliotheken hier
 library(ggplot2)
 library(dplyr)
+library(pwr)
+library(conflicted)
+library(tidyverse)
+library(gridExtra)
+library(pwr)
 data_set_plants <- read.csv("../raw_data/raw_data_planten.csv")
 source("../analyse/scripts/fucntions.R")
 ```
@@ -97,7 +103,7 @@ Beschrijf wat je zelf in het kader van dit onderzoek hebt ontwikkeld aan methodo
 
 Deze sectie bevat tussen de 400-800 woorden.
 
-Om antwoord te krijgen op onze onderzoeks vraag is de data getest, verwerkt en gevisualiseerd met R.  
+Om antwoord te krijgen op onze onderzoeksvraag is de data getest, verwerkt en gevisualiseerd met R.  
 -R, versie: 4.4.0  
 -Rstudio, versie: 2024.04.  
 
@@ -115,6 +121,9 @@ Voor het testen van de data maken we gebruik van een aantal verschillende testen
 
 
 # Resultaten
+
+### Groei in cm
+
 Aan het einde van de datacollectie is de lengte en de kleur van de plaatjes bepaald van 800 plantjes verspreid over 2 soorten en 4 verschillende zout oplossingen. Omdat er met duplos gewerkt is is er eerst gekeken naar verschil tussen duplo's (figuur 1).
 ```{r boxplotduplo, warning=FALSE, fig.cap="spreiding van groei (cm) van de 2 soorten over elke oplossing. Deze grafiek geeft de spreiding van de groei van de plantjes weer voor elke oplossing en soort plant. waarbij de x-as de platen soort is en de y-as de groei in cm. Ook zijn de duplo's van elkaar gesplitst, zo kan het verschil tussen deze duplo's gevisualiseerd worden. Uitschieters zijn weergegeven als de zwarte punten."}
 # The palette with black:
@@ -180,23 +189,136 @@ res <- summary(model)
 ```
 Hieruit blijkt dat er geen significante interactie is tussen zout oplossing en planten soort. (p = 0.372 > 0.05).
 De planten soort en zout oplossing hebben individueel wel een significante impact op de groei van planten (p-soort = 3.56e-15 & p-oplossing = 2e-16 < 0.05).
-  
-Presenteer je resultaten in een logische volgorde. Beschrijf wat er te zien is en werk toe naar het beantwoorden van je doelstelling. Beschrijf indien mogelijke de logica van de keuze voor opeenvolgende experimenten. In elke paragraaf worden de feitelijke conclusies gegeven (bv ‘de vergelijking laat zien dat het gemiddelde van groep A significant afwijkt van het gemiddelde van groep B, met een p-waarde van … Dit komt niet overeen met de in de literatuur (REF) beschreven waardes.’)
 
-Gebruik zo veel mogelijk figuren om je informatie uit je resultaten over te brengen. Gebruik tabellen wanneer figuren minder geschikt zijn. In de tekst worden figuren en tabellen geïntroduceerd, besproken en de belangrijkste aspecten toegelicht.
+### Ontkieming
+Eerst wordt er een histogram gemaakt om te kijken of er statistische testen uitgevoerd moeten worden. <br>
 
-Voorzie je figuren van een nummer en een beschrijvende titel. Zorg voor correcte as-labels (eenheid en grootheid), legenda en bijschrift. Hier is een voorbeeldje.
+```{r}
+nw_oplossing <- data_set_plants %>%
+    filter(oplossing == rep(c(0, 0.03, 0.06, 0.09), each=50))
 
-```{r plot-demo, warning=FALSE, fig.cap='Ozon concentraties geplot tegen zonlicht intensiteit, vergeleken over verschillende maanden. Lineaire modellen (blauwe lijnen) en confidence intervals (grijze gebieden) zijn hieraan toegevoegd.'}
-airquality$Month_f = factor(airquality$Month, levels = 5:9, labels = month.abb[5:9])
-ggplot(data = airquality, mapping = aes(x = Solar.R, y = Ozone)) +
-    geom_smooth(method = "lm", formula = y ~ x) +
-    geom_point(aes(color = Month_f), alpha = 0.7) + 
-    facet_wrap(. ~ Month_f) +
-    ylab("Ozone (ppb)") +
-    xlab("Solar radiation (lang)") +
-    theme(legend.title = element_blank())
+nw_oplossing %>%
+    ggplot(aes(x = factor(oplossing), fill = factor(ontkiemt))) +
+    geom_bar(position = "dodge") + 
+    facet_wrap(~ species) + 
+    labs(title = "Ontkiemde zaadjes",
+         subtitle = "In zoutoplossing 0% - 0.09%",
+         x = "Oplossing", 
+         y = "Aantal ontkiemt") +
+    scale_fill_brewer(palette = "YlGn") +
+    theme_minimal()
+
 ```
+In de barplot is te zien dat bijna alles ontkiemd is, om te kijken of hier nog significant verschil in zit worden er een aantal statistische testen uitgevoerd.
+
+Om te kijken of de zoutoplossingen impact hebben op de ontkieming van de plantjes kunnen een aantal statistische testen worden uitgevoerd. Eerst wordt er een nieuwe dataset gemaak van de ontkieming per species per oplossing. <br>
+```{r}
+data_set_ontkieming <- data_set_plants %>%
+    # Selecteer de juiste kolommen
+    select(ontkiemt, species, oplossing) %>%
+    mutate(species_oplossing = fct_cross(species, as.character(oplossing), sep = "-"))
+head(data_set_ontkieming)
+```
+Vervolgens wordt daarvan een tabel gemaakt waarin het aantal ontkiemde zaadjes per soort en per zoutoplossing uitgezet wordt.<br>
+```{r}
+ontkieming_table <- table(data_set_ontkieming$species,data_set_ontkieming$oplossing + data_set_ontkieming$ontkiemt)
+ontkieming_table
+```
+
+Vervolgens wordt gecontroleerd of alle waarden zijn meegenomen doormiddel van de sum functie.<br>
+```{r}
+addmargins(ontkieming_table)
+```
+
+Om het verschil te kunnen zien tussen de 2 soorten en n ontkiemingen wordt een 2-way chi-square test uitgevoerd. <br>
+```{r}
+# 2-way chisq uitvoeren om verschil te kunnen testen
+(res <- chisq.test(x = ontkieming_table))
+cat(sprintf("De p-waarde is groter dan 0.05: %.2f\n", res$p.value))
+```
+Omdat de p-waarde groter is dan 0.05 is er geen significant verschil van ontkieming tussen de twee plantensoorten op basis van alle zoutoplossingen. <br>
+
+Om te weten of het een relevant verschil is, moet de effectsterkte berekend worden.
+Voor proportie wordt Cohen's M gebruikt.<br>
+```{r}
+chi2 <- res$statistic
+N <- sum(ontkieming_table)
+W <- sqrt(chi2 / N)
+df <- res$parameter
+cat(sprintf("Cohens W: %.3f", W))
+```
+Met een effectgrootte van 0.075 is er nagenoeg geen verband tussen de invloed op ontkiemde zaadjes tussen plant, en zoutoplossingen. <br>
+
+Om te controleren of deze conclusie, gebaseerd op statistiek, correct is wordt de power berekend.<br>
+```{r}
+alpha <- 0.05
+pwr.chisq.test(w=W, N=N, df=df, sig.level = alpha)
+```
+De power is 0.29. Daarmee kunnen we zeggen dat onze conclusie, er is geen sigfnicant verschil gevonden van het aantal ontkiemde zaadjes tussen de 2 planten over de verschillende oplossingen, een 29% kans heeft om correct te zijn.<br>
+
+Hoeveel metingen hebben we nodig om 0.8 power te krijgen, met een W van 0.1?<br>
+```{r}
+pwr.chisq.test(w = 0.1, df = df, sig.level = 0.05, power = 0.80)
+```
+Om een correcte statistische uitkomst te krijgen zouden er dus 1194 planten geplant moeten worden, zo'n 600 per planten soort. <br>
+
+### Aantal blaadjes
+
+Om te kijken hoe de zoutoplossingen impact hebben op de groei van het aantal blaadjes is dit uitgezet in onderstaande barplot. <br>
+```{r}
+data_set_plants %>%
+    aggregate(blaadjes ~ species + batch + oplossing, FUN = sum) %>%
+    #fct_cross maakt nieuwe kolom en combineert hetgene wat erin staat
+    mutate(species_batch = fct_cross(species, as.character(batch), sep = "_")) %>%
+    #Fill werkt hier als een split functie voor de batches
+    ggplot(aes(x=oplossing,y=blaadjes, fill=species_batch)) +
+    
+    labs(title="Barplot sum van blaadjes", 
+         subtitle = "Voor 0%-0.09% zout", 
+         y="Aantal blaadjes", 
+         x="Oplossing zout") +
+    
+    geom_bar(position = "dodge", stat = "sum",
+             color="black", size=0.5) +
+    
+    #De scalefillbrewer functie is een thema functie 
+    scale_fill_brewer(palette = "Dark2") +
+    theme_minimal() 
+```
+De alfalfa heeft minder blaadjes dan de tuinkers, verder is te zien dat alleen alfalfa in oplossing 0.03% afwijkt qua bladgroei.
+
+### Kleur van blaadjes
+
+```{r}
+# Voorbereiden data
+combined_df <- data_set_plants %>%
+    filter(oplossing %in% c(0, 0.03, 0.06, 0.09)) %>%
+    mutate(oplossing = factor(oplossing)) # oplossingen omzetten naar factor
+
+
+# Goede kleuren toevoegen
+kleuren <- c("licht_groen" = "lightgreen", 
+             "donker_groen" = "darkgreen", 
+             "groen" = "forestgreen", 
+             "geel_groen" = "yellowgreen", 
+             "bruin" = "brown", 
+             "geen" = "gray", 
+             "wit" = "white", 
+             "wit_groen" = "palegreen" ,
+             "geel" = "yellow")
+
+# Barcharts plotten
+ggplot(combined_df, aes(x=oplossing, fill=bladkleur)) +
+    geom_bar(position = "stack") +
+    scale_fill_manual(values = kleuren) +
+    labs(title="Bladkleur",
+         x="Oplossing",
+         y="Aantal plantjes") +
+    theme_minimal() + 
+    facet_wrap(species~batch)
+
+```
+In deze stacked barchart is te zien welke bladkleur er gemeten is per plant, per batch, per zoutoplossing. Wat opvalt is dat alfalfa batch 1 en alfalaf batch 2 nagenoeg geen bladkleur hebben. 
 
 
 
@@ -245,6 +367,7 @@ Voeg aan het eind een woord-telling in:
 #devtools::install_github("benmarwick/wordcountaddin", type = "source", dependencies = TRUE, force = TRUE)
 wordcountaddin:::text_stats()
 ```
+
 
 # Referenties
 
