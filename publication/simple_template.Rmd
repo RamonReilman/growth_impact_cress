@@ -83,7 +83,7 @@ De introductie bevat tussen de 400-800 woorden.
 
 
 # Materialen en Methoden
-Github repo: https://github.com/RamonReilman/blog_ish
+Github repo: https://github.com/RamonReilman/growth_impact_cress
 Materialen en Methoden beschrijft verhalend wat je hebt gebruikt (data, tools) en wat je hebt gedaan (ontwikkelde methodes). **_Het is essentieel dat dit hoofdstuk je onderzoek reproduceerbaar en valideerbaar maakt_**. Verwijs bij de start van dit hoofdstuk naar je code repository (meestal je github link).
 
 Neem referenties op!
@@ -103,9 +103,7 @@ Om antwoord te krijgen op onze onderzoeks vraag is de data getest, verwerkt en g
 -R, versie: 4.4.0  
 -Rstudio, versie: 2024.04.1 Build 748
 
-Om de data makkelijk en mooi te visualiseren, maar ook de data te verwerken is de library genaamd tidyverse:2.2.0.  
-tidyverse is een collectie van verschillende libraries die data verwerking en visualisatie een stuk makkelijker maakt.
-Ook is gebruik gemaakt van Conflicted:1.2.0. Deze library veranderd de manier waarop R met conflicted libraries omgaat.  
+Voor het manipuleren en visualiseren is gebruikt gemaakt van dplyr:1.1.4 en ggplot2:3.5.1. dplyr is een library die gebruikt is om data te manipuleren, verwerking, selecteren etc. Het verweken van data is een stuk gemakkelijker via deze lirbary, en werkt hand in hand met ggplot2. ggplot2 is gebruikt om figuren te maken. De library zorgt ervoor dat er gemakkelijk en snel, mooie duidelijke figuren gemaakt kunnen worden.
 
 In de logboeken is gebruik gemaakt van pwr:1.3.0 en gridExtra:2.3. pwr kan de power van een test berekenen. 
 Voor dit onderzoek is pwr ook gebruikt om te kijken wat de sample size moet zijn voor het onderzoek. 
@@ -115,14 +113,17 @@ De gebruikte workflow staat weergegeven in de aankomende flowchart.
 ![Caption flowchart.](../analyse/imgs/flowchart_correct.drawio.pdf)  
 *flowchart 1, de workflow van het analyseren van de data.*  
 
-De gebruikte workflow was relatief simpel, we hebben een hoofdvraag. En om die te beantwoorden moesten we kijken naar verschillende variabelen van de plant. Groei, kleur, aantal blaadjes, etc. Dus voor elke variabele was een nieuwe vraag. Deze vragen hebben we verwerkt door de data eerst te manipuleren en daarna visualiseren. Vervolgens is er gekeken naar deze visualisaties om te kijken of er opvallende nummers waren, of mogelijk zelfs duidelijke verschillen tussen factoren. Als er iets opvallends te zien was in de visualisatie zijn er vervolgens statistische testen uitgevoerd op de data. Dit is gedaan om te controleren of er een statistisch signficant verschil zit tussen de invloed op de variabele tussen 1 of meer factoren.  
+De gebruikte workflow was relatief simpel, we hebben een hoofdvraag. En om die te beantwoorden moesten we kijken naar verschillende variabelen van de plant. Groei, kleur, aantal blaadjes, etc. Dus voor elke variabele was een nieuwe vraag. Deze vragen hebben we verwerkt door de data eerst te manipuleren en daarna visualiseren. Vervolgens is er gekeken naar deze visualisaties om te kijken of er opvallende nummers waren, of mogelijk zelfs duidelijke verschillen tussen factoren. Als er iets opvallend te zien was in de visualisatie zijn er vervolgens statistische testen uitgevoerd op de data. Dit is gedaan om te controleren of er een statistisch significant verschil zit tussen de invloed op de variabele tussen 1 of meer factoren.  
 Als de gestelde vraag niet beantwoord was, begonnen we overnieuw. Mogelijk met een net wat andere vraag. In het geval dat de vraag beantwoord is, is de power van de test berekend. En is er gekeken naar de volgende stap: Zijn er nog meer vragen? Of kan er een conclusie geformuleerd worden?  
 
-Voor het testen van de data maken we gebruik van een aantal verschillende testen:  
--2 way anova test voor de groei van de plantjes.  
+Voor het testen van de data maken we gebruik van een aantal verschillende testen.  
+Dit omdat we verschillende soorten data hebben. Er is gebruik gemaakt van een 2-way t-test. De t-test wordt gebruikt om het verschil te vinden tussen 2 datasets, met 1 factor die verschillend is. Deze is gebruikt voor het testen of er een significant verschil is tussen 2 duplo's. De effect sterkte tussen de 2 duplo's te berekenen is gedaan door cohen's d te berekenen. 
 -2 way chisq test voor ontkieming van de zaadjes.  
 
 Voor het onderzoek zijn ook een paar functies gemaakt in R, deze zijn te vinden in: [Functies](../analyse/scripts/fucntions.R)  
+De volgende functies zijn gemaakt en gebruikt:  
+-duplo_test, een functie die gemakkelijk het verschil tussen de 2 duplo's test.  
+-cohens_d_duplo, een functie die cohen's d berekend voor 2 gegeven duplo's.  
 
 # Resultaten
 ## Duplo's
