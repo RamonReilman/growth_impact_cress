@@ -2,13 +2,13 @@
 title: De impact van zout op de groei van kiemgroenten
 
 author: |
-  | Ramon Reilman $^1$, Janine Postmys $^1$
+  | Ramon Reilman $^1$, Janine Postmus $^1$
   | $^1$Hanze 
 
 lang: nl # dit zorgt er voor dat "abstract" "samenvatting" gaat heten
 
 abstract: |
-  Geef hier je samenvatting in maximaal 150 woorden. Het is een samenvatting van het hele artikel; niet alleen de resultaten! Begin met het belang van dit onderzoek, dan hoe het onderzoek is aangepakt en de belangrijkste resultaten en eindig met de implicaties ervan voor de wetenschap/de maatschappij. Neem nooit figuren of tabellen op in de samenvatting.
+ Het belang van dit onderzoek is om te kijken hoe verschillende kiemgroenten reageren op licht verhoogde zoutconcentraties in   de groeibodem, dit is belangrijk omdat de zeespiegel stijgt en hierdoor de grond geleidelijk aan zouter wordt. We hebben 400   keer tuinkers, en 400 keer alfalfa geplant en hebben deze gevoed met verschillende oplopende zoutconcentraties. Hieruit blijkt  dat een oplopende zoutconcentratie een significant effect heeft op de groei van beide planten. Omdat de verzamelde data niet   volledig betrouwbaar is zal dit onderzoek opnieuw uitgevoerd moeten worden om met zekerheid te kunnen zeggen dat de            zoutconcentraties effect heeft.
 
 bibliography: simple_template.bib # naam van je .bib file. Deze moet hetzelfde zijn als je Rmd bestandsnaam
 
@@ -21,20 +21,6 @@ output:
         in_header: include_tex_header.tex #will include rules for linespacing and figure floating
 
 ---
-
-# Introductie op deze template
-
-**Dit hoofdstuk niet in je eigen paper toevoegen!**
-
-Dit template bevat alle verplichte onderdelen van de paper die je moet schrijven. De titels van de secties mag je NIET wijzigen. Voor elk onderdeel is gegeven wat erin thuis hoort en hoe je dat kan aanpakken. Ook is er aangegeven hoeveel woorden er minimaal en maximaal in de sectie gebruikt mogen worden. In totaal mag je artikel niet minder dan 1000 en niet meer dan 2000 woorden bevatten.
-
-Gebruik de [wordcount plugin](https://github.com/benmarwick/wordcountaddin) om het aantal woorden te tellen van een sectie, en voeg aan het einde een totaal in (zoals al aanwezig in deze template).
-
-
-## Setup *Chunk* {#setup-chunk}
-
-Aan het begin van je paper kan je een zogenaamde *setup chunk* toevoegen. Hierin kan je het gedrag van `knitr` configureren en de bibliotheken laden die je in je code gebruikt. Hieronder is een voorbeeld van zo'n *setup chunk*.
-
 ```{r setup, message=FALSE, warning=FALSE, include=FALSE}
 knitr::opts_chunk$set(out.width = '100%', dpi=300) # configuratie voor figuur grootte en resolutie
 knitr::opts_chunk$set(echo = FALSE) # Deze regel zorgt ervoor GEEN ENKELE chunk getoond wordt! 
@@ -46,44 +32,18 @@ library(forcats)
 data_set_plants <- read.csv("../raw_data/raw_data_planten.csv")
 ```
 
-**NB** Gebruik altijd een naam voor iedere chunk. Dat maakt het *debuggen* van problemen bij het *knitten* van je RMarkdown document veel gemakkelijker.
-
-## Code "*Chunks*" wel of niet tonen
-
-In principe laat je code nooit zien in een publicatie, behalve als de code expliciet besproken wordt en een essentieel onderdeel vormt van je werk. Je kan code gemakkelijk verbergen door gebruik te maken van de optie `echo=FALSE` in de chunk header. Ook storende output kan je eventueel verbergen door gebruik te maken van `message=FALSE` of `warning=FALSE`. Eventueel kan je all chunks in een keer verbergen door dit in je *setup chunk* te plaatsen: `knitr::opts_chunk$set(echo = FALSE)`.
-
-## Referenties / citeren {#refs}
-
-Voor alle secties geldt dat je referenties kan gebruiken naar andere publicaties (externe referenties ofwel citatie) of naar secties, tabellen of figuren in je eigen publicatie (interne referenties). Voor externe referenties gebruik je deze notatie: `[@<ref_key]`, bijvoorbeeld `[@xie2013ddrk]`. Hier gebruik ik hem echt: [@xie2013ddrk]. De *processing engine* zal in het bibliografie bestand zoals opgegeven in de ***yaml header*** van dit bestand (`simple_template.bib`) zoeken naar de referentie met deze naam en vervolgens de hele referentie onderaan in het document opnemen. Kijk vooral in het `.bin` document hoe je deze kan gebruiken. Er zijn voor verschillende soorten bronnen verschillende @annotaties; zie in de `.bib` voor enkele voorbeelden.
-
-Interne referenties naar tabellen, figuren, equations en secties kan je maken door deze syntax te gebruiken: `\@ref(fig:<figuur-naam>)` waarbij `<figuur-naam>` de naam is van het chunk waarin de figuur gemaakt wordt. Hetzelfde werkt voor tabellen: `\@ref(tab:<tabel-naam>)`. Een sectie kan je labelen door er `{#label-naam}` achter te zetten. Bijvoorbeeld, dit `\@ref(setup-chunk)` linkt terug naar de sectie over de setup chunk in sectie [\@ref(setup-chunk)].
-
-Zie ook de hoofdstukken in het geweldige book over [bookdown](https://bookdown.org/yihui/bookdown/) [hier](https://bookdown.org/yihui/bookdown/cross-references.html) en [hier](https://bookdown.org/yihui/rmarkdown-cookbook/cross-ref.html)
-
-Voor de rest: GIYF!
-
-## Taalgebruik
-
-Wetenschappelijk taalgebruik is heel anders dan dagelijks communiceren - laat staan de taal die in online wordt gebruikt in bv Whatsapp of Instagram! Wetenschappelijk taalgebruik is formeel, onpersoonlijk en  ondubbelzinnig.
-Een klein voorbeeld: Je schrijft nooit "ik heb de verandering van zoutconcentratie bij langduring huilen onderzocht" maar "de verandering van zoutconcentratie in de tijd bij aanhoudend huilen is onderzocht" 
-
-Natuurlijk moeten spelling en grammatica (zo goed als) foutloos zijn! RStudio heeft redelijk goede spellingscontrole, ook voor Nederlands (alhoewel je deze misschien wel apart moet installeren). Gebruik deze!
-
-
-Alle volgende onderdelen moet je opnemen in je eigen artikel. Let vooral ook op het minimu
-
 # Introductie
 
-Dit onderzoek is opgesteld voor een opdracht voor de Hanze in Groningen door twee studenten die de opleiding bio-informatica studeren. In het kader van leren onderzoek doen en resultaatverwerking in programmeertaal R is dit onderzoek tot stand gekomen. Er is gekozen om de impact van zout op de groei van kiemgroenten te onderzoeken. Er is namelijk wel vaker onderzoek gedaan naar de impact van zout op plantengroei (zie bron https://www.bbc.co.uk/bitesize/guides/zqdhjty/revision/6), maar nog niet eerder naar de impact op kiemgroenten. Omdat kiemgroenten gekweekt kunnen worden als voedsel is het belangrijk om te weten wat een verhoogde zoutconcentratie voor impact heeft. Zo kan er bijvoorbeeld gekeken worden naar welke groeilocaties gunstig zouden zijn en welke groeilocaties minder gunstig zouden zijn. <br>
+Dit onderzoek is opgesteld voor een opdracht voor de Hanze in Groningen door twee studenten die de opleiding bio-informatica studeren. In het kader van leren onderzoek doen en resultaatverwerking in programmeertaal R is dit onderzoek tot stand gekomen. Er is gekozen om de impact van zout op de groei van kiemgroenten te onderzoeken. Er is namelijk wel vaker onderzoek gedaan naar de impact van zout op plantengroei (zie bron https://www.bbc.co.uk/bitesize/guides/zqdhjty/revision/6), maar nog niet eerder naar de impact op kiemgroenten. Omdat kiemgroenten gekweekt kunnen worden als voedsel is het belangrijk om te weten wat een verhoogde zoutconcentratie voor impact heeft. Omdat ze zeespiegel behoorlijk aan het stijgen is heeft dit ook impact op de grond waar bloemen, planten en fruit/groente gekweekt wordt. Door dit onderzoek uit te voeren kan er bijvoorbeeld gekeken worden naar welke groeilocaties gunstig zouden zijn en welke groeilocaties minder gunstig zouden zijn. (bron https://www.nationalgeographic.nl/de-stijging-van-de-zeespiegel-uitgelegd) <br>
 
 Er is onderzocht wat goede zoutconcentraties zouden kunnen zijn. Het experiment is eenmaal mislukt met te hoge zoutconcentraties, namelijk 0%, 1%, 3%, 9%. Omdat de groep van 1% nog wel groeide is er gekozen om de uiteindelijke concentraties tot maximaal 0.1% te kiezen, namelijk; 0%, 0.03%, 0.06%, 0.09%. Op deze manier is er zekerheid gecreërd dat alles zou groeien, maar dat er alsnog wel een verschil gezien zou gaan worden. <br>
 
-### Hypothese
-- De onderzoeksvraag is: Wat is de invloed van verschillende zoutconcentraties op de groei van tuinkers en alfalfa? <br>
-- Nulhyopthese: Er is geen invloed van verschillende zoutconcentraties op de groei van tuinkers en alfalfa. <br>
-- Hypothese: Een oplopende zoutconcentratie zal een negatieve invloed hebben op de groei van tuinkers en alfalfa. <br>
+Hypothese
+- De onderzoeksvraag is: Is er een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie?<br>
+- Nulhyopthese: Er is geen significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie <br>
+- Hypothese: Er is een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie.<br>
 
-### Plan van aanpak
+Plan van aanpak
 De plantjes worden allemaal op 1 locatie ingezaaid op keukenpapier in plastic petrischalen. (Zie protocol ...) Vervolgens worden de plantjes gedurende een periode van 6 dagen continue nat gehouden door de verschillende zoutoplossingen. (Zie protocol ...). Na deze 6 dagen kan worden beslist om de plantjes nog 1 of 2 dagen langer te laten groeien als de groei nog onvoldoende is om goed te kunnen meten, anders wordt op dag 7 de data verzameld. Zorg ervoor dat de bodem nog steeds nat is tot moment van data verzamelen. Na het verzamelen van alle data wordt dit verwerkt in R. Door middel van verschillende plotjes en statistische testen kan er uiteindelijk een conclusie getrokken worden of de hypothese wordt aangenomen of niet. 
 
 
@@ -138,7 +98,7 @@ nw_oplossing %>%
 ```
 In figuur 1 is te zien dat bijna alles ontkiemd is, om te kijken of hier nog significant verschil in zit worden er een aantal statistische testen uitgevoerd.<br>
 
-Eerst wordt er een nieuwe dataset gemaak van de ontkieming per soort en oplossing. <br> 
+
 ```{r, include=FALSE}
 data_set_ontkieming <- data_set_plants %>%
     # Selecteer de juiste kolommen
@@ -171,6 +131,7 @@ cat(sprintf("De p-waarde is groter dan 0.05: %.2f\n", res$p.value))
 
 
 ```{r, include=FALSE}
+# Effectgrootte berekenen
 chi2 <- res$statistic
 N <- sum(ontkieming_table)
 W <- sqrt(chi2 / N)
@@ -180,22 +141,21 @@ cat(sprintf("Cohens W: %.3f", W))
 
 
 ```{r, include=FALSE}
+# Power berekenen
 alpha <- 0.05
 pwr.chisq.test(w=W, N=N, df=df, sig.level = alpha)
 ```
 
-
-```{r, include=FALSE}
-pwr.chisq.test(w = 0.1, df = df, sig.level = 0.05, power = 0.80)
-```
-
-Omdat de p-waarde, van de two-way chi-square test met 0.71 groter is dan 0.05 is er geen significant verschil van ontkieming tussen de twee plantensoorten op basis van alle zoutoplossingen. Vervolgens is de effectsterkte berekend door middel van Cohen's M om erachter te komen of het een relevant verschil is. Met een effectgrootte van 0.075 is er nagenoeg geen verband tussen de invloed op ontkiemde zaadjes tussen plant, en zoutoplossingen. Om te controleren of deze conclusie correct is wordt de power berekend met de chi-square test. De power is 0.29 (29%). Daarmee kan gezegd worden dat de vorige testen een 29% kans hebben om correct te zijn. Om te kijken hoeveel metingen er zouden moeten worden uitgevoerd om minimaal 0.8 power (80%) te krijgen is er een power chi-square test uitgevoerd, hieruit komt dat er 1194  planten zouden moeten worden geplant om een power van 0.8 (80%) te krijgen. 
+Omdat de p-waarde, van de two-way chi-square test met 0.71 groter is dan 0.05 is er geen significant verschil van ontkieming tussen de twee plantensoorten op basis van alle zoutoplossingen. <br>
+Vervolgens is de effectsterkte berekend door middel van Cohen's M om erachter te komen of het een relevant verschil is. Met een effectgrootte van 0.075 is er nagenoeg geen verband tussen de invloed op ontkiemde zaadjes tussen plant, en zoutoplossingen. <br>
+Om te controleren of deze conclusie correct is wordt de power berekend met de chi-square test. De power is 0.29 (29%). Daarmee kan gezegd worden dat de vorige testen een 29% kans hebben om correct te zijn. <br>
+ 
 
 
 ### Aantal blaadjes
 
 Om te kijken hoe de zoutoplossingen impact hebben op de groei van het aantal blaadjes is dit uitgezet in onderstaande barplot. <br>
-```{r, fig.cap="Aantal blaadjes per batch per zoutoplossing. Deze barplot geeft het aantal blaadjes per plant per zoutoplossing weer. Op de x-as de zoutoplossingen, op de y-as het aantal blaadjes", echo=FALSE}
+```{r, fig.cap="Aantal blaadjes per batch per zoutoplossing. Deze barplot geeft het aantal blaadjes per plant per zoutoplossing weer. Op de x-as de zoutoplossingen, op de y-as het aantal blaadjes", warning=FALSE}
 data_set_plants %>%
     aggregate(blaadjes ~ species + batch + oplossing, FUN = sum) %>%
     #fct_cross maakt nieuwe kolom en combineert hetgene wat erin staat
@@ -216,7 +176,63 @@ data_set_plants %>%
     facet_wrap(species~batch) +
     theme_minimal() 
 ```
-In figuur 2 is te zien dat de alfalfa minder blaadjes heeft dan de tuinkers, verder is te zien dat alleen alfalfa in oplossing 0.03% afwijkt qua bladgroei.
+In figuur 2 is te zien dat de alfalfa minder blaadjes heeft dan de tuinkers, verder is te zien dat alleen alfalfa in oplossing 0.03% afwijkt qua bladgroei. 
+
+```{r, include=FALSE}
+# Dataset maken voor de tests
+data_set_blaadjes <- data_set_plants %>%
+    # Selecteer de juiste kolommen
+    select(blaadjes, species, oplossing) %>%
+    # Paste wordt gebruikt om species en oplossing samen te voegen
+    # Factor zet een vector om naar een categorie
+    mutate(species_oplossing = factor(paste(as.character(species), as.character(oplossing), sep = "-")))
+
+```
+
+
+```{r, include=FALSE}
+# Tabel maken van soort en oplossing van data_set_blaadjes
+blaadjes_table <- table(data_set_blaadjes$species,data_set_blaadjes$oplossing + data_set_blaadjes$blaadjes)
+
+```
+
+
+```{r, include=FALSE}
+# Controleren of alle waarden zijn meegenomen door alles op te tellen
+addmargins(blaadjes_table)
+```
+
+
+```{r, include=FALSE}
+# 2 way anova uitvoeren
+model <- aov(blaadjes ~ species+oplossing + species*oplossing, data = data_set_plants)
+(res <- summary(model))
+```
+
+```{r, include=FALSE}
+# Effectsterkte berekenen met fishers eta
+( SS.A <- res[[1]]$Sum[1] )
+( SS.tot <- sum(res[[1]]$Sum) )
+eta2 <- SS.A / SS.tot
+cat(sprintf("Effectsterkte: eta2 = %.3f\n",eta2))
+```
+
+```{r, include=FALSE}
+# Effectsterkte met Cohen's f
+f <- sqrt(eta2/(1-eta2))
+cat(sprintf("Effectsterkte: Cohen's f = %.3f",f))
+```
+
+```{r, include=FALSE}
+# Power berekenen
+a <- 3   # aantal groepen/levels
+n.c <- 7  # aantal metingen per groep/level
+alpha <- 0.05
+pwr.anova.test(k = a, n = n.c, f = f, sig.level = alpha)
+```
+Er is een 2-way anova test uitgevoerd om te kijken of de P-waarde goed is. De P waarde is 0.0894, dit betekent dat het effect op de interactie tussen de blaadjes en species en zoutoplossing minimaal significant is. <br>
+Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). Dit houdt in dat er een sterk effect is van de factoren species en oplossing op het aantal blaadjes. 
+
 
 ### Kleur van blaadjes
 Om te kijken wat de invloed van zoutoplossingen is op de groei van de kiemgroenten, is de kleur van de blaadjes verzameld als data. 
@@ -250,15 +266,22 @@ ggplot(combined_df, aes(x=oplossing, fill=bladkleur)) +
     theme_minimal() + 
     facet_wrap(species~batch)
 ```
-In figuur 3 is te zien welke bladkleur er gemeten is per plant, per batch, per zoutoplossing. Wat opvalt is dat alfalfa batch 1 en alfalaf batch 2 nagenoeg geen bladkleur hebben. 
-
-
-Geef tabellen bovenaan een titel en bijschrift die de inhoud beschrijft en onderaan voetnoten die kolomnamen of specifieke waardes verklaren.
-
-Deze sectie bevat tussen de 600-1200 woorden.
-
+In figuur 3 is te zien welke bladkleur er gemeten is per plant, per batch, per zoutoplossing. Wat opvalt is dat alfalfa batch 1 en alfalfa batch 2 nagenoeg geen bladkleur hebben.<br> 
 
 # Discussie en Conclusies
+
+Om te beginnen hebben we gekeken naar alle duplo's. Er zijn testen gedaan op groei in cm, met eerst een boxplot (figuur .) waarin het verschil is te zien met groei in cm. Hier is uitgekomen dat er vier duplo's afwijken van elkaar. Vervolgens is er een T-test uitgevoerd op deze afwijkingen. Uit de T-test kwam bij elke duplo een P-waarde van onder de 0.05 (5%). Hieruit blijkt dat er een significant verschil is. Hierop is de effectsterkte berekend waaruit kwam dat voor tuinkers en alfalfa 0.03% beide rond de 0.85(85%) liggen. Dit betekend dat er een groot verschil is in deze duplo's. Tuinkers 0.06% heeft een effectsterkte van 0.68(68), dit betekend dat er een matig tot groot verschil is. Voor alfalfa 0.0% is de effectsterkte 0.5, dit betekend dat er een matig verschil is. Als laatste is de power berekend, hier kwam uit dat tuinkers 0.03%  een power van 0.79(79%) heeft, alfalfa 0.03% heeft een power van 0.83(83%), tuinkers 0.06% heeft een power van 0.061(61%), alfalfa 0.0% heeft een power van 0.36(36%). Omdat de tuinkers 0.03% en de alfalfa 0.03% beide een power hebben van 80% kan er met zekerheid gezegd worden dat de uitgevoerde t-test betrouwbaar is en dat er dus een significant verschil zit in deze duplo's. Omdat de tuinkers 0.06% en alfalfa 0.0% een power hebben van 61% en 36% kan de t-test niet als betrouwbaar worden geacht dus is het niet zeker of er een significant verschil is. De vraag die hieruit voortkomt is, hoe kan het dat er 4 duplo's afwijken terwijl alle plantjes continue dezelfde behandeling hebben gehad? Deze vraag kunnen wij niet beantwoorden. De plantjes zijn gegroeid op 1 locatie en hebben allemaal dezelfde hoeveelheid water, met hun eigen zoutconcentratie, gehad. De rest van de resultaten worden hierdoor beïnvloed in betrouwbaarheid.  
+
+We hebben de groei in cm gemeten en deze data is verwerkt in twee verschillende histogrammen. (figuur . & figuur .) Hieruit blijkt (en figuur .) dat er een verschil zichtbaar is tussen de plantensoort en zoutoplossingen. Daarom is er een 2-way anova test uitgevoerd waaruit een p-waarde van 2e-16 is uitgekomen. Er is dus een interactie tussen plantensoort en zoutoplossing, dit betekend dat er een verschil is tussen hoe de alfalfa reageert op het zout en hoe de tuinkers reageert op het zout. Hierop is de effectsterkte berekend, dit is gedaan voor de interactie en de 2 factoren (de planten en oplossing). Hierbij heeft de interactie (tussen de soort en oplossing) een effectsterkte van 0.13 en de oplossing heeft een effectsterkte van 0.2. Dit betekend dat beide waarden een sterk effect hebben op de groei van planten. De soort plant heeft een effectsterkte van 0.06 en heef hierdoor een matig effect. De power is ook weer berekend en deze is 0.96(96%). Dat betekend dat er met zekerheid gezegd kan worden dat de 2-way anova betrouwbaar is en daardoor kan gesteld worden dat er een significant verschil is op de interactie tussen soort en zoutoplossing.  
+
+Er is gekeken naar de ontkieming van de zaadjes. Er is een barplot gemaakt (figuur .) en er is niet echt een significant verschil zichtbaar. Hierop is er een two-way chi-square test uitgevoerd. Hieruit is een p-waarde van 0.71 en dat betekend dat de soort en oplossing geen significant verschil hebben op de ontkieming. Er is vervolgens de effectsterkte berekend hier is 0.075 uitgekomen en dat betekend dat nagenoeg geen verband is tussen de ontkieming per soort per zoutoplossing. Vervolgens is de power berekend en die is 0.29(29%). Er kan dus geconcludeerd worden dat de two-way chi-square test niet betrouwbaar is en dat er daarom niet met zekerheid gezegd kan worden of er een significant verschil is tussen de soort en oplossing op de ontkieming.  
+
+Er is gekeken naar de hoeveelheid blaadjes, hier is een barplot voor gemaakt (figuur .) en hierin is te zien dat de alfalfa 0.03% afwijkt van de rest. Er is een 2-way anova test uitgevoerd om te kijken of de P-waarde goed is. De P waarde is 0.0894, dit betekent dat het effect op de interactie tussen de blaadjes en soort en zoutoplossing minimaal significant is. Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). 
+
+Er is als laatste nog gekeken naar bladkleur, dit is uitgezet in een stacked barchart. (figuur .) Hierin is grijs de kleur voor als er geen blaadje aanwezig is. Dit kan zijn omdat het zaadje niet ontkiemd was of omdat er nog geen blaadjes aan zaten. Te zien is dat de alfalfa 0.03% afwijkt qua bladkleur. Dat de alfalfa 0.03% afwijkt is iets dat continue terugkomt. Deze batch is dus niet goed gegroeid om een voor ons onbekende reden. Er was een plan voor statistische testen, echter gaat de statistiek heel ver en hebben wij het opgegeven omdat er geen reactie terugkwam van de desbetreffende docent en de wiskunde voor ons niet te begrijpen is.  
+
+We komen terug op de onderzoeksvraag: Is er een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie? Het antwoord is dat we kunnen zeggen dat er een significant verschil is te zien op de groei tussen de tuinkers en alfalfa, echter is de data niet betrouwbaar genoeg om de hypothese met zekerheid te kunnen aannemen. Hiervoor zou het onderzoek nogmaals uitgevoerd moeten worden met voldoende planten. Daarom hebben we een power test gedaan en er zouden minimaal 1194 planten gebruikt moeten worden om een effectsterkte van 80% te creeëren.
+
 
 Formuleer je conclusie door eerst in te zoomen op je eigen data en daarna uit te zoomen. Zoom in door je resultaten samen te vatten. Zoom uit om de waarde van je werk te beoordelen, door je bijvoorbeeld de volgende vragen te stellen: 
 
