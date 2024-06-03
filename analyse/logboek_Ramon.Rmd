@@ -9,9 +9,12 @@ output:
 
 # Onderzoeksopzet
 
-### Intro
-Janine haar [logboek](./logboek_Janine.html)  
+## Introductie
 
+In dit logboek is het verloop van mijn onderzoek te lezen. Dit onderzoek heb ik uitgevoer met Janine Postmus in periode 4, leerjaar 1, van de opleiding bio-informatica. <br>
+In dit onderzoek gaan we kijken naar de invloed van verschillende zoutconcentraties op de groei van tuinkers en alfalfa. Voor de loggegevens van Janine Postmus zie [Logboek Janine](./logboek_Janine.html)
+
+# Onderzoeksopzet
 ### Plan van aanpak
 
 In dit plan van aanpak wordt globaal beschreven hoe dit experiment wordt aangepakt, er wordt verwezen naar protocollen die als bijlage bijgevoegd zijn. Alle documenten die benodigd zijn om dingen in te voeren zijn ook bijgevoegd. <br>
@@ -23,19 +26,20 @@ In dit experiment wordt de invloed van verschillende zoutconcentraties op de gro
 
 ### Onderzoeksvraag  
 
-Wat is de invloed van verschillende zoutconcentraties op de groei van tuinkers en alfalfa? <br>
+Is er een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie? <br>
 
 ### Nulhypothese 
 
-Er is geen invloed van verschillende zoutconcentraties op de groei van tuinkers en alfalfa. <br>
+Er is geen significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie <br>
 
 ### Hypothese 
 
-Een oplopende zoutconcentratie hoger dan 0.03% zal een negatieve invloed hebben op de groei van tuinkers en alfalfa. <br>
+Er is een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie. <br>
 
 # Protocollen
 
-voor protocollen zie: [Protocollen](../protocol/protocollen.html)
+Via de volgende link kunnen de protocollen bekeken worden die gebruikt zijn voor dit onderzoek. [Protocollen](../protocol/protocollen.html)
+
 
 # Theoretische achtergrond 
 De concentratie van opgeloste stoffen in water, welke in de omgeving van een plant is, kan een grote invloed hebben op de plant en de groei van deze plant. In een hypotonische omgeving, de omgeving heeft dan een lagere concentratie opgeloste stoffen, zal het water van de omgeving in de cel van de plant gaan. De cel zal onder meer druk komen te staan, en opzwellen, wanneer deze situatie voor langere tijd niet veranderd zal de cel knappen. In een hypertonische situatie zal water de cellen van de plant verlaten, en zal de plant dus uitdrogen en dood gaan. (Osmosis in Plant Cells - Transport Across Membranes - National 5 Biology Revision - BBC Bitesize, 2023) <br>
@@ -59,18 +63,10 @@ Habibi, Armin & Abdoli, Majid. (2013). Influence of salicylic acid pre-treatment
 Osmosis in plant cells - Transport across membranes - National 5 Biology Revision - BBC Bitesize. (2023, 17 februari). BBC Bitesize. https://www.bbc.co.uk/bitesize/guides/zqdhjty/revision/6 
 
 
-## Verwerking 7 mei
-Om alvast te kijken hoe we met de data om kunnen gaan, ga ik een basic dataframe maken van 1 van de planten.
-In deze dataframe komt alleen maar de groei van de plant en de oplossing zout te staan.
-Met deze data worden verschillende data-outputs gemaakt.Het test dataframe is opgesteld door Ramon, tot en met n_blaadjes, het laatste deel door mij.
 
-  
 # Logboek kiemgroenten
 ## 2024-05-07
-Om alvast te kijken hoe we met de data om kunnen gaan, ga ik een basic dataframe maken van 1 van de planten.
-In deze dataframe komt alleen maar de groei van de plant en de oplossing zout te staan.
-Met deze data wordt een histogram gemaakt.
-
+Om alvast te kijken hoe we met de data om kunnen gaan, heb ik een dataframe samen met janine bestaat, die de juiste variabelen heeft. Op deze manier kan alles voorbereid worden terwijl de planten groeien.  
 ### Dataset
 ```{r}
 library(conflicted)
@@ -103,6 +99,9 @@ head(cress_data)
 Hierboven is de dataset gegenereerd
 
 ### Dataset zonder batch-sep
+Het kan zijn dat we de data nodig waar batch niet relevant is. Dit is een goede manier om R ook verder te leren. Ik maak een data frame zonder batch nummers. En ik order deze zodata alle oplossingen bij naast elkaar staan.
+
+Ook gebruik ik aggregate om snel het gemiddelde berekenen, wat erg handig kan zijn.
 ```{r}
 # Data genereren zonder batches
 cress_new <- cress_data %>%
@@ -168,7 +167,7 @@ test <- cress_data %>%
     dplyr::filter(species == "cress")
 boxplot(cm_groei ~ batch_n + Oplossing, data=test)
 ```
-
+Op deze manier een boxplot weergeven werkt, maar het is niet een hele mooie grafiek. Dit kan opgelost worden door gpplot2 te gebruiken.
 ## 2024-05-11
 - Omdat het papier uitdroogt spuit ik elke ochtend en avond om 9 uur 2x in elk bakje.
 Ook laat ik het dekseltje met een klein spleetje open op het bakje, zodat het vocht in het bakje blijft
@@ -224,14 +223,14 @@ data_set_ontkieming <- cress_data %>%
     mutate(species_oplossing = fct_cross(species, as.character(Oplossing), sep = "-"))
 head(data_set_ontkieming)
 ```
-
+Zo is een dataframe aangemaakt voor ontkieming variabele
 
 ```{r}
 # Maak een tabel aantal ontkiemde zaadjes voor de 2 soorten, en oplossingen
 ontkieming_table <- table(data_set_ontkieming$species,data_set_ontkieming$Oplossing + data_set_ontkieming$n_ontkieming)
 ```
+En van de dataframe is deze tabel gemaakt.  
 
-Nu kunnen we een proptest doen om te kijken of er verschil is tussen de 2 soorten planten
 ```{r}
 addmargins(ontkieming_table)
 ```
