@@ -28,6 +28,7 @@ knitr::opts_chunk$set(echo = FALSE) # Deze regel zorgt ervoor GEEN ENKELE chunk 
 library(ggplot2)
 library(dplyr)
 library(pwr)
+library(pwr2)
 library(forcats)
 data_set_plants <- read.csv("../raw_data/raw_data_planten.csv")
 ```
@@ -82,11 +83,10 @@ Na het verzamelen van alle data kan dit verwerkt worden in R. Het kan handig zij
 Om te kijken naar hoeveel impact de zoutoplossingen hebben op de groei van de plant wordt gekeken naar de ontkieming van de zaadjes. <br>
 
 ```{r, fig.cap= "Ontkieming per soort voor elke oplossing. Deze grafiek geeft het aantal ontkiemde zaadjes weer. Op de x-as staan de oplossingen, op de y-as staat het aantal ontkiemde zaadjes"}
-nw_oplossing <- data_set_plants %>%
-    filter(oplossing == rep(c(0, 0.03, 0.06, 0.09), each=50)) 
 
-nw_oplossing %>%
-    ggplot(aes(x = factor(oplossing), fill = factor(ontkiemt))) +
+
+data_set_plants %>%
+    ggplot(aes(x = data_set_plants$species, fill = factor(ontkiemt))) +
     geom_bar(position = "dodge") + 
     facet_wrap(~ species) + 
     labs(title = "Ontkiemde zaadjes",
@@ -94,9 +94,36 @@ nw_oplossing %>%
          x = "Oplossing", 
          y = "Aantal ontkiemt") +
     scale_fill_brewer(palette = "YlGn") +
+    facet_wrap(as.factor(data_set_plants$oplossing)) +
     theme_minimal()
 ```
 In figuur 1 is te zien dat bijna alles ontkiemd is, om te kijken of hier nog significant verschil in zit worden er een aantal statistische testen uitgevoerd.<br>
+
+```{r}
+data_set_plants %>%
+    # Maak nieuwe kolom die soort en batch combineert.
+    mutate(species_batch = fct_cross(species, as.character(batch), sep="_")) %>%
+    
+    # Filter op een ontkiemings waarde van 1
+    dplyr::filter(ontkiemt == 1) %>%
+    ggplot(mapping = aes(x = as.factor(oplossing), fill = species_batch),) +
+    
+    # Labels
+    labs(y = "N ontkiemde zaadjes",
+         x = "Oplossing zout (%)",
+         title = "Histogram van N ontkiemde zaadjes",
+         subtitle = "For 0-3% salt",
+         fill="species_batchN") +
+    
+    # Theming
+    scale_fill_brewer(palette = "Dark2", direction = -1) +
+    # geom_bar(position = "dodge", color = "black")+
+    stat_bin(binwidth = 1, geom = "text", aes(label = after_stat(count)), vjust=-0.5, position = "dodge") + 
+    
+    scale_x_discrete(breaks = 1:31)+
+    theme_minimal()
+```
+
 
 
 ```{r, include=FALSE}
@@ -163,11 +190,10 @@ data_set_plants %>%
     #Fill werkt hier als een split functie voor de batches
     ggplot(aes(x=as.character(oplossing),y=blaadjes, fill=species_batch)) +
     
-    labs(title="Barplot sum van blaadjes", 
-         subtitle = "Voor 0%-0.09% zout", 
+    labs( 
          y="Aantal blaadjes", 
          x="Oplossing zout (in %)", 
-         fill = "Batch") +
+         fill = "Soort and duplo nummer (soort_duplo)") +
     
     geom_bar(position = "dodge", stat = "sum",
              color="black", size=0.5) +
@@ -203,35 +229,33 @@ addmargins(blaadjes_table)
 ```
 
 
-```{r, include=FALSE}
+```{r, include=TRUE}
 # 2 way anova uitvoeren
-model <- aov(blaadjes ~ species+oplossing + species*oplossing, data = data_set_plants)
+model <- aov(blaadjes ~ species+as.factor(oplossing) + species*as.factor(oplossing), data = data_set_plants)
 (res <- summary(model))
 ```
 
 ```{r, include=FALSE}
 # Effectsterkte berekenen met fishers eta
-( SS.A <- res[[1]]$Sum[1] )
-( SS.tot <- sum(res[[1]]$Sum) )
-eta2 <- SS.A / SS.tot
-cat(sprintf("Effectsterkte: eta2 = %.3f\n",eta2))
+SS.A <- res[[1]]$Sum[1]
+SS.B <- res[[1]]$Sum[2] 
+SS.AB <- res[[1]]$Sum[3] 
+
+SS.tot <- sum(res[[1]]$Sum)
+eta2.soort <- SS.A / SS.tot
+eta2.oplossing <- SS.B / SS.tot
+eta2.interactie <- SS.AB / SS.tot
+
 ```
 
-```{r, include=FALSE}
-# Effectsterkte met Cohen's f
-f <- sqrt(eta2/(1-eta2))
-cat(sprintf("Effectsterkte: Cohen's f = %.3f",f))
-```
 
-```{r, include=FALSE}
+```{r, }
 # Power berekenen
-a <- 3   # aantal groepen/levels
-n.c <- 7  # aantal metingen per groep/level
-alpha <- 0.05
-pwr.anova.test(k = a, n = n.c, f = f, sig.level = alpha)
+
+pwr.2way(a = 2, b = 4, size.A = 400, size.B = 200, f.A = eta2.soort, f.B = eta2.soort, alpha = alpha)
 ```
 Er is een 2-way anova test uitgevoerd om te kijken of de P-waarde goed is. De P waarde is 0.0894, dit betekent dat het effect op de interactie tussen de blaadjes en species en zoutoplossing minimaal significant is. <br>
-Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). Dit houdt in dat er een sterk effect is van de factoren species en oplossing op het aantal blaadjes. 
+Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). Dit houdt in dat er een sterk effect is van de factoren species en oplossing op het aantal blaadjes. De power van de test is 100%.
 
 
 ### Kleur van blaadjes
@@ -272,15 +296,16 @@ In figuur 3 is te zien welke bladkleur er gemeten is per plant, per batch, per z
 
 Om te beginnen hebben we gekeken naar alle duplo's. Er zijn testen gedaan op groei in cm, met eerst een boxplot (figuur .) waarin het verschil is te zien met groei in cm. Hier is uitgekomen dat er vier duplo's afwijken van elkaar. Vervolgens is er een T-test uitgevoerd op deze afwijkingen. Uit de T-test kwam bij elke duplo een P-waarde van onder de 0.05 (5%). Hieruit blijkt dat er een significant verschil is. Hierop is de effectsterkte berekend waaruit kwam dat voor tuinkers en alfalfa 0.03% beide rond de 0.85(85%) liggen. Dit betekend dat er een groot verschil is in deze duplo's. Tuinkers 0.06% heeft een effectsterkte van 0.68(68), dit betekend dat er een matig tot groot verschil is. Voor alfalfa 0.0% is de effectsterkte 0.5, dit betekend dat er een matig verschil is. Als laatste is de power berekend, hier kwam uit dat tuinkers 0.03%  een power van 0.79(79%) heeft, alfalfa 0.03% heeft een power van 0.83(83%), tuinkers 0.06% heeft een power van 0.061(61%), alfalfa 0.0% heeft een power van 0.36(36%). Omdat de tuinkers 0.03% en de alfalfa 0.03% beide een power hebben van 80% kan er met zekerheid gezegd worden dat de uitgevoerde t-test betrouwbaar is en dat er dus een significant verschil zit in deze duplo's. Omdat de tuinkers 0.06% en alfalfa 0.0% een power hebben van 61% en 36% kan de t-test niet als betrouwbaar worden geacht dus is het niet zeker of er een significant verschil is. De vraag die hieruit voortkomt is, hoe kan het dat er 4 duplo's afwijken terwijl alle plantjes continue dezelfde behandeling hebben gehad? Deze vraag kunnen wij niet beantwoorden. De plantjes zijn gegroeid op 1 locatie en hebben allemaal dezelfde hoeveelheid water, met hun eigen zoutconcentratie, gehad. De rest van de resultaten worden hierdoor beïnvloed in betrouwbaarheid.  
 
-We hebben de groei in cm gemeten en deze data is verwerkt in twee verschillende histogrammen. (figuur . & figuur .) Hieruit blijkt (en figuur .) dat er een verschil zichtbaar is tussen de plantensoort en zoutoplossingen. Daarom is er een 2-way anova test uitgevoerd waaruit een p-waarde van 2e-16 is uitgekomen. Er is dus een interactie tussen plantensoort en zoutoplossing, dit betekend dat er een verschil is tussen hoe de alfalfa reageert op het zout en hoe de tuinkers reageert op het zout. Hierop is de effectsterkte berekend, dit is gedaan voor de interactie en de 2 factoren (de planten en oplossing). Hierbij heeft de interactie (tussen de soort en oplossing) een effectsterkte van 0.13 en de oplossing heeft een effectsterkte van 0.2. Dit betekend dat beide waarden een sterk effect hebben op de groei van planten. De soort plant heeft een effectsterkte van 0.06 en heef hierdoor een matig effect. De power is ook weer berekend en deze is 0.96(96%). Dat betekend dat er met zekerheid gezegd kan worden dat de 2-way anova betrouwbaar is en daardoor kan gesteld worden dat er een significant verschil is op de interactie tussen soort en zoutoplossing.  
+We hebben de groei in cm gemeten en deze data is verwerkt in twee verschillende histogrammen. (figuur . & figuur .) Hieruit blijkt (en figuur \@ref()) dat er een verschil zichtbaar is tussen de plantensoort en zoutoplossingen. Daarom is er een 2-way anova test uitgevoerd waaruit een p-waarde van 2e-16 is uitgekomen. Er is dus een interactie tussen plantensoort en zoutoplossing, dit betekend dat er een verschil is tussen hoe de alfalfa reageert op het zout en hoe de tuinkers reageert op het zout. Hierop is de effectsterkte berekend, dit is gedaan voor de interactie en de 2 factoren (de planten en oplossing). Hierbij heeft de interactie (tussen de soort en oplossing) een effectsterkte van 0.13 en de oplossing heeft een effectsterkte van 0.2. Dit betekend dat beide waarden een sterk effect hebben op de groei van planten. De soort plant heeft een effectsterkte van 0.06 en heef hierdoor een matig effect. De power is ook weer berekend en deze is 0.96(96%). Dat betekend dat er met zekerheid gezegd kan worden dat de 2-way anova betrouwbaar is en daardoor kan gesteld worden dat er een significant verschil is op de interactie tussen soort en zoutoplossing.  
 
 Er is gekeken naar de ontkieming van de zaadjes. Er is een barplot gemaakt (figuur .) en er is niet echt een significant verschil zichtbaar. Hierop is er een two-way chi-square test uitgevoerd. Hieruit is een p-waarde van 0.71 en dat betekend dat de soort en oplossing geen significant verschil hebben op de ontkieming. Er is vervolgens de effectsterkte berekend hier is 0.075 uitgekomen en dat betekend dat nagenoeg geen verband is tussen de ontkieming per soort per zoutoplossing. Vervolgens is de power berekend en die is 0.29(29%). Er kan dus geconcludeerd worden dat de two-way chi-square test niet betrouwbaar is en dat er daarom niet met zekerheid gezegd kan worden of er een significant verschil is tussen de soort en oplossing op de ontkieming.  
 
-Er is gekeken naar de hoeveelheid blaadjes, hier is een barplot voor gemaakt (figuur .) en hierin is te zien dat de alfalfa 0.03% afwijkt van de rest. Er is een 2-way anova test uitgevoerd om te kijken of de P-waarde goed is. De P waarde is 0.0894, dit betekent dat het effect op de interactie tussen de blaadjes en soort en zoutoplossing minimaal significant is. Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). 
+Er is gekeken naar de hoeveelheid blaadjes, hier is een barplot voor gemaakt (figuur .) en hierin is te zien dat de alfalfa 0.03% afwijkt van de rest. Er is een 2-way anova test uitgevoerd om te kijken of de P-waarde goed is. De P waarde is 0.0894, dit betekent dat er geen significante interactie is tussen de soort en zoutoplossing en de invloed op het aantal blaadjes. is. Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). De power van deze test bleek 100% te zijn. Dit houd in dat we zeker kunnen zeggen dat er geen 
 
 Er is als laatste nog gekeken naar bladkleur, dit is uitgezet in een stacked barchart. (figuur .) Hierin is grijs de kleur voor als er geen blaadje aanwezig is. Dit kan zijn omdat het zaadje niet ontkiemd was of omdat er nog geen blaadjes aan zaten. Te zien is dat de alfalfa 0.03% afwijkt qua bladkleur. Dat de alfalfa 0.03% afwijkt is iets dat continue terugkomt. Deze batch is dus niet goed gegroeid om een voor ons onbekende reden. Er was een plan voor statistische testen, echter gaat de statistiek heel ver en hebben wij het opgegeven omdat er geen reactie terugkwam van de desbetreffende docent en de wiskunde voor ons niet te begrijpen is.  
 
 We komen terug op de onderzoeksvraag: Is er een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie? Het antwoord is dat we kunnen zeggen dat er een significant verschil is te zien op de groei tussen de tuinkers en alfalfa, echter is de data niet betrouwbaar genoeg om de hypothese met zekerheid te kunnen aannemen. Hiervoor zou het onderzoek nogmaals uitgevoerd moeten worden met voldoende planten. Daarom hebben we een power test gedaan en er zouden minimaal 1194 planten gebruikt moeten worden om een effectsterkte van 80% te creeëren.
+Ook zou het handig zijn om de plantjes te groeien in een omgeving waar andere variabelen zoals licht en luchtvochtigheid meer constant blijven.
 
 
 Formuleer je conclusie door eerst in te zoomen op je eigen data en daarna uit te zoomen. Zoom in door je resultaten samen te vatten. Zoom uit om de waarde van je werk te beoordelen, door je bijvoorbeeld de volgende vragen te stellen: 
