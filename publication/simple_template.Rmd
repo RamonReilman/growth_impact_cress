@@ -168,8 +168,6 @@ d_alfalfa_0.03 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.03, s
 d_cress_0.06 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.06, soort = "cress", get_stats = result_test_cress_0.06$statistic)
 
 d_alfalfa_0.00 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.00, soort = "alfalfa", get_stats = result_test_alfalfa_0.00$statistic)
-
-
 ```
 Cohen's |d| voor cress 0.03% en alfalfa 0.03% ligt rond de 0.85 er kan dus gesproken worden over een groot verschil tussen deze duplo's.
 Cohen's |d| voor cress bij 0.06% ligt rond de 0.68, er kan dus gesproken worden over een matig/groot verschil tussen deze duplo's. Cohen's |d| voor alfalfa 0% ligt rond de 0.5, er kan dus over een matig verschil gesproken worden tussen deze duplo's.
@@ -266,14 +264,6 @@ x <- pwr.2way(a = a, b=b, alpha = 0.05, size.A=size.a, size.B=size.b, f.A = eta2
 ```
 Uit deze berekening is een power van ~96% gekomen.
 
-Er is een log lineaire test uitgevoerd op de verdeling van kleur over soort en oplossing.
-```{r}
-#head(data_set_plants)
-    prop_table_plants <- xtabs(~ species + bladkleur + oplossing, data = data_set_plants)
-#    prop_table_plants
-#model <- fisher.test(prop_table_plants)
-#summary(model)
-```
 Presenteer je resultaten in een logische volgorde. Beschrijf wat er te zien is en werk toe naar het beantwoorden van je doelstelling. Beschrijf indien mogelijke de logica van de keuze voor opeenvolgende experimenten. In elke paragraaf worden de feitelijke conclusies gegeven (bv ‘de vergelijking laat zien dat het gemiddelde van groep A significant afwijkt van het gemiddelde van groep B, met een p-waarde van … Dit komt niet overeen met de in de literatuur (REF) beschreven waardes.’)
 
 Gebruik zo veel mogelijk figuren om je informatie uit je resultaten over te brengen. Gebruik tabellen wanneer figuren minder geschikt zijn. In de tekst worden figuren en tabellen geïntroduceerd, besproken en de belangrijkste aspecten toegelicht.
@@ -301,7 +291,6 @@ Deze sectie bevat tussen de 600-1200 woorden.
 
 
 # Discussie en Conclusies
-
 Formuleer je conclusie door eerst in te zoomen op je eigen data en daarna uit te zoomen. Zoom in door je resultaten samen te vatten. Zoom uit om de waarde van je werk te beoordelen, door je bijvoorbeeld de volgende vragen te stellen: 
 
 - Kunnen mijn resultaten gebruikt worden in het werkveld? 
