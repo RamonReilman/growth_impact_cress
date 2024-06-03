@@ -630,3 +630,16 @@ cat(sprintf("De p-waarde van cress bij 0.06%%: %.4f, dit ligt onder 0.05 en er i
 
 ## 2024-05-30
 - 10:00-12:00 en 13:00-15:00 bezig geweest met verwerking van duplo's en groei van de plantjes publicatie
+
+## 2024-05-31
+- 10-14:00 bezig geweest met verwerking van resultaten, README en materiaal en methode.
+
+## 2024-05-31
+- Verder gegaan met materiaal en methode, README en janine helpen
+
+## 2024-06-1
+- Bezig geweest met Janine helpen met grafieken en feedback geven
+
+## 2024-06-3
+- Afmaken materiaal en methode, bellen met Janine om abstract en conclusie en discussie schrijven.
+
