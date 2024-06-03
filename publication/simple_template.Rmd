@@ -1,9 +1,9 @@
 ---
-title: My Awesome Catchy Title! # Geef je paper een naam die prikkelt, informatief is, en zo kort mogelijk
+title: De impact van zout op de groei van kiemgroenten
 
 author: |
-  | Michiel Noback $^1$, Fenna Feenstra $^1$, John Doe $^2$
-  | $^1$Hanzehogeschool,  $^2$Een ander instituut
+  | Ramon Reilman $^1$, Janine Postmys $^1$
+  | $^1$Hanze 
 
 lang: nl # dit zorgt er voor dat "abstract" "samenvatting" gaat heten
 
@@ -74,30 +74,47 @@ Alle volgende onderdelen moet je opnemen in je eigen artikel. Let vooral ook op 
 
 # Introductie
 
-Je start altijd met de maatschappelijke drijfveer voor je onderzoek; waarom is het van belang dat dit onderzoek is uitgevoerd?
-Vervolgens bespreek je de achtergronden van je onderzoek. Wat is er al eerder onderzocht op dit vlak en wat mist er juist nog; welke speciale technieken heb je gebruikt? Refereer zorgvuldig naar bronnen die je hebt gebruikt - zie ook paragraaf \@ref(refs).
+Dit onderzoek is opgesteld voor een opdracht voor de Hanze in Groningen door twee studenten die de opleiding bio-informatica studeren. In het kader van leren onderzoek doen en resultaatverwerking in programmeertaal R is dit onderzoek tot stand gekomen. Er is gekozen om de impact van zout op de groei van kiemgroenten te onderzoeken. Er is namelijk wel vaker onderzoek gedaan naar de impact van zout op plantengroei (zie bron https://www.bbc.co.uk/bitesize/guides/zqdhjty/revision/6), maar nog niet eerder naar de impact op kiemgroenten. Omdat kiemgroenten gekweekt kunnen worden als voedsel is het belangrijk om te weten wat een verhoogde zoutconcentratie voor impact heeft. Zo kan er bijvoorbeeld gekeken worden naar welke groeilocaties gunstig zouden zijn en welke groeilocaties minder gunstig zouden zijn. <br>
 
-Je eindigt de introductie met de doelstelling(en) van jouw onderzoek, en hoe je deze doelstellingen denkt te gaan verwezenlijken; de aanpak. Geef hier ook eventuele hypothesen. 
+Er is onderzocht wat goede zoutconcentraties zouden kunnen zijn. Het experiment is eenmaal mislukt met te hoge zoutconcentraties, namelijk 0%, 1%, 3%, 9%. Omdat de groep van 1% nog wel groeide is er gekozen om de uiteindelijke concentraties tot maximaal 0.1% te kiezen, namelijk; 0%, 0.03%, 0.06%, 0.09%. Op deze manier is er zekerheid gecreërd dat alles zou groeien, maar dat er alsnog wel een verschil gezien zou gaan worden. <br>
 
-De introductie bevat tussen de 400-800 woorden.
+### Hypothese
+- De onderzoeksvraag is: Wat is de invloed van verschillende zoutconcentraties op de groei van tuinkers en alfalfa? <br>
+- Nulhyopthese: Er is geen invloed van verschillende zoutconcentraties op de groei van tuinkers en alfalfa. <br>
+- Hypothese: Een oplopende zoutconcentratie zal een negatieve invloed hebben op de groei van tuinkers en alfalfa. <br>
+
+### Plan van aanpak
+De plantjes worden allemaal op 1 locatie ingezaaid op keukenpapier in plastic petrischalen. (Zie protocol ...) Vervolgens worden de plantjes gedurende een periode van 6 dagen continue nat gehouden door de verschillende zoutoplossingen. (Zie protocol ...). Na deze 6 dagen kan worden beslist om de plantjes nog 1 of 2 dagen langer te laten groeien als de groei nog onvoldoende is om goed te kunnen meten, anders wordt op dag 7 de data verzameld. Zorg ervoor dat de bodem nog steeds nat is tot moment van data verzamelen. Na het verzamelen van alle data wordt dit verwerkt in R. Door middel van verschillende plotjes en statistische testen kan er uiteindelijk een conclusie getrokken worden of de hypothese wordt aangenomen of niet. 
 
 
 # Materialen en Methoden
 Github repo: https://github.com/RamonReilman/blog_ish
-Materialen en Methoden beschrijft verhalend wat je hebt gebruikt (data, tools) en wat je hebt gedaan (ontwikkelde methodes). **_Het is essentieel dat dit hoofdstuk je onderzoek reproduceerbaar en valideerbaar maakt_**. Verwijs bij de start van dit hoofdstuk naar je code repository (meestal je github link).
 
-Neem referenties op!
+Er wordt begonnen met het aanschaffen van alle materialen waarbij er op gelet moet worden dat dezelfde merken gekocht worden, bijvoorbeeld het zout moet van 1 merk zijn. De materialen zijn: <br>
 
-De materialen zijn de meetinstrumenten die je hebt gebruikt, maar ook bijvoorbeeld datasets die je hebt gedownload.
+- 16 nieuwe petrischalen met deksel <br>
+- Spuitflessen, 4 dezelfde <br>
+- Keukenrol, 1 rol <br>
+- Liniaal, 2 dezelfde <br>
+- Tuinkers zaadjes, 3 zakjes <br>
+- Alfalfa zaadjes, 3 zakjes <br>
+- Computer/laptop met toegang tot Word, Excel en Rstudio <br>
 
-Beschrijf de gebruikte software tools, alsmede de bibliotheken/plugins, met naam, versie, referentie en gebruiksdoel (in dit project). Dit kan eventueel in een tabel an als die lang is mag het een online bijlage zijn.
+Vervolgens worden de zoutoplossingen gemaakt. Er worden oplossingen gebruikt van 0%, 0.03%, 0.065 en 0.09% zout. Hierbij is de 0% de controlegroep. De planning was dat we dit op een laboratorium zouden doen met gedemineraliseerd water, echter omdat de uitvoering eenmaal mislukt is, moest er een alternatieve oplossing gezocht worden. Hiervoor is gekozen om gekookt leidingwater te gebruiken in combinatie met het zout. Door het koken zijn de bacteriën eruit gehaald en is het water zuiver genoeg om te gebruiken voor het experiment. Vervolgens worden de zaadjes geplant volgens dit schema: <br> 
 
-Beschrijf bestaande methodologieën met hun relevantie voor je project. Geef het doel, de toepassing en welke software en parameters er zijn gebruik. Voeg eventueel een flowchart toe.
-Beschrijf de gebruikte statistische methoden.
+- Zoutoplossing 0%, 2 keer 50 zaadjes in twee petrischalen. <br>
+- Zoutoplossing 0.03%. 2 keer 50 zaadjes in twee petrischalen. <br>
+- Zoutoplossing 0.06%. 2 keer 50 zaadjes in twee petrischalen. <br>
+- Zoutoplossing 0.09%. 2 keer 50 zaadjes in twee petrischalen. <br>
 
-Beschrijf wat je zelf in het kader van dit onderzoek hebt ontwikkeld aan methodologieën. Geef de naam van scripts/programma’s en waar deze (in je repo) te vinden zijn.
+Alles wordt 2 keer ingezaaid zodat er voor elke oplossing een duplo is. Na het zaaien worden de plantjes gedurdende 6 dagen nat gehouden met de verschillende zoutoplossingen voordat de data verzameld kan worden. De data wordt op 1 dag allemaal tegelijk verzameld door 2 personen. Hierbij neemt 1 persoon alle data voor de Tuinkers op zich en 1 persoon neemt alle data voor de Alfalfa op zich. De volgende datapunten worden hierbij meegenomen. <br>
 
-Deze sectie bevat tussen de 400-800 woorden.
+- Groei in mm <br>
+- Ontkiemd ja of nee <br>
+- Aantal blaadjes <br>
+- Bladkleur (volgens kleurschaal zie ...) <br>
+
+Na het verzamelen van alle data kan dit verwerkt worden in R. Het kan handig zijn gedurende de groei van de plantjes alvast wat statistische tests en plotjes uit te voeren met testdata zodat, tijdens het verwerken van de daadwerkelijke data, al bekend is welke plots en statistische testen er uitgevoerd moeten worden. 
 
 # Resultaten
 
@@ -119,62 +136,66 @@ nw_oplossing %>%
     scale_fill_brewer(palette = "YlGn") +
     theme_minimal()
 ```
-In de barplot is te zien dat bijna alles ontkiemd is, om te kijken of hier nog significant verschil in zit worden er een aantal statistische testen uitgevoerd.
+In figuur 1 is te zien dat bijna alles ontkiemd is, om te kijken of hier nog significant verschil in zit worden er een aantal statistische testen uitgevoerd.<br>
 
-Om te kijken of de zoutoplossingen impact hebben op de ontkieming van de plantjes kunnen een aantal statistische testen worden uitgevoerd. Eerst wordt er een nieuwe dataset gemaak van de ontkieming per species per oplossing. <br> 
-```{r, echo=FALSE}
+Eerst wordt er een nieuwe dataset gemaak van de ontkieming per soort en oplossing. <br> 
+```{r, include=FALSE}
 data_set_ontkieming <- data_set_plants %>%
     # Selecteer de juiste kolommen
     select(ontkiemt, species, oplossing) %>%
     # Paste wordt gebruikt om species en oplossing samen te voegen
     # Factor zet een vector om naar een categorie
     mutate(species_oplossing = factor(paste(as.character(species), as.character(oplossing), sep = "-")))
+
 ```
 
-Vervolgens wordt daarvan een tabel gemaakt waarin het aantal ontkiemde zaadjes per soort en per zoutoplossing uitgezet wordt.<br>
-```{r, echo=FALSE}
+
+```{r, include=FALSE}
+# Tabel maken van soort en oplossing van data_set_ontkieming
 ontkieming_table <- table(data_set_ontkieming$species,data_set_ontkieming$oplossing + data_set_ontkieming$ontkiemt)
 ```
 
-Vervolgens wordt gecontroleerd of alle waarden zijn meegenomen doormiddel van de sum functie.<br>
-```{r, echo=FALSE}
+
+```{r, include=FALSE}
+# Controleren of alle waarden zijn meegenomen door alles op te tellen
 addmargins(ontkieming_table)
 ```
 
-Om het verschil te kunnen zien tussen de 2 soorten en n ontkiemingen wordt een 2-way chi-square test uitgevoerd. <br>
-```{r, echo=FALSE}
+
+```{r, include=FALSE}
 # 2-way chisq uitvoeren om verschil te kunnen testen
 res <- chisq.test(x = ontkieming_table)
+(res <- chisq.test(x = ontkieming_table))
+cat(sprintf("De p-waarde is groter dan 0.05: %.2f\n", res$p.value))
 ```
-Omdat de p-waarde groter is dan 0.05 is er geen significant verschil van ontkieming tussen de twee plantensoorten op basis van alle zoutoplossingen. <br>
 
-Om te weten of het een relevant verschil is, moet de effectsterkte berekend worden.
-Voor proportie wordt Cohen's M gebruikt.<br>
-```{r, echo=FALSE}
+
+```{r, include=FALSE}
 chi2 <- res$statistic
 N <- sum(ontkieming_table)
 W <- sqrt(chi2 / N)
 df <- res$parameter
+cat(sprintf("Cohens W: %.3f", W))
 ```
-Met een effectgrootte van 0.075 is er nagenoeg geen verband tussen de invloed op ontkiemde zaadjes tussen plant, en zoutoplossingen. <br>
 
-Om te controleren of deze conclusie, gebaseerd op statistiek, correct is wordt de power berekend.<br>
-```{r, echo=FALSE}
+
+```{r, include=FALSE}
 alpha <- 0.05
 pwr.chisq.test(w=W, N=N, df=df, sig.level = alpha)
 ```
-De power is 0.29. Daarmee kunnen we zeggen dat onze conclusie, er is geen sigfnicant verschil gevonden van het aantal ontkiemde zaadjes tussen de 2 planten over de verschillende oplossingen, een 29% kans heeft om correct te zijn.<br>
 
-Hoeveel metingen hebben we nodig om 0.8 power te krijgen, met een W van 0.1?<br>
-```{r, echo=FALSE}
+
+```{r, include=FALSE}
 pwr.chisq.test(w = 0.1, df = df, sig.level = 0.05, power = 0.80)
 ```
-Om een correcte statistische uitkomst te krijgen zouden er dus 1194 planten geplant moeten worden, zo'n 600 per planten soort. <br>
+
+Omdat de p-waarde, van de two-way chi-square test met 0.71 groter is dan 0.05 is er geen significant verschil van ontkieming tussen de twee plantensoorten op basis van alle zoutoplossingen. Vervolgens is de effectsterkte berekend door middel van Cohen's M om erachter te komen of het een relevant verschil is. Met een effectgrootte van 0.075 is er nagenoeg geen verband tussen de invloed op ontkiemde zaadjes tussen plant, en zoutoplossingen. Om te controleren of deze conclusie correct is wordt de power berekend met de chi-square test. De power is 0.29 (29%). Daarmee kan gezegd worden dat de vorige testen een 29% kans hebben om correct te zijn. Om te kijken hoeveel metingen er zouden moeten worden uitgevoerd om minimaal 0.8 power (80%) te krijgen is er een power chi-square test uitgevoerd, hieruit komt dat er 1194  planten zouden moeten worden geplant om een power van 0.8 (80%) te krijgen. 
+
 
 ### Aantal blaadjes
 
 Om te kijken hoe de zoutoplossingen impact hebben op de groei van het aantal blaadjes is dit uitgezet in onderstaande barplot. <br>
-```{r, fig.cap="Aantal blaadjes per batch per zoutoplossing. Deze barplot geeft het aantal blaadjes per plant per zoutoplossing weer. Op de x-as de zoutoplossingen, op de y-as het aantal blaadjes"}
+```{r, fig.cap="Aantal blaadjes per batch per zoutoplossing. Deze barplot geeft het aantal blaadjes per plant per zoutoplossing weer. Op de x-as de zoutoplossingen, op de y-as het aantal blaadjes", echo=FALSE}
 data_set_plants %>%
     aggregate(blaadjes ~ species + batch + oplossing, FUN = sum) %>%
     #fct_cross maakt nieuwe kolom en combineert hetgene wat erin staat
@@ -185,7 +206,8 @@ data_set_plants %>%
     labs(title="Barplot sum van blaadjes", 
          subtitle = "Voor 0%-0.09% zout", 
          y="Aantal blaadjes", 
-         x="Oplossing zout") +
+         x="Oplossing zout (in %)", 
+         fill = "Batch") +
     
     geom_bar(position = "dodge", stat = "sum",
              color="black", size=0.5) +
@@ -194,11 +216,12 @@ data_set_plants %>%
     facet_wrap(species~batch) +
     theme_minimal() 
 ```
-De alfalfa heeft minder blaadjes dan de tuinkers, verder is te zien dat alleen alfalfa in oplossing 0.03% afwijkt qua bladgroei.
+In figuur 2 is te zien dat de alfalfa minder blaadjes heeft dan de tuinkers, verder is te zien dat alleen alfalfa in oplossing 0.03% afwijkt qua bladgroei.
 
 ### Kleur van blaadjes
+Om te kijken wat de invloed van zoutoplossingen is op de groei van de kiemgroenten, is de kleur van de blaadjes verzameld als data. 
 
-```{r}
+```{r, fig.cap="Stacker barchart kleur van blaadjes. Deze grafiek geeft de kleur van de blaadjes weer per soort, batch en oplossing. De kleuren in de bars komen overeen met de kleuren van de plant. Grijs betekend dat er geen bladkleur gemeten is, omdat er geen blaadjes gegroeid zijn."}
 # Voorbereiden data
 combined_df <- data_set_plants %>%
     filter(oplossing %in% c(0, 0.03, 0.06, 0.09)) %>%
@@ -220,13 +243,14 @@ kleuren <- c("licht_groen" = "lightgreen",
 ggplot(combined_df, aes(x=oplossing, fill=bladkleur)) +
     geom_bar(position = "stack") +
     scale_fill_manual(values = kleuren) +
-    labs(title="Bladkleur",
-         x="Oplossing",
-         y="Aantal plantjes") +
+    labs(title="Bladkleur van alfalfa en tuinkers",
+         x="Oplossing (in%)",
+         y="Aantal plantjes",
+         fill = "Bladkleur") +
     theme_minimal() + 
     facet_wrap(species~batch)
 ```
-In deze stacked barchart is te zien welke bladkleur er gemeten is per plant, per batch, per zoutoplossing. Wat opvalt is dat alfalfa batch 1 en alfalaf batch 2 nagenoeg geen bladkleur hebben. 
+In figuur 3 is te zien welke bladkleur er gemeten is per plant, per batch, per zoutoplossing. Wat opvalt is dat alfalfa batch 1 en alfalaf batch 2 nagenoeg geen bladkleur hebben. 
 
 
 Geef tabellen bovenaan een titel en bijschrift die de inhoud beschrijft en onderaan voetnoten die kolomnamen of specifieke waardes verklaren.
