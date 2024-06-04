@@ -168,6 +168,8 @@ test <- cress_data %>%
 boxplot(cm_groei ~ batch_n + Oplossing, data=test)
 ```
 Op deze manier een boxplot weergeven werkt, maar het is niet een hele mooie grafiek. Dit kan opgelost worden door gpplot2 te gebruiken.
+
+Er is zichtbaar dat een oplossing hoger dan 1% een negatief effect heeft op de groei in cm. Ook is zichtbaar dat 1% een meer optimale oplossing blijkt te zijn dan 0%
 ## 2024-05-11
 - Omdat het papier uitdroogt spuit ik elke ochtend en avond om 9 uur 2x in elk bakje.
 Ook laat ik het dekseltje met een klein spleetje open op het bakje, zodat het vocht in het bakje blijft
@@ -266,7 +268,7 @@ Hoeveel metingen hebben we nodig om 0.8 power te krijgen, met een W van 0.1?
 ```{r}
 pwr.chisq.test(w = 0.1, df = df, sig.level = alpa, power = 0.80)
 ```
-Dan zouden we dus 1435 planten moeten meten, zo'n 600 per planten soort.
+Dan zouden we dus 1435 planten moeten meten, zo'n 700 per planten soort.
 
 ## 2024-05-15
 - 7:30 planten water gegeven
@@ -351,6 +353,7 @@ Deze page heeft 4 boxplotjes.
 Voor elke oplossing geeft het de spreiding van groei in cm weer, voor de soort en batch.
 De rode puntjes zijn de uitschieters.
   
+Nu is zichtbaar dat de spreiding van cress en alfalfa erg verschillend is, wat kan inhouden dat zout meer een invloed heeft op tuinkers dan alfalfa. Doordat de scale niet gelijk is voor elke grafiek kan er verkeerede informatie overgebracht worden. Dat kan het beste wel gelijk blijven.
 
 Er kan op deze manier ook een histogram gemaakt worden die het aantal ontkiemde zaadjes bevat
 ```{r}
@@ -377,6 +380,7 @@ cress_data %>%
     theme_minimal()
 
 ```
+Wat zichtbaar is in deze grafiek is dat dat het aantal ontkiemde zaadjes afneemt wanneer de zout concentratie oploopt.
 
 In deze grafiek zie je het aantal ontkiemde zaadjes per oplossing, voor alle batches en plant soorten.
 
@@ -411,8 +415,7 @@ p4 <- plot_data_hist(cress_data, 3, "cress")
 ```{r}
 grid.arrange(p1, p2, p3 ,p4)
 ```
-  
-Hierboven een histogram van de tuinkers, deze histogram geeft de groei in cm weer voor elke zoutoplossing.
+  Hierboven een histogram van de tuinkers, deze histogram geeft de groei in cm weer voor elke zoutoplossing.
 Ook kan je het verschil zien tussen de 2 batches. Deze is alleen niet heel erg leesbaar vind ik. Doordat de 2 batches door elkaar lopen kan het snel verwarrend worden. Het beste is om de batches ook los van elkaar te plotten.
   
 ```{r}
@@ -429,7 +432,7 @@ averages_data_frame$sd_cm_groei <- temp$cm_groei
 averages_data_frame$sd_n_blaadjes <- temp$n_blaadjes
 head(averages_data_frame)
 ```
-Zo krijg je een dataframe met de gemiddelden en standaard deviaties van cm_groei, en n_blaadjes.
+Zo krijg je een dataframe met de gemiddelden en standaard deviaties van cm_groei, en n_blaadjes. Niet echt gebruikt voor het onderzoek. Gebruik van libraries is toch wat makkelijker.
 
 ## 2024-05-16
 
@@ -563,7 +566,7 @@ Als je de batches samen neemt is het duidelijker af te lezen. Je ziet in deze gr
 
 ## 2024-05-22
 - 8, 1 en 21 uur plantjes water gegeven
-bezig geweest met log lineaire dingen, zie janine haar logboek.
+bezig geweest met log lineaire dingen, zie [Janine](./logboek_Janine.html) haar logboek.
 
 ## 2024-05-23
 - 8, 1 en 21 uur water gegeven
@@ -641,4 +644,7 @@ cat(sprintf("De p-waarde van cress bij 0.06%%: %.4f, dit ligt onder 0.05 en er i
 
 ## 2024-06-3
 - Afmaken materiaal en methode, bellen met Janine om abstract en conclusie en discussie schrijven.
+
+## 2024-06-4
+- Afronding van het verslag.
 

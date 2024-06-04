@@ -62,7 +62,7 @@ Er wordt begonnen met het aanschaffen van alle materialen waarbij er op gelet mo
 - Alfalfa zaadjes, 3 zakjes <br>
 - Computer/laptop met toegang tot Word, Excel en Rstudio <br>
 
-Vervolgens worden de zoutoplossingen gemaakt. Er worden oplossingen gebruikt van 0%, 0.03%, 0.065 en 0.09% zout. Hierbij is de 0% de controlegroep. De planning was dat we dit op een laboratorium zouden doen met gedemineraliseerd water, echter omdat de uitvoering eenmaal mislukt is, moest er een alternatieve oplossing gezocht worden. Hiervoor is gekozen om gekookt leidingwater te gebruiken in combinatie met het zout. Door het koken zijn de bacteriën eruit gehaald en is het water zuiver genoeg om te gebruiken voor het experiment. Vervolgens worden de zaadjes geplant volgens dit schema: <br> 
+Vervolgens worden de zoutoplossingen gemaakt. Er worden oplossingen gebruikt van 0%, 0.03%, 0.06% en 0.09% zout. Hierbij is de 0% de controlegroep. De planning was dat we dit op een laboratorium zouden doen met gedemineraliseerd water, echter omdat de uitvoering eenmaal mislukt is, moest er een alternatieve oplossing gezocht worden. Hiervoor is gekozen om gekookt leidingwater te gebruiken in combinatie met het zout. Door het koken zijn de bacteriën eruit gehaald en is het water zuiver genoeg om te gebruiken voor het experiment. Vervolgens worden de zaadjes geplant volgens dit schema: <br> 
 
 - Zoutoplossing 0%, 2 keer 50 zaadjes in twee petrischalen. <br>
 - Zoutoplossing 0.03%. 2 keer 50 zaadjes in twee petrischalen. <br>

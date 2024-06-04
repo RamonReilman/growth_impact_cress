@@ -26,15 +26,16 @@ In dit experiment wordt de invloed van verschillende zoutconcentraties op de gro
 
 ### Onderzoeksvraag  
 
-Wat is de invloed van verschillende zoutconcentraties op de groei van tuinkers en alfalfa? <br>
+Is er een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie? <br>
 
 ### Nulhypothese 
 
-Er is geen invloed van verschillende zoutconcentraties op de groei van tuinkers en alfalfa. <br>
+Er is geen significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie <br>
 
 ### Hypothese 
 
-Een oplopende zoutconcentratie hoger dan 0.03% zal een negatieve invloed hebben op de groei van tuinkers en alfalfa. <br>
+Er is een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie. <br>
+
 
 # Protocollen
 

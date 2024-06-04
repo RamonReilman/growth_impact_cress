@@ -65,7 +65,7 @@ Deze is gebruikt in de logboeken, Uiteindelijk niet gebruikt voor de publicatie.
 
 
 ## Support
-In case of any bugs or needed support, open up an issue at our repo: <br>
+In het geval van problemen, open een issue op de repo: <br>
 https://github.com/RamonReilman/growth_impact_cress
 
 
