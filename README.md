@@ -5,16 +5,16 @@
 - Janine Postmust (https://github.com/Bio-informatics-student)
 
 ## Description
-Er is onderzoek gedaan naar hoe zout invloed heeft op 2 verschillende soorten planten, en het verschil tussen deze. 
+Er is onderzoek gedaan naar hoe zout invloed heeft op 2 verschillende soorten kiemgroenten, en het verschil tussen deze 2 soorten. 
 In deze repo staat de publicatie van het onderzoek, logboeken, dataset etc.
-Er is gekeken naar de groei van de plantjes, maar ook de kleur en of het ontkiemt is of niet.
+Er is gekeken naar de groei van de plantjes, maar ook de kleur, het aantal blaadjes en of het ontkiemt is of niet.
 
 Doormiddel van figuren en testen zijn de verschillen berekend en bepaald.
 
 ### Key-features
-- logboeken
+- Logboeken
 - Publicatie
-- Data verwerking
+- Dataverwerking
 
 ## System requirements and installation<br>
 ### System requirements: <br>
@@ -33,7 +33,7 @@ Via deze library kunnen figuren makkelijk gemaakt, aangepast en aangevuld worden
 ### dplyr
 Versie: 1.1.4
 
-dplyr, de grammatica van de data manipulatie. dplyr wordt gebruikt om makkelijk data te manipuleren/
+dplyr, de grammatica van de data manipulatie. dplyr wordt gebruikt om makkelijk data te manipuleren.
 
 ### pwr / pwr2
 Versie: 1.3.0 / 1.0
@@ -61,7 +61,7 @@ Deze is gebruikt in de logboeken, Uiteindelijk niet gebruikt voor de publicatie.
   - Bevat de bestanden en pdf van de publicatie.
 
 - /raw_data
-  - Bevat de on aangepaste dataset.
+  - Bevat de niet aangepaste dataset.
 
 
 ## Support

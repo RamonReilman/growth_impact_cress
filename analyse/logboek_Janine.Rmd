@@ -130,6 +130,23 @@ Logboek afgemaakt en protocollen in een Rmd bestand gezet. <br>
 Uitgezocht hoe hyperlinks werken en deze in mijn logboek verwerkt. <br>
 Begonnen met dataverwerking in logboek. Te vinden in subtitel, [Verwerking 27 mei](#27mei)<br>
 
+### 30-05-2024
+Begonnen met dataverwerking voor de paper. 
+
+### 31-05-2024 
+Verder met dataverwerking voor de paper.
+
+### 01-06-2024 
+Verder met dataverwerking voor de paper.
+
+### 02-06-2024
+Verder met dataverwerking voor de paper en begonnen met introductie van de paper.
+
+### 03-06-2024
+Overleg gehad via teams met Ramon over hoe we bepaalde dingen in de paper willen hebben, samen de discussie en conclusie geschreven voor de paper.
+
+### 04-06-2024
+Laatste dingen gecontroleerd en aangevuld in de paper en logboek.  
 
 # Verwerking
 

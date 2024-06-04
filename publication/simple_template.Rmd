@@ -36,14 +36,14 @@ source("../analyse/scripts/fucntions.R")
 
 # Introductie
 
-Dit onderzoek is opgesteld voor een opdracht voor de Hanze in Groningen door twee studenten die de opleiding bio-informatica studeren. In het kader van leren onderzoek doen en resultaatverwerking in programmeertaal R is dit onderzoek tot stand gekomen. Er is gekozen om de impact van zout op de groei van kiemgroenten te onderzoeken. Er is namelijk wel vaker onderzoek gedaan naar de impact van zout op plantengroei, maar nog niet eerder naar de impact op kiemgroenten.[@Osmosis] Omdat kiemgroenten gekweekt kunnen worden als voedsel is het belangrijk om te weten wat een verhoogde zoutconcentratie voor impact heeft. Omdat ze zeespiegel behoorlijk aan het stijgen is heeft dit ook impact op de grond waar bloemen, planten en fruit/groente gekweekt wordt. Door dit onderzoek uit te voeren kan er bijvoorbeeld gekeken worden naar welke groeilocaties gunstig zouden zijn en welke groeilocaties minder gunstig zouden zijn.[@Waterstijging]   <br>
+Dit onderzoek is opgesteld voor een opdracht voor de Hanze in Groningen door twee studenten die de opleiding bio-informatica studeren. In het kader van leren onderzoek doen en resultaatverwerking in programmeertaal R is dit onderzoek tot stand gekomen. Er is gekozen om de impact van zout op de groei van kiemgroenten te onderzoeken. Er is namelijk wel vaker onderzoek gedaan naar de impact van zout op plantengroei, maar nog niet eerder naar de impact op kiemgroenten.[@Osmosis] Omdat kiemgroenten gekweekt kunnen worden als voedsel is het belangrijk om te weten wat een verhoogde zoutconcentratie voor impact heeft. Omdat de zeespiegel behoorlijk aan het stijgen is heeft dit ook impact op de grond waar bloemen, planten en fruit/groente gekweekt wordt. Door dit onderzoek uit te voeren kan er bijvoorbeeld gekeken worden naar welke groeilocaties gunstig zouden zijn en welke groeilocaties minder gunstig zouden zijn.[@Waterstijging]   <br>
 
 Er is onderzocht wat goede zoutconcentraties zouden kunnen zijn. Het experiment is eenmaal mislukt met te hoge zoutconcentraties, namelijk 0%, 1%, 3%, 9%. Omdat de groep van 1% nog wel groeide is er gekozen om de uiteindelijke concentraties tot maximaal 0.1% te kiezen, namelijk; 0%, 0.03%, 0.06%, 0.09%. Op deze manier is er zekerheid gecreërd dat alles zou groeien, maar dat er alsnog wel een verschil gezien zou gaan worden. <br>
 
 Hypothese
-- De onderzoeksvraag is: Is er een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie?<br>
-- Nulhyopthese: Er is geen significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie <br>
-- Hypothese: Er is een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie.<br>
+- De onderzoeksvraag is: Is er een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie?  
+- Nulhyopthese: Er is geen significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie  
+- Hypothese: Er is een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie  
 
 Plan van aanpak
 De plantjes worden allemaal op 1 locatie ingezaaid op keukenpapier in plastic petrischalen. Vervolgens worden de plantjes gedurende een periode van 6 dagen continue nat gehouden door de verschillende zoutoplossingen. Na deze 6 dagen kan worden beslist om de plantjes nog 1 of 2 dagen langer te laten groeien als de groei nog onvoldoende is om goed te kunnen meten, anders wordt op dag 7 de data verzameld. Zorg ervoor dat de bodem nog steeds nat is tot moment van data verzamelen. Na het verzamelen van alle data wordt dit verwerkt in R. Door middel van verschillende plotjes en statistische testen kan er uiteindelijk een conclusie getrokken worden of de hypothese wordt aangenomen of niet. [@SaltTolerance]
@@ -74,14 +74,14 @@ Alles wordt 2 keer ingezaaid zodat er voor elke oplossing een duplo is. Na het z
 - Groei in mm <br>
 - Ontkiemd ja of nee <br>
 - Aantal blaadjes <br>
-- Bladkleur (volgens kleurschaal zie ...) <br>
+- Bladkleur <br>
 
 Na het verzamelen van alle data kan dit verwerkt worden in R. Het kan handig zijn gedurende de groei van de plantjes alvast wat statistische tests en plotjes uit te voeren met testdata zodat, tijdens het verwerken van de daadwerkelijke data, al bekend is welke plots en statistische testen er uitgevoerd moeten worden. 
 
 Om antwoord te krijgen op onze onderzoeks vraag is de data getest, verwerkt en gevisualiseerd met R.
 R:4.4.0 is een statistische programmeer taal, die gebouwd is om data te verwerken, manipuleren en visualiseren. Er is gebruik gemaakt van een IDE om in te werken: Rstudio:2024.04.1 build 748. [@Rstudio; @R]
 
-Voor het manipuleren en visualiseren is gebruikt gemaakt van dplyr:1.1.4 en ggplot2:3.5.1. dplyr is een library die gebruikt is om data te manipuleren, verwerking, selecteren etc. Het verweken van data is een stuk gemakkelijker via deze lirbary, en werkt hand in hand met ggplot2. ggplot2 is gebruikt om figuren te maken. De library zorgt ervoor dat er gemakkelijk en snel, mooie duidelijke figuren gemaakt kunnen worden. [@dplyr; @ggplot2]
+Voor het manipuleren en visualiseren is gebruikt gemaakt van dplyr:1.1.4 en ggplot2:3.5.1. dplyr is een library die gebruikt is om data te manipuleren, verwerking, selecteren etc. Het verwerken van data is een stuk gemakkelijker via deze library, en werkt hand in hand met ggplot2. ggplot2 is gebruikt om figuren te maken. De library zorgt ervoor dat er gemakkelijk en snel, mooie duidelijke figuren gemaakt kunnen worden. [@dplyr; @ggplot2]
 
 In de logboeken is gebruik gemaakt van pwr:1.3.0 en gridExtra:2.3. pwr kan de power van een test berekenen. 
 Voor dit onderzoek is pwr ook gebruikt om te kijken wat de sample size moet zijn voor het onderzoek. 
@@ -109,7 +109,7 @@ De volgende functies zijn gemaakt en gebruikt:
 
 # Resultaten
 ## Duplo's
-Aan het einde van de datacollectie is de lengte en de kleur van de plaatjes bepaald van 800 plantjes verspreid over 2 soorten en 4 verschillende zout oplossingen. Omdat er met duplos gewerkt is is er eerst gekeken naar verschil tussen duplo's (figuur \@ref(fig:boxplotduplo)).  
+Aan het einde van de datacollectie is de lengte, ontkieming, aantal blaadjes en de kleur bepaald van 800 plantjes verspreid over 2 soorten en 4 verschillende zout oplossingen. Omdat er met duplo's gewerkt is is er eerst gekeken naar verschil tussen duplo's (figuur \@ref(fig:boxplotduplo)).  
 ```{r boxplotduplo, warning=FALSE, fig.cap="spreiding van groei (cm) van de 2 soorten over elke oplossing. Deze grafiek geeft de spreiding van de groei van de plantjes weer voor elke oplossing en soort plant. waarbij de x-as de platen soort is en de y-as de groei in cm. Ook zijn de duplo's van elkaar gesplitst, zo kan het verschil tussen deze duplo's gevisualiseerd worden. Uitschieters zijn weergegeven als de zwarte punten."}
 # The palette with black:
 cbp2 <- c("#56B4E9", "#009E73", "#000000", "#E69F00",
@@ -138,7 +138,7 @@ data_set_plants %>%
 De spreiding van groei tussen de duplo's van tuinkers bij een oplossing van 0.09% en 0% is niet heel groot, de boxen liggen zo goed als naast elkaar. Bij 0.06 en 0.03 van de tuinkers blijkt het verschil iets groter. Bij alfalfa zijn de boxen bij 0.09 0.06% niet helemaal even groot, maar de gemiddelden zijn wel gelijk. bij 0 en 0.03% wijken de boxen en gemiddelden meer af van elkaar.   
   
 
-  Bij een aantal duplo's is het niet duidelijk of er een significant verschil tussen zit, om deze reden zijn er t-testen uitgevoerd voor de volgende duplo's: alfalfa en cress bij oplossing 0.03, cress bij oplossing 0.06, en alfalfa bij 0%.  
+Bij een aantal duplo's is het niet duidelijk of er een significant verschil tussen zit, om deze reden zijn er t-testen uitgevoerd voor de volgende duplo's: alfalfa en cress bij oplossing 0.03, cress bij oplossing 0.06, en alfalfa bij 0%.  
 ```{r testDuplo}
 # t testen voor verschillende duplo's
 result_test_cress_0.03 <- duplo_test(soort = "cress", get_oplossing = 0.03, data = data_set_plants)
@@ -147,7 +147,7 @@ result_test_cress_0.06 <- duplo_test(soort = "cress", get_oplossing = 0.06, data
 
 result_test_alfalfa_0.00 <- duplo_test(soort = "alfalfa", get_oplossing = 0, data = data_set_plants)
 ```
-Voor alle 4 de testen geldt p < 0.05, dus er zit bij deze een significant verschil tussen de geteste duplos.  
+Voor alle 4 de testen geldt p < 0.05, dus er zit bij deze een significant verschil tussen de geteste duplo's.  
 Om te bepalen of dit verschil relevant is, is Cohen's d berekend.  
 ```{r effectduplo}
 
@@ -308,7 +308,7 @@ data_set_plants %>%
     facet_wrap(as.factor(data_set_plants$oplossing)) +
     theme_minimal()
 ```
-wat dit figuur weergeeft is dat bijna alles ontkiemd is, om te kijken of hier nog significant verschil in zit worden er een aantal statistische testen uitgevoerd.<br>
+Wat dit figuur weergeeft is dat bijna alles ontkiemd is. Wat opvalt is dat de alfalfa 0.03% minder ontkiemingen heeft dan de overige batches. Omdat het vrijwel onmogelijk is om op het zicht te bepalen of er significant verschil in zit. worden er een aantal statistische testen uitgevoerd.<br>
 
 ```{r, include=FALSE}
 data_set_ontkieming <- data_set_plants %>%
@@ -357,10 +357,9 @@ alpha <- 0.05
 pwr.chisq.test(w=W, N=N, df=df, sig.level = alpha)
 ```
 
-Omdat de p-waarde, van de two-way chi-square test met 0.71 groter is dan 0.05 is er geen significant verschil van ontkieming tussen de twee plantensoorten op basis van alle zoutoplossingen. <br>
-Vervolgens is de effectsterkte berekend door middel van Cohen's M om erachter te komen of het een relevant verschil is. Met een effectgrootte van 0.075 is er nagenoeg geen verband tussen de invloed op ontkiemde zaadjes tussen plant, en zoutoplossingen. <br>
-Om te controleren of deze conclusie correct is wordt de power berekend met de chi-square test. De power is 0.29 (29%). Daarmee kan gezegd worden dat de vorige testen een 29% kans hebben om correct te zijn. <br>
- 
+Omdat de p-waarde, van de two-way chi-square test met 0.71 groter is dan 0.05 is er geen significant verschil van ontkieming tussen de twee plantensoorten op basis van alle zoutoplossingen.  
+Vervolgens is de effectsterkte berekend door middel van Cohen's M om erachter te komen of het een relevant verschil is. Met een effectgrootte van 0.075 is er nagenoeg geen verband tussen de invloed op ontkiemde zaadjes tussen plant, en zoutoplossingen.  
+Om te controleren of deze conclusie correct is wordt de power berekend met de chi-square test. De power is 0.29 (29%).  
 
 
 ## Aantal blaadjes
@@ -386,7 +385,8 @@ data_set_plants %>%
     facet_wrap(species~batch) +
     theme_minimal() 
 ```
-In dit figuur is te zien dat de alfalfa minder blaadjes heeft dan de tuinkers, verder is te zien dat alleen alfalfa in oplossing 0.03% afwijkt qua bladgroei. 
+In dit figuur is te zien dat de alfalfa minder blaadjes heeft dan de tuinkers, verder is te zien dat alfalfa oplossing 0.03% afwijkt qua bladgroei. Ook heeft alfalfa minder blaadjes over het geheel dan de tuinkers. Tuinkers batch 1 0.0% en tuinkers batch 2 0.03% hebben ook net iets minder blaadjes dan de rest van de tuinkers.  
+Om te bepalen of deze verschillen significant zijn worden hier statistische testen op uitgevoerd.
 
 ```{r, include=FALSE}
 # Dataset maken voor de tests
@@ -474,7 +474,7 @@ ggplot(combined_df, aes(x=oplossing, fill=bladkleur)) +
     theme_minimal() + 
     facet_wrap(species~batch)
 ```
-In dit figuur is te zien welke bladkleur er gemeten is per plant, per batch, per zoutoplossing. Wat opvalt is dat alfalfa batch 1 en alfalfa batch 2 nagenoeg geen bladkleur hebben.<br> 
+In dit figuur is te zien welke bladkleur er gemeten is per plant, per batch, per zoutoplossing. Wat opvalt is dat alfalfa batch 1 en alfalfa batch 2 nagenoeg geen bladkleur hebben. Verder is te zien dat vooral de kleur groen en donkergroen veel voorkomen bij de alfalfa, de tuinkers heeft meer kleurverschillen maar ook hier overheerst groen en donkergroen. 
 
 # Discussie en Conclusies
 
@@ -510,4 +510,4 @@ wordcountaddin:::text_stats()
 
 # Referenties
 
-Een lijst van referenties wordt hier automagisch toegevoegd.
+Een lijst van referenties wordt hier automatisch toegevoegd.
