@@ -38,11 +38,10 @@ source("../analyse/scripts/fucntions.R")
 
 Dit onderzoek is opgesteld voor een opdracht voor de Hanze in Groningen door twee studenten die de opleiding bio-informatica studeren. In het kader van leren onderzoek doen en resultaatverwerking in programmeertaal R is dit onderzoek tot stand gekomen. Er is gekozen om de impact van zout op de groei van kiemgroenten te onderzoeken. Er is namelijk wel vaker onderzoek gedaan naar de impact van zout op plantengroei, maar nog niet eerder naar de impact op kiemgroenten.[@Osmosis] Omdat kiemgroenten gekweekt kunnen worden als voedsel is het belangrijk om te weten wat een verhoogde zoutconcentratie voor impact heeft. Omdat de zeespiegel behoorlijk aan het stijgen is heeft dit ook impact op de grond waar bloemen, planten en fruit/groente gekweekt wordt. Door dit onderzoek uit te voeren kan er bijvoorbeeld gekeken worden naar welke groeilocaties gunstig zouden zijn en welke groeilocaties minder gunstig zouden zijn.[@Waterstijging]   <br>
 
-Er is onderzocht wat goede zoutconcentraties zouden kunnen zijn. Het experiment is eenmaal mislukt met te hoge zoutconcentraties, namelijk 0%, 1%, 3%, 9%. Omdat de groep van 1% nog wel groeide is er gekozen om de uiteindelijke concentraties tot maximaal 0.1% te kiezen, namelijk; 0%, 0.03%, 0.06%, 0.09%. Op deze manier is er zekerheid gecreërd dat alles zou groeien, maar dat er alsnog wel een verschil gezien zou gaan worden. <br>
+Er is onderzocht wat goede zoutconcentraties zouden kunnen zijn. 0%, 0.03%, 0.06%, 0.09% zijn uiteindelijk gekozen op basis van eerder uitgevoerde onderzoeken. Op deze manier is er zekerheid gecreërd dat alles zou groeien, maar dat er alsnog wel een verschil gezien zou gaan worden. <br>
 
 Hypothese
 - De onderzoeksvraag is: Is er een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie?  
-- Nulhyopthese: Er is geen significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie  
 - Hypothese: Er is een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie  
 
 Plan van aanpak
@@ -295,20 +294,19 @@ data_set_plants %>%
     
     # Data mapping
     ggplot(aes(x = species, fill = factor(ontkiemt))) +
-    geom_bar(position = "dodge", color = 'black') + 
+    geom_bar( color = 'black') + 
     
     # Labels
-    labs(title = "Ontkiemde zaadjes",
-         subtitle = "In zoutoplossing 0% - 0.09%",
+    labs(fill = "Ontkiemt",
          x = "Oplossing", 
          y = "Aantal ontkiemt") +
     
     # Theming
-    scale_fill_manual(values = cbp2) +
+    scale_fill_manual(values = cbp2, labels=c("Niet ontkiemt", "Wel ontkiemt")) +
     facet_wrap(as.factor(data_set_plants$oplossing)) +
     theme_minimal()
 ```
-Wat dit figuur weergeeft is dat bijna alles ontkiemd is. Wat opvalt is dat de alfalfa 0.03% minder ontkiemingen heeft dan de overige batches. Omdat het vrijwel onmogelijk is om op het zicht te bepalen of er significant verschil in zit. worden er een aantal statistische testen uitgevoerd.<br>
+Wat dit figuur weergeeft is dat bijna alles ontkiemd is. Wat opvalt is dat de alfalfa 0.03% minder ontkiemingen heeft dan de overige batches. Omdat het vrijwel onmogelijk is om op het zicht te bepalen of er significant verschil in zit. Worden er een aantal statistische testen uitgevoerd.<br>
 
 ```{r, include=FALSE}
 data_set_ontkieming <- data_set_plants %>%
@@ -364,29 +362,61 @@ Om te controleren of deze conclusie correct is wordt de power berekend met de ch
 
 ## Aantal blaadjes
 
-Om te kijken hoe de zoutoplossingen impact hebben op de groei van het aantal blaadjes is dit uitgezet in onderstaande barplot. <br>
-```{r plotBlaadjes, fig.cap="Aantal blaadjes per batch per zoutoplossing. Deze barplot geeft het aantal blaadjes per plant per zoutoplossing weer. Op de x-as de zoutoplossingen, op de y-as het aantal blaadjes", warning=FALSE}
+Om te kijken hoe de zoutoplossingen impact hebben op de groei van het aantal blaadjes is dit uitgezet in onderstaande barplot.
+<br>
+
+```{r plotBlaadjescress, fig.cap="Frequentie van aantal blaadjes per plant voor cress. Deze grafiek geeft de frequentie van het aantal blaadjes per plantje weer. Waarbij de x-as het aantal blaadjes is, de y-as is de frequentie van de hoeveelheid blaadjes. Het nummer boven de grafiek representeert de oplossing.", warning=FALSE}
 data_set_plants %>%
-    aggregate(blaadjes ~ species + batch + oplossing, FUN = sum) %>%
-    #fct_cross maakt nieuwe kolom en combineert hetgene wat erin staat
-    mutate(species_batch = fct_cross(species, as.character(batch), sep = "_")) %>%
-    #Fill werkt hier als een split functie voor de batches
-    ggplot(aes(x=as.character(oplossing),y=blaadjes, fill=species_batch)) +
     
-    labs( 
-         y="Aantal blaadjes", 
-         x="Oplossing zout (in %)", 
-         fill = "Soort and duplo nummer (soort_duplo)") +
+    # Selecting voor alfalfa
+    dplyr::filter(species == "cress") %>%
     
-    geom_bar(position = "dodge", stat = "sum",
-             color="black", size=0.5) +
+    # Data mapping
+    ggplot(aes(x=blaadjes)) +
+    geom_bar(bins = 25,
+                   color = "black",
+                   fill = "#009E73",)+
     
-    scale_fill_brewer(palette = "Dark2") +
-    facet_wrap(species~batch) +
-    theme_minimal() 
+    # Labels
+    labs(x = "Aantal blaadjes",
+         y = "n") +
+    
+    # Theming
+    theme_minimal()+
+    scale_fill_manual(values = cbp2)+
+    
+    # Wrapping
+    facet_wrap(~ oplossing)
 ```
-In dit figuur is te zien dat de alfalfa minder blaadjes heeft dan de tuinkers, verder is te zien dat alfalfa oplossing 0.03% afwijkt qua bladgroei. Ook heeft alfalfa minder blaadjes over het geheel dan de tuinkers. Tuinkers batch 1 0.0% en tuinkers batch 2 0.03% hebben ook net iets minder blaadjes dan de rest van de tuinkers.  
-Om te bepalen of deze verschillen significant zijn worden hier statistische testen op uitgevoerd.
+Wat zichtbaar is in deze grafiek is dat het aantal blaadjes per plant niet veel veranderd wanneer de oplosing wordt veranderd.
+
+```{r plotBlaadjesalfalfa, fig.cap="Frequentie van aantal blaadjes per plant voor alfalfa. Deze grafiek geeft de frequentie van het aantal blaadjes per plantje weer. Waarbij de x-as het aantal blaadjes is, de y-as is de frequentie van de hoeveelheid blaadjes. Het nummer boven de grafiek representeert de oplossing.", warning=FALSE}
+data_set_plants %>%
+    
+    # Selecting voor alfalfa
+    dplyr::filter(species == "alfalfa") %>%
+    
+    # Data mapping
+    ggplot(aes(x=blaadjes)) +
+    geom_bar(bins = 25,
+                   color = "black",
+                   fill = "#009E73",)+
+    
+    # Labels
+    labs(x = "Aantal blaadjes",
+         y = "n") +
+    
+    # Theming
+    theme_minimal()+
+    scale_fill_manual(values = cbp2)+
+    
+    # Wrapping
+    facet_wrap(~ oplossing)
+```
+Wat zichtbaar is in deze grafiek is dat er tussen de verschillende oplossingen wel een verschil ligt in de frequenties. Bij alle oplossingen valt op dat er heel erg weinig plantjes zijn met 3 blaadjes. Wat ook zichtbaar is is dat de frequentie van 2 blaadjes per plant het hoogst is bij 0.06%.
+
+De verschillen in frequentie blijkt bij alfalfa meer te veranderen wanneer de oplossingen veranderd, dan de frequentie bij cress.
+Om te bepalen of dit een significant verschil is er een 2-way anova test uitgevoerd op deze data.
 
 ```{r, include=FALSE}
 # Dataset maken voor de tests
@@ -438,14 +468,14 @@ eta2.interactie <- SS.AB / SS.tot
 
 pwr.2way(a = 2, b = 4, size.A = 400, size.B = 200, f.A = eta2.soort, f.B = eta2.soort, alpha = alpha)
 ```
-Er is een 2-way anova test uitgevoerd om te kijken of de P-waarde goed is. De P waarde is 0.0894, dit betekent dat het effect op de interactie tussen de blaadjes en species en zoutoplossing minimaal significant is. <br>
+De P waarde van deze test is 0.0894, dit betekent dat het effect op de interactie tussen de blaadjes en species en zoutoplossing minimaal significant is. <br>
 Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). Dit houdt in dat er een sterk effect is van de factoren species en oplossing op het aantal blaadjes. De power van de test is 100%.
 
 
 ## Kleur van blaadjes
 Om te kijken wat de invloed van zoutoplossingen is op de groei van de kiemgroenten, is de kleur van de blaadjes verzameld als data. 
 
-```{r plotKleur, fig.cap="Stacker barchart kleur van blaadjes. Deze grafiek geeft de kleur van de blaadjes weer per soort, batch en oplossing. De kleuren in de bars komen overeen met de kleuren van de plant. Grijs betekend dat er geen bladkleur gemeten is, omdat er geen blaadjes gegroeid zijn."}
+```{r plotKleur, fig.cap="Frequentie van de bladkleur voor elke soort en oplossing. Deze grafiek geeft de frequenties weer van de bladkleur voor elke oplossing en de 2 onderzochte soorten. De x-as is de zoutoplossing in %, y-as is de frequentie van de bladkleuren. Boven de grafiek staat welke soort het representeert."}
 # Voorbereiden data
 combined_df <- data_set_plants %>%
     filter(oplossing %in% c(0, 0.03, 0.06, 0.09)) %>%
@@ -467,14 +497,13 @@ kleuren <- c("licht_groen" = "lightgreen",
 ggplot(combined_df, aes(x=oplossing, fill=bladkleur)) +
     geom_bar(position = "stack") +
     scale_fill_manual(values = kleuren) +
-    labs(title="Bladkleur van alfalfa en tuinkers",
-         x="Oplossing (in%)",
+    labs(x="Oplossing (in%)",
          y="Aantal plantjes",
          fill = "Bladkleur") +
     theme_minimal() + 
-    facet_wrap(species~batch)
+    facet_wrap(~ species)
 ```
-In dit figuur is te zien welke bladkleur er gemeten is per plant, per batch, per zoutoplossing. Wat opvalt is dat alfalfa batch 1 en alfalfa batch 2 nagenoeg geen bladkleur hebben. Verder is te zien dat vooral de kleur groen en donkergroen veel voorkomen bij de alfalfa, de tuinkers heeft meer kleurverschillen maar ook hier overheerst groen en donkergroen. 
+In dit figuur is te zien welke bladkleur er gemeten is per plant, per zoutoplossing. Verder is te zien dat vooral de kleur groen en donkergroen veel voorkomen bij de alfalfa, de tuinkers heeft meer kleurverschillen maar ook hier overheerst groen en donkergroen. 
 
 # Discussie en Conclusies
 
@@ -484,7 +513,7 @@ We hebben de groei in cm gemeten en deze data is verwerkt in twee verschillende 
 
 Er is gekeken naar de ontkieming van de zaadjes. Er is een barplot gemaakt (figuur \@ref(fig:plotOntkieming)) en er is niet echt een significant verschil zichtbaar. Hierop is er een two-way chi-square test uitgevoerd. Hieruit is een p-waarde van 0.71 en dat betekend dat de soort en oplossing geen significant verschil hebben op de ontkieming. Er is vervolgens de effectsterkte berekend hier is 0.075 uitgekomen en dat betekend dat nagenoeg geen verband is tussen de ontkieming per soort per zoutoplossing. Vervolgens is de power berekend en die is 0.29(29%). Er kan dus geconcludeerd worden dat de two-way chi-square test niet betrouwbaar is en dat er daarom niet met zekerheid gezegd kan worden of er een significant verschil is tussen de soort en oplossing op de ontkieming.  
 
-Er is gekeken naar de hoeveelheid blaadjes, hier is een barplot voor gemaakt (figuur \@ref(fig:plotBlaadjes)) en hierin is te zien dat de alfalfa 0.03% afwijkt van de rest. Er is een 2-way anova test uitgevoerd om te kijken of de P-waarde goed is. De P waarde is 0.0894, dit betekent dat er geen significante interactie is tussen de soort en zoutoplossing en de invloed op het aantal blaadjes. is. Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). De power van deze test bleek 100% te zijn. Dit houd in dat we zeker kunnen zeggen dat er geen 
+Er is gekeken naar de hoeveelheid blaadjes, hier is een barplot voor gemaakt (\@ref(fig:plotBlaadjescress) en \@ref(fig:plotBlaadjesalfalfa)) en hierin is te zien dat de alfalfa 0.03% afwijkt van de rest. Er is een 2-way anova test uitgevoerd om te kijken of de P-waarde goed is. De P waarde is 0.0894, dit betekent dat er geen significante interactie is tussen de soort en zoutoplossing en de invloed op het aantal blaadjes. is. Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). De power van deze test bleek 100% te zijn. Dit houd in dat we zeker kunnen zeggen dat er geen 
 
 Er is als laatste nog gekeken naar bladkleur, dit is uitgezet in een stacked barchart. (figuur \@ref(fig:plotKleur)) Hierin is grijs de kleur voor als er geen blaadje aanwezig is. Dit kan zijn omdat het zaadje niet ontkiemd was of omdat er nog geen blaadjes aan zaten. Te zien is dat de alfalfa 0.03% afwijkt qua bladkleur. Dat de alfalfa 0.03% afwijkt is iets dat continue terugkomt. Deze batch is dus niet goed gegroeid om een voor ons onbekende reden. Er was een plan voor statistische testen, echter gaat de statistiek heel ver en hebben wij het opgegeven omdat er geen reactie terugkwam van de desbetreffende docent en de wiskunde voor ons niet te begrijpen is.  
 
