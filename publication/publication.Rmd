@@ -8,7 +8,7 @@ author: |
 lang: nl # dit zorgt er voor dat "abstract" "samenvatting" gaat heten
 
 abstract: |
- Het belang van dit onderzoek is om te kijken hoe verschillende kiemgroenten reageren op licht verhoogde zout concentraties in   de groeibodem, dit is belangrijk omdat de zeespiegel stijgt en hierdoor de grond geleidelijk aan zouter wordt. We hebben 400   keer tuinkers, en 400 keer alfalfa geplant en hebben deze gevoed met verschillende oplopende zout concentraties. Hieruit blijkt  dat een oplopende zout concentratie een significant effect heeft op de groei van beide planten. Omdat de verzamelde data niet   volledig betrouwbaar is zal dit onderzoek opnieuw uitgevoerd moeten worden om met zekerheid te kunnen zeggen dat de            zout concentraties effect heeft.
+ Het belang van dit onderzoek is om te kijken hoe verschillende kiemgroenten reageren op licht verhoogde zoutconcentraties in   de groeibodem, dit is belangrijk omdat de zeespiegel stijgt en hierdoor de grond geleidelijk aan zouter wordt. We hebben 400   keer tuinkers en 400 keer alfalfa geplant en deze gevoed met verschillende oplopende zoutconcentraties. Hieruit blijkt  dat een oplopende zoutconcentratie een significant effect heeft op de groei van beide planten. Omdat de verzamelde data niet   volledig betrouwbaar is zal dit onderzoek opnieuw uitgevoerd moeten worden om met zekerheid te kunnen zeggen dat een zoutconcentratie effect heeft op de groei van kiemgroenten.
 
 bibliography: publication.bib # naam van je .bib file. Deze moet hetzelfde zijn als je Rmd bestandsnaam
 
@@ -36,80 +36,51 @@ source("../analyse/scripts/fucntions.R")
 
 # Introductie
 
-Dit onderzoek is opgesteld voor een opdracht voor de Hanze in Groningen door twee studenten die de opleiding bio-informatica studeren. In het kader van leren onderzoek doen en resultaatverwerking in programmeertaal R is dit onderzoek tot stand gekomen. Er is gekozen om de impact van zout op de groei van kiemgroenten te onderzoeken. Er is namelijk wel vaker onderzoek gedaan naar de impact van zout op plantengroei, maar nog niet eerder naar de impact op kiemgroenten.[@Osmosis] Omdat kiemgroenten gekweekt kunnen worden als voedsel is het belangrijk om te weten wat een verhoogde zoutconcentratie voor impact heeft. Omdat de zeespiegel behoorlijk aan het stijgen is heeft dit ook impact op de grond waar bloemen, planten en fruit/groente gekweekt wordt. Door dit onderzoek uit te voeren kan er bijvoorbeeld gekeken worden naar welke groeilocaties gunstig zouden zijn en welke groeilocaties minder gunstig zouden zijn.[@Waterstijging]   <br>
+Opwarming van de aarde heeft veel negatieve invloeden op de wereld. De hitte, droogte en zout gehaltes in de grond, wijken steeds meer af van de optimale waarden voor planten. In 2021 had 33% van de geïrrigeerde landbouwgronden een te hoge zout concentratie in de bodem. Ook wordt er verwacht dat dit elk jaar met 10% gaat stijgen. De meeste planten die door ons gegeten worden zijn glycofyten. Dit zijn planten die niet tolerant zijn tegen een te hoge zout concentratie. Zout stress zal bij veel van deze planten impact hebben op de groei, ontkieming van zaadjes en algemene ontwikkeling van de plant. [@soil_salinity; @Salt_stress]. 
 
-Er is onderzocht wat goede zoutconcentraties zouden kunnen zijn. Het experiment is eenmaal mislukt met te hoge zoutconcentraties, namelijk 0%, 1%, 3%, 9%. Omdat de groep van 1% nog wel groeide is er gekozen om de uiteindelijke concentraties tot maximaal 0.1% te kiezen, namelijk; 0%, 0.03%, 0.06%, 0.09%. Op deze manier is er zekerheid gecreërd dat alles zou groeien, maar dat er alsnog wel een verschil gezien zou gaan worden. <br>
+Zout kan op 2 manieren een negatieve invloed hebben in een plant. Wanneer de grond een hoge zout concentratie opneemt kan een plant veel minder water opnemen via de wortels, dit zal de groei van een plant op een negatieve manier beïnvloeden. Wanneer de plant toch een stuk gegroeid is kan het zijn dat er een te hoge concentratie van ionen in de plant zit. Deze ionen kunnen ervoor zorgen dat de membraan structuren van de plant stuk gaan en dit kan zelfs de fotosynthese van een plant negatief beïnvloeden, dit zal dan ook weer een negatieve impact hebben op de groei en ontwikkeling van de plant. Daarnaast zal dit het uiterlijk van de plant beïnvloeden, de blaadjes zullen niet geen groene kleur hebben en worden meer geelgekleurd. [@soil_salinity; @Salt_stress]. 
 
-Hypothese
-- De onderzoeksvraag is: Is er een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie?  
-- Nulhyopthese: Er is geen significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie  
-- Hypothese: Er is een significant verschil op de groei tussen de tuinkers en alfalfa met een oplopende zoutconcentratie  
+Er zijn een aantal onderzoeken gedaan naar de invloed van zout op de groei van planten. Zo is er gekeken naar de invloed van zout op pompoen en quinoa. Kijkend naar deze 2 onderzoeken is het verschil tussen een glycofyt en halofyt, zout resistente planten, duidelijk zichtbaar. Zout had veel meer invloed op de groei van de pompoen. [@pompoen; @Quinoa]. 
 
-Plan van aanpak
-De plantjes worden allemaal op 1 locatie ingezaaid op keukenpapier in plastic petrischalen. Vervolgens worden de plantjes gedurende een periode van 6 dagen continue nat gehouden door de verschillende zoutoplossingen. Na deze 6 dagen kan worden beslist om de plantjes nog 1 of 2 dagen langer te laten groeien als de groei nog onvoldoende is om goed te kunnen meten, anders wordt op dag 7 de data verzameld. Zorg ervoor dat de bodem nog steeds nat is tot moment van data verzamelen. Na het verzamelen van alle data wordt dit verwerkt in R. Door middel van verschillende plotjes en statistische testen kan er uiteindelijk een conclusie getrokken worden of de hypothese wordt aangenomen of niet. [@SaltTolerance]
-
+Er was weinig bekend over kiemgroentes, en hoe deze planten reageren op een verhoogde zoutconcentratie. Daarom is er onderzoek naar gedaan. 
+Er is gekeken naar hoe verschillende zoutconcentraties, 0%, 0.03%, 0.06% en 0.09%, invloed hebben op de groei van tuinkers en alfalfa. 
+Is er een verschil tussen deze 2 planten, en hoe wordt er omgegaan met de verschillende zoutconcentraties? 
+Er wordt verwacht dat er een significant verschil zit op de groei van tuinkers en alfalfa met bij een oplopende zoutconcentratie. 
 
 # Materialen en Methoden
 Github repo: https://github.com/RamonReilman/growth_impact_cressGithub
 
-Er wordt begonnen met het aanschaffen van alle materialen waarbij er op gelet moet worden dat dezelfde merken gekocht worden, bijvoorbeeld het zout moet van 1 merk zijn. De materialen zijn: <br>
+Er wordt begonnen met het aanschaffen van alle materialen waarbij erop gelet moet worden dat dezelfde merken gekocht worden, bijvoorbeeld het zout moet van 1 merk zijn. Voor het onderzoek is gebruik gemaakt van 16 petrischalen met deksel, 4 spuitflessen, keukenrol, 2 linialen, 3 zakjes Tuinkers zaadjes, 3 zakjes Alfalfa zaadjes en een computer met Word, Excel en R. 
 
-- 16 nieuwe petrischalen met deksel <br>
-- Spuitflessen, 4 dezelfde <br>
-- Keukenrol, 1 rol <br>
-- Liniaal, 2 dezelfde <br>
-- Tuinkers zaadjes, 3 zakjes <br>
-- Alfalfa zaadjes, 3 zakjes <br>
-- Computer/laptop met toegang tot Word, Excel en Rstudio <br>
+Vervolgens worden de zoutoplossingen gemaakt. Er worden oplossingen gebruikt van 0%, 0.03%, 0.06% en 0.09% zout. Hierbij is de 0% de controlegroep. De planning was dat we dit op een laboratorium zouden doen met gedemineraliseerd water, echter omdat de uitvoering eenmaal mislukt is, moest er een alternatieve oplossing gezocht worden. Hiervoor is gekozen om gekookt leidingwater te gebruiken in combinatie met het zout. Door het koken zijn de meeste bacteriën eruit gehaald en is het water zuiver genoeg om te gebruiken voor het experiment. Vervolgens worden de zaadjes geplant. In 1 petrischaaltje zijn 50 zaadjes gedaan, op een keukenpapier die nat gemaakt is, met de bijbehorende zoutoplossing. Dit is gedaan voor de 2 soorten, en in duplo. Zo krijgen we uiteindelijk 16 verschillende Petri schaaltjes met 2 planten soorten, 4 oplossingen, en dit in duplo. 
 
-Vervolgens worden de zoutoplossingen gemaakt. Er worden oplossingen gebruikt van 0%, 0.03%, 0.06% en 0.09% zout. Hierbij is de 0% de controlegroep. De planning was dat we dit op een laboratorium zouden doen met gedemineraliseerd water, echter omdat de uitvoering eenmaal mislukt is, moest er een alternatieve oplossing gezocht worden. Hiervoor is gekozen om gekookt leidingwater te gebruiken in combinatie met het zout. Door het koken zijn de bacteriën eruit gehaald en is het water zuiver genoeg om te gebruiken voor het experiment. Vervolgens worden de zaadjes geplant volgens dit schema: <br> 
+Alles wordt 2 keer ingezaaid zodat er voor elke oplossing een duplo is. Na het zaaien worden de plantjes gedurende 6 dagen natgehouden met de verschillende zoutoplossingen voordat de data verzameld kan worden. De data worden op 1 dag allemaal tegelijk verzameld door 2 personen. Hierbij neemt 1 persoon alle data voor de Tuinkers op zich en 1 persoon neemt alle data voor de Alfalfa op zich. Om goed te kijken naar de verschillen in groei en ontwikkeling is gekeken naar de groei in mm, of het zaadje ontkiemd is of niet, aantal blaadjes per plant en de kleur van de bladeren. <br> 
 
-- Zoutoplossing 0%, 2 keer 50 zaadjes in twee petrischalen. <br>
-- Zoutoplossing 0.03%. 2 keer 50 zaadjes in twee petrischalen. <br>
-- Zoutoplossing 0.06%. 2 keer 50 zaadjes in twee petrischalen. <br>
-- Zoutoplossing 0.09%. 2 keer 50 zaadjes in twee petrischalen. <br>
+Om antwoord te krijgen op onze onderzoeksvraag is de data getest, verwerkt en gevisualiseerd met R (versie 4.4.0). 
+R is een statistische programmeertaal, die gebouwd is om data te verwerken, manipuleren en visualiseren. Er is gebruik gemaakt van een IDE (Integrated Developmemt Environment) om in te werken: Rstudio (versie 2024.04.1 build 748). [@Rstudio; @R] 
 
-Alles wordt 2 keer ingezaaid zodat er voor elke oplossing een duplo is. Na het zaaien worden de plantjes gedurdende 6 dagen nat gehouden met de verschillende zoutoplossingen voordat de data verzameld kan worden. De data wordt op 1 dag allemaal tegelijk verzameld door 2 personen. Hierbij neemt 1 persoon alle data voor de Tuinkers op zich en 1 persoon neemt alle data voor de Alfalfa op zich. De volgende datapunten worden hierbij meegenomen. <br>
+Voor het manipuleren en visualiseren is gebruikt gemaakt van dplyr (versie 1.1.4) en ggplot2 (versie 3.5.1). dplyr is een library die gebruikt is om data te manipuleren, verwerking, selectie etc. Het verwerken van data is een stuk gemakkelijker via deze library, en werkt hand in hand met ggplot2. ggplot2 is gebruikt om figuren te maken. De library zorgt ervoor dat er gemakkelijk en snel, mooie duidelijke figuren gemaakt kunnen worden. [@dplyr; @ggplot2] 
 
-- Groei in mm <br>
-- Ontkiemd ja of nee <br>
-- Aantal blaadjes <br>
-- Bladkleur <br>
+De gebruikte workflow was relatief simpel, we hebben een hoofdvraag, om die te beantwoorden moesten we kijken naar verschillende variabelen van de plant. Groei, kleur, aantal blaadjes, etc. Voor elk van deze variabelen zijn 1 of mogelijk meerdere grafieken gemaakt, deze grafieken zijn vervolgens bestudeerd. In het geval dat er opvallende punten waren in de data, mogelijke verschillen of onverwachte waarden, zijn er statistische testen uitgevoerd op de data. Zo is bepaald of er significante verschillen zijn tussen data. 
 
-Na het verzamelen van alle data kan dit verwerkt worden in R. Het kan handig zijn gedurende de groei van de plantjes alvast wat statistische tests en plotjes uit te voeren met testdata zodat, tijdens het verwerken van de daadwerkelijke data, al bekend is welke plots en statistische testen er uitgevoerd moeten worden. 
+Voor het testen van de data maken we gebruik van een aantal verschillende testen. Dit omdat we verschillende soorten data hebben.        
+Er is gebruik gemaakt van een 2-way t-test. De 2-way t-test wordt gebruikt wanneer het gemiddelde van 2 datasets vergeleken moet worden. De uitkomst van de 2-way t-test zal weergeven of de gemiddelden van deze datasets significant verschillend zijn of niet. Wanneer de gemiddelden niet significant afwijken kan er gezegd worden dat de 2 datasets hetzelfde zijn. De test kan uitgevoerd worden als two-sided, right-sided en left-sided. De two-sided wordt gebruikt om te kijken of de 2 gemiddelden verschillend zijn, de left en right-sided worden gebruikt om te kijken of gemiddelde 1 groter of kleiner is dan gemiddelde 2. Voor ons onderzoek is de 2-way t-test gebruikt om de duplo's te vergelijken met elkaar. Om te bepalen of er een significant verschil tussen zit is een two-sided versie van de test gebruikt. [@t_test]. 
 
-Om antwoord te krijgen op onze onderzoeks vraag is de data getest, verwerkt en gevisualiseerd met R.
-R:4.4.0 is een statistische programmeer taal, die gebouwd is om data te verwerken, manipuleren en visualiseren. Er is gebruik gemaakt van een IDE om in te werken: Rstudio:2024.04.1 build 748. [@Rstudio; @R]
+Om de effectsterkte tussen de 2 duplo's te berekenen is cohen's D gebruikt. De effect sterkte wordt gebruikt om het verschil tussen groepen te kwantificeren. Een t-test zal weergeven of er een significant verschil is tussen 2 gemiddelden en de effectsterkte hoe groot dit verschil daadwerkelijk is. Dit is belangrijk voor het onderzoek. Omdat er een grote samplesize is, zal een statische test al snel erop wijzen dat er een significant verschil is. De effectsterkte zal juist weergeven hoe groot dit effect is. Voor de duplo's is gebruik gemaakt van cohen's D, deze wordt gebruikt voor de effectsterkte tussen de gemiddelden. Het resultaat van deze berekening geeft weer hoeveel standaarddeviaties er tussen de 2 gemiddelden ligt, een D van 0.3 betekend dus dat er 0.3 standaarddeviaties tussen de 2 gemiddelden ligt. [@effect_size; @cohensD]. 
 
-Voor het manipuleren en visualiseren is gebruikt gemaakt van dplyr:1.1.4 en ggplot2:3.5.1. dplyr is een library die gebruikt is om data te manipuleren, verwerking, selecteren etc. Het verwerken van data is een stuk gemakkelijker via deze library, en werkt hand in hand met ggplot2. ggplot2 is gebruikt om figuren te maken. De library zorgt ervoor dat er gemakkelijk en snel, mooie duidelijke figuren gemaakt kunnen worden. [@dplyr; @ggplot2]
+Om te bepalen of er een significant verschil is tussen de 2 soorten op basis van de groei van plantjes is gebruik gemaakt van de 2-way anova test. De 2-way anova test wordt gebruikt wanneer er bepaald moet worden of er een significant verschil is tussen 3 of meer gemiddelden bij 2 factoren. Dit is voor het onderzoek erg toepasselijk, aangezien er gekeken wordt naar 2 factoren. Planten soort en zout oplossing. [@anova]. 
 
-In de logboeken is gebruik gemaakt van pwr:1.3.0 en gridExtra:2.3. pwr kan de power van een test berekenen. 
-Voor dit onderzoek is pwr ook gebruikt om te kijken wat de sample size moet zijn voor het onderzoek. 
-gridExtra is gebruikt om meerdere plotjes op 1 chart te maken, maar dit bleek ook mogelijk te zijn met de facet wrap functie in R. [@pwr; @gridExtra]
+Voor de effectsterkte is bij deze test Fisher 's eta2 berekend. Net zoals Cohen's D is dit om het verschil tussen groepen te kwantificeren. In dit geval kan het gebruikt worden als er meerdere gemiddelden zijn en 2 factoren. [@effect_size] 
 
-De gebruikte workflow staat weergegeven in de aankomende flowchart.  
-![Caption flowchart.](../analyse/imgs/flowchart_correct.drawio.pdf)  
-*flowchart 1, de workflow van het analyseren van de data.*  
+Om de power te berekenen is de library pwr2 gebruikt.  
+Om het verschil in ontkieming te testen is gebruik gemaakt van de chisq test, de pwr library is gebruikt om de power te berekenen, en voor effect sterkte is Cohen's M berekend. 
 
-De gebruikte workflow was relatief simpel, we hebben een hoofdvraag. En om die te beantwoorden moesten we kijken naar verschillende variabelen van de plant. Groei, kleur, aantal blaadjes, etc. Dus voor elke variabele was een nieuwe vraag. Deze vragen hebben we verwerkt door de data eerst te manipuleren en daarna visualiseren. Vervolgens is er gekeken naar deze visualisaties om te kijken of er opvallende nummers waren, of mogelijk zelfs duidelijke verschillen tussen factoren. Als er iets opvallend te zien was in de visualisatie zijn er vervolgens statistische testen uitgevoerd op de data. Dit is gedaan om te controleren of er een statistisch significant verschil zit tussen de invloed op de variabele tussen 1 of meer factoren.  
-Als de gestelde vraag niet beantwoord was, begonnen we overnieuw. Mogelijk met een net wat andere vraag. In het geval dat de vraag beantwoord is, is de power van de test berekend. En is er gekeken naar de volgende stap: Zijn er nog meer vragen? Of kan er een conclusie geformuleerd worden?  
-
-Voor het testen van de data maken we gebruik van een aantal verschillende testen.  
-Dit omdat we verschillende soorten data hebben. Er is gebruik gemaakt van een 2-way t-test. De t-test wordt gebruikt om het verschil te vinden tussen 2 datasets, met 1 factor die verschillend is. Deze is gebruikt voor het testen of er een significant verschil is tussen 2 duplo's. Om effect sterkte tussen de 2 duplo's te berekenen is cohen's D gebruikt. 
-
-Om te bepalen of er een significant verschil is tussend de 2 soorten oop basis van de groei van plantjes is gebruik gemaakt van de 2-way anova test, voor effect sterkte is bij deze test Fisher's eta2 berekend. Om de power te berekenen is de library pwr2 gebruikt. 
-Om het verschil in ontkieming te testen is gebruik gemaakt van de chisq test, de pwr library is gebruikt om de power te berekenen, en voor effect sterkte is Cohen's M berekend.
-
-Voor het onderzoek zijn ook een paar functies gemaakt in R, deze zijn te vinden in: [Functies](https://github.com/RamonReilman/growth_impact_cress/tree/main/analyse)  
-De volgende functies zijn gemaakt en gebruikt:  
-
-- duplo_test, een functie die gemakkelijk het verschil tussen de 2 duplo's test.  
-- cohens_d_duplo, een functie die cohen's d berekend voor 2 gegeven duplo's.  
-- power_duplo, een functie om de power voor de duplo t tests te berekenen.
+Voor het onderzoek zijn ook een paar functies gemaakt in R, deze zijn te vinden in: [Functies](https://github.com/RamonReilman/growth_impact_cress/tree/main/analyse)   
+duplo_test is een functie die het verschil tussen 2 duplo's test. cohens_d_duplo berekend Cohen's D voor 2 gegeven duplo's en power_duplo berekend de power van de t-testen. 
 
 # Resultaten
 ## Duplo's
-Aan het einde van de datacollectie is de lengte, ontkieming, aantal blaadjes en de kleur bepaald van 800 plantjes verspreid over 2 soorten en 4 verschillende zout oplossingen. Omdat er met duplo's gewerkt is is er eerst gekeken naar verschil tussen duplo's (figuur \@ref(fig:boxplotduplo)).  
+Aan het einde van de datcollectie is de lengte, ontkieming, aantal blaadjes en de kleur bepaald van 800 plantjes verspreid over 2 soorten en 4 verschillende zout oplossingen. Omdat er met duplo's gewerkt is, is er eerst gekeken naar verschil tussen duplo's (figuur \@ref(fig:boxplotduplo)).  
 ```{r boxplotduplo, warning=FALSE, fig.cap="spreiding van groei (cm) van de 2 soorten over elke oplossing. Deze grafiek geeft de spreiding van de groei van de plantjes weer voor elke oplossing en soort plant. waarbij de x-as de platen soort is en de y-as de groei in cm. Ook zijn de duplo's van elkaar gesplitst, zo kan het verschil tussen deze duplo's gevisualiseerd worden. Uitschieters zijn weergegeven als de zwarte punten."}
 # The palette with black:
 cbp2 <- c("#56B4E9", "#009E73", "#000000", "#E69F00",
@@ -135,10 +106,10 @@ data_set_plants %>%
     facet_wrap(~ oplossing) 
 ```
 
-De spreiding van groei tussen de duplo's van tuinkers bij een oplossing van 0.09% en 0% is niet heel groot, de boxen liggen zo goed als naast elkaar. Bij 0.06 en 0.03 van de tuinkers blijkt het verschil iets groter. Bij alfalfa zijn de boxen bij 0.09 0.06% niet helemaal even groot, maar de gemiddelden zijn wel gelijk. bij 0 en 0.03% wijken de boxen en gemiddelden meer af van elkaar.   
+De spreiding van de groei tussen de duplo's van tuinkers bij een oplossing van 0.09% en 0% is niet heel groot, de boxen liggen zo goed als naast elkaar. Bij 0.06% en 0.03% van de tuinkers blijkt het verschil iets groter. Bij alfalfa zijn de boxen bij 0.09% en 0.06% niet helemaal even groot, maar de gemiddelden zijn wel gelijk. Bij 0% en 0.03% wijken de boxen en gemiddelden meer af van elkaar.   
   
 
-Bij een aantal duplo's is het niet duidelijk of er een significant verschil tussen zit, om deze reden zijn er t-testen uitgevoerd voor de volgende duplo's: alfalfa en cress bij oplossing 0.03, cress bij oplossing 0.06, en alfalfa bij 0%.  
+Bij een aantal duplo's is het niet duidelijk of er een significant verschil tussen zit, om deze reden zijn er t-testen uitgevoerd voor de volgende duplo's: alfalfa en cress bij oplossing 0.03%, cress bij oplossing 0.06%, en alfalfa bij 0%.  
 ```{r testDuplo}
 # t testen voor verschillende duplo's
 result_test_cress_0.03 <- duplo_test(soort = "cress", get_oplossing = 0.03, data = data_set_plants)
@@ -147,11 +118,11 @@ result_test_cress_0.06 <- duplo_test(soort = "cress", get_oplossing = 0.06, data
 
 result_test_alfalfa_0.00 <- duplo_test(soort = "alfalfa", get_oplossing = 0, data = data_set_plants)
 ```
-Voor alle 4 de testen geldt p < 0.05, dus er zit bij deze een significant verschil tussen de geteste duplo's.  
-Om te bepalen of dit verschil relevant is, is Cohen's d berekend.  
+Voor alle 4 testen geldt p < 0.05, dus er zit bij deze een significant verschil tussen de geteste duplo's.  
+Om te bepalen of dit verschil relevant is, is Cohen's D berekend.  
 ```{r effectduplo}
 
-# Berek effect sterkte van de duplo's
+# Bereken effect sterkte van de duplo's
 d_cress_0.03 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.03, soort = "cress", get_stats = result_test_cress_0.03$statistic)
 
 d_alfalfa_0.03 <- cohens_d_duplo(data = data_set_plants, get_oplossing = 0.03, soort = "alfalfa", get_stats = result_test_alfalfa_0.03$statistic)
@@ -164,10 +135,10 @@ Cohen's |d| voor cress 0.03% en alfalfa 0.03% ligt rond de 0.85 er kan dus gespr
 Cohen's |d| voor cress bij 0.06% ligt rond de 0.68, er kan dus gesproken worden over een matig/groot verschil tussen deze duplo's. Cohen's |d| voor alfalfa 0% ligt rond de 0.5, er kan dus over een matig verschil gesproken worden tussen deze duplo's.
 
 Om te bepalen hoe betrouwbaar deze resultaten zijn is de power van de tests berekend. 
-Uit deze berekeningen is gekomen de power van de t test van cress bij een oplossing van 0.03 ~0.79 is. de power van alfalfa bij 0.03 is 0.83. De power van cress bij een oplossing van 0.06 is 0.61 en alfalfa bij 0% heeft een power van 0.36.
+Uit deze berekeningen is gekomen de power van de t test van cress bij een oplossing van 0.03 ~0.79 is. De power van alfalfa bij 0.03% is 0.83. De power van cress bij een oplossing van 0.06% is 0.61 en alfalfa bij 0% heeft een power van 0.36.
 ```{r pwrduplo}
 
-# Berek power van de testen
+# bereken power van de testen
 pwr_cress_0.03 <- power_duplo(get_oplossing = 0.03, soort = "cress", get_stats = result_test_cress_0.03, data = data_set_plants)
 
 pwr_alfalfa_0.03 <- power_duplo(get_oplossing = 0.03, soort = "alfalfa", get_stats = result_test_alfalfa_0.03, data = data_set_plants)
@@ -206,7 +177,7 @@ data_set_plants %>%
     coord_cartesian(xlim = c(-1, 30))
 ```
   
-  Wat zichtbaar is uit deze grafiek is dat bij 0.09% de verdeling een stuk meer naar rechts licht dan bij de andere oplossingen. de verdeling van groei bij 0, 0.03 en 0.06 blijkt allemaal wel in de buurt te liggen van elkaar. Alleen is de spreiding bij 0.06 een stuk minder breed.
+  Wat zichtbaar is uit deze grafiek is dat bij 0.09% de verdeling een stuk meer naar rechts licht dan bij de andere oplossingen. de verdeling van groei bij 0%, 0.03% en 0.06% lijkt allemaal wel in de buurt te liggen van elkaar. Alleen is de spreiding bij 0.06% een stuk minder breed.
 
 ```{r alfalfahist, fig.cap="Verdeling van groei in cm van alfalfa voor elke oplossing.  Deze grafiek geeft de verdeling weer van de groei van alfalfa voor elke oplossing. Waarbij de x-as de groei in cm is, en de y-as hoeveel deze groei voorkomt. Boven elke grafiek staat een nummer, deze representeert de oplossing."}
 
@@ -235,7 +206,7 @@ data_set_plants %>%
     facet_wrap(~ oplossing)
 ```
   
-  Wat zichtbaar is uit deze grafiek is dat de data van de alfalfa veel meer is verspreid dan bij tuinkers. Dit kon ook al gelezen worden uit figuur \@ref(fig:boxplotduplo). Als we deze oplossingen vergelijken met elkaar blijkt er niet veel verschil tussen te zijn. Oplossing 0.06 is de enige die hier wel buiten valt, deze oplossing is de enige met een grote piek.  
+  Wat zichtbaar is uit deze grafiek is dat de data van de alfalfa veel meer is verspreid dan bij tuinkers. Dit kon ook al afgelezen worden uit figuur \@ref(fig:boxplotduplo). Als we deze oplossingen vergelijken met elkaar blijkt er niet veel verschil tussen te zijn. Oplossing 0.06% is de enige die hier wel buiten valt, deze oplossing is de enige met een grote piek.  
 Als we de 2 soorten met elkaar vergelijken zien we snel dat tuinkers minder spreiding heeft dan alfalfa.
 
 Om te bepalen of soort, zout en de interactie van deze 2 variabelen invloed heeft op de groei van de planten is een 2-way anova test uitgevoerd. 
@@ -295,20 +266,19 @@ data_set_plants %>%
     
     # Data mapping
     ggplot(aes(x = species, fill = factor(ontkiemt))) +
-    geom_bar(position = "dodge", color = 'black') + 
+    geom_bar( color = 'black') + 
     
     # Labels
-    labs(title = "Ontkiemde zaadjes",
-         subtitle = "In zoutoplossing 0% - 0.09%",
+    labs(fill = "Ontkiemt",
          x = "Oplossing", 
          y = "Aantal ontkiemt") +
     
     # Theming
-    scale_fill_manual(values = cbp2) +
+    scale_fill_manual(values = cbp2, labels=c("Niet ontkiemt", "Wel ontkiemt")) +
     facet_wrap(as.factor(data_set_plants$oplossing)) +
     theme_minimal()
 ```
-Wat dit figuur weergeeft is dat bijna alles ontkiemd is. Wat opvalt is dat de alfalfa 0.03% minder ontkiemingen heeft dan de overige batches. Omdat het vrijwel onmogelijk is om op het zicht te bepalen of er significant verschil in zit. worden er een aantal statistische testen uitgevoerd.<br>
+Wat dit figuur weergeeft is dat bijna alles ontkiemd is. Wat opvalt is dat de alfalfa 0.03% minder ontkiemingen heeft dan de overige batches. Omdat het vrijwel onmogelijk is om op het zicht te bepalen of er significant verschil in zit, worden er een aantal statistische testen uitgevoerd.<br>
 
 ```{r, include=FALSE}
 data_set_ontkieming <- data_set_plants %>%
@@ -364,29 +334,61 @@ Om te controleren of deze conclusie correct is wordt de power berekend met de ch
 
 ## Aantal blaadjes
 
-Om te kijken hoe de zoutoplossingen impact hebben op de groei van het aantal blaadjes is dit uitgezet in onderstaande barplot. <br>
-```{r plotBlaadjes, fig.cap="Aantal blaadjes per batch per zoutoplossing. Deze barplot geeft het aantal blaadjes per plant per zoutoplossing weer. Op de x-as de zoutoplossingen, op de y-as het aantal blaadjes", warning=FALSE}
+Om te kijken hoe de zoutoplossingen impact hebben op de groei van het aantal blaadjes is dit uitgezet in onderstaande barplot.
+<br>
+
+```{r plotBlaadjescress, fig.cap="Frequentie van aantal blaadjes per plant voor cress. Deze grafiek geeft de frequentie van het aantal blaadjes per plantje weer. Waarbij de x-as het aantal blaadjes is, de y-as is de frequentie van de hoeveelheid blaadjes. Het nummer boven de grafiek representeert de oplossing.", warning=FALSE}
 data_set_plants %>%
-    aggregate(blaadjes ~ species + batch + oplossing, FUN = sum) %>%
-    #fct_cross maakt nieuwe kolom en combineert hetgene wat erin staat
-    mutate(species_batch = fct_cross(species, as.character(batch), sep = "_")) %>%
-    #Fill werkt hier als een split functie voor de batches
-    ggplot(aes(x=as.character(oplossing),y=blaadjes, fill=species_batch)) +
     
-    labs( 
-         y="Aantal blaadjes", 
-         x="Oplossing zout (in %)", 
-         fill = "Soort and duplo nummer (soort_duplo)") +
+    # Selecting voor alfalfa
+    dplyr::filter(species == "cress") %>%
     
-    geom_bar(position = "dodge", stat = "sum",
-             color="black", size=0.5) +
+    # Data mapping
+    ggplot(aes(x=blaadjes)) +
+    geom_bar(bins = 25,
+                   color = "black",
+                   fill = "#009E73",)+
     
-    scale_fill_brewer(palette = "Dark2") +
-    facet_wrap(species~batch) +
-    theme_minimal() 
+    # Labels
+    labs(x = "Aantal blaadjes",
+         y = "n") +
+    
+    # Theming
+    theme_minimal()+
+    scale_fill_manual(values = cbp2)+
+    
+    # Wrapping
+    facet_wrap(~ oplossing)
 ```
-In dit figuur is te zien dat de alfalfa minder blaadjes heeft dan de tuinkers, verder is te zien dat alfalfa oplossing 0.03% afwijkt qua bladgroei. Ook heeft alfalfa minder blaadjes over het geheel dan de tuinkers. Tuinkers batch 1 0.0% en tuinkers batch 2 0.03% hebben ook net iets minder blaadjes dan de rest van de tuinkers.  
-Om te bepalen of deze verschillen significant zijn worden hier statistische testen op uitgevoerd.
+Wat zichtbaar is in deze grafiek is dat het aantal blaadjes per plant niet veel veranderd wanneer de oplossing wordt veranderd.
+
+```{r plotBlaadjesalfalfa, fig.cap="Frequentie van aantal blaadjes per plant voor alfalfa. Deze grafiek geeft de frequentie van het aantal blaadjes per plantje weer. Waarbij de x-as het aantal blaadjes is, de y-as is de frequentie van de hoeveelheid blaadjes. Het nummer boven de grafiek representeert de oplossing.", warning=FALSE}
+data_set_plants %>%
+    
+    # Selecting voor alfalfa
+    dplyr::filter(species == "alfalfa") %>%
+    
+    # Data mapping
+    ggplot(aes(x=blaadjes)) +
+    geom_bar(bins = 25,
+                   color = "black",
+                   fill = "#009E73",)+
+    
+    # Labels
+    labs(x = "Aantal blaadjes",
+         y = "n") +
+    
+    # Theming
+    theme_minimal()+
+    scale_fill_manual(values = cbp2)+
+    
+    # Wrapping
+    facet_wrap(~ oplossing)
+```
+Wat zichtbaar is in deze grafiek is dat er tussen de verschillende oplossingen wel een verschil ligt in de frequenties. Bij alle oplossingen valt op dat er heel erg weinig plantjes zijn met 3 blaadjes. Wat ook zichtbaar is is dat de frequentie van 2 blaadjes per plant het hoogst is bij 0.06%.
+
+De verschillen in frequentie blijkt bij alfalfa meer te veranderen wanneer de oplossingen veranderd, dan de frequentie bij cress.
+Om te bepalen of dit een significant verschil is er een 2-way anova test uitgevoerd op deze data.
 
 ```{r, include=FALSE}
 # Dataset maken voor de tests
@@ -438,14 +440,14 @@ eta2.interactie <- SS.AB / SS.tot
 
 pwr.2way(a = 2, b = 4, size.A = 400, size.B = 200, f.A = eta2.soort, f.B = eta2.soort, alpha = alpha)
 ```
-Er is een 2-way anova test uitgevoerd om te kijken of de P-waarde goed is. De P waarde is 0.0894, dit betekent dat het effect op de interactie tussen de blaadjes en species en zoutoplossing minimaal significant is. <br>
+De P waarde van deze test is 0.0894, dit betekent dat het effect op de interactie tussen de blaadjes en species en zoutoplossing minimaal significant is. <br>
 Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). Dit houdt in dat er een sterk effect is van de factoren species en oplossing op het aantal blaadjes. De power van de test is 100%.
 
 
 ## Kleur van blaadjes
 Om te kijken wat de invloed van zoutoplossingen is op de groei van de kiemgroenten, is de kleur van de blaadjes verzameld als data. 
 
-```{r plotKleur, fig.cap="Stacker barchart kleur van blaadjes. Deze grafiek geeft de kleur van de blaadjes weer per soort, batch en oplossing. De kleuren in de bars komen overeen met de kleuren van de plant. Grijs betekend dat er geen bladkleur gemeten is, omdat er geen blaadjes gegroeid zijn."}
+```{r plotKleur, fig.cap="Frequentie van de bladkleur voor elke soort en oplossing. Deze grafiek geeft de frequenties weer van de bladkleur voor elke oplossing en de 2 onderzochte soorten. De x-as is de zoutoplossing in %, y-as is de frequentie van de bladkleuren. Boven de grafiek staat welke soort het representeert."}
 # Voorbereiden data
 combined_df <- data_set_plants %>%
     filter(oplossing %in% c(0, 0.03, 0.06, 0.09)) %>%
@@ -467,14 +469,13 @@ kleuren <- c("licht_groen" = "lightgreen",
 ggplot(combined_df, aes(x=oplossing, fill=bladkleur)) +
     geom_bar(position = "stack") +
     scale_fill_manual(values = kleuren) +
-    labs(title="Bladkleur van alfalfa en tuinkers",
-         x="Oplossing (in%)",
+    labs(x="Oplossing (in%)",
          y="Aantal plantjes",
          fill = "Bladkleur") +
     theme_minimal() + 
-    facet_wrap(species~batch)
+    facet_wrap(~ species)
 ```
-In dit figuur is te zien welke bladkleur er gemeten is per plant, per batch, per zoutoplossing. Wat opvalt is dat alfalfa batch 1 en alfalfa batch 2 nagenoeg geen bladkleur hebben. Verder is te zien dat vooral de kleur groen en donkergroen veel voorkomen bij de alfalfa, de tuinkers heeft meer kleurverschillen maar ook hier overheerst groen en donkergroen. 
+In dit figuur is te zien welke bladkleur er gemeten is per plant, per zoutoplossing. Verder is te zien dat vooral de kleur groen en donkergroen veel voorkomen bij de alfalfa, de tuinkers heeft meer kleurverschillen maar ook hier overheerst groen en donkergroen. 
 
 # Discussie en Conclusies
 
@@ -484,7 +485,7 @@ We hebben de groei in cm gemeten en deze data is verwerkt in twee verschillende 
 
 Er is gekeken naar de ontkieming van de zaadjes. Er is een barplot gemaakt (figuur \@ref(fig:plotOntkieming)) en er is niet echt een significant verschil zichtbaar. Hierop is er een two-way chi-square test uitgevoerd. Hieruit is een p-waarde van 0.71 en dat betekend dat de soort en oplossing geen significant verschil hebben op de ontkieming. Er is vervolgens de effectsterkte berekend hier is 0.075 uitgekomen en dat betekend dat nagenoeg geen verband is tussen de ontkieming per soort per zoutoplossing. Vervolgens is de power berekend en die is 0.29(29%). Er kan dus geconcludeerd worden dat de two-way chi-square test niet betrouwbaar is en dat er daarom niet met zekerheid gezegd kan worden of er een significant verschil is tussen de soort en oplossing op de ontkieming.  
 
-Er is gekeken naar de hoeveelheid blaadjes, hier is een barplot voor gemaakt (figuur \@ref(fig:plotBlaadjes)) en hierin is te zien dat de alfalfa 0.03% afwijkt van de rest. Er is een 2-way anova test uitgevoerd om te kijken of de P-waarde goed is. De P waarde is 0.0894, dit betekent dat er geen significante interactie is tussen de soort en zoutoplossing en de invloed op het aantal blaadjes. is. Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). De power van deze test bleek 100% te zijn. Dit houd in dat we zeker kunnen zeggen dat er geen 
+Er is gekeken naar de hoeveelheid blaadjes, hier is een barplot voor gemaakt (\@ref(fig:plotBlaadjescress) en \@ref(fig:plotBlaadjesalfalfa)) en hierin is te zien dat de alfalfa 0.03% afwijkt van de rest. Er is een 2-way anova test uitgevoerd om te kijken of de P-waarde goed is. De P waarde is 0.0894, dit betekent dat er geen significante interactie is tussen de soort en zoutoplossing en de invloed op het aantal blaadjes. is. Vervolgens is de effectsterkte berekend met Fishers eta en hier komt een effectsterkte uit van 0.887 (88,7%). De power van deze test bleek 100% te zijn. Dit houd in dat we zeker kunnen zeggen dat er geen 
 
 Er is als laatste nog gekeken naar bladkleur, dit is uitgezet in een stacked barchart. (figuur \@ref(fig:plotKleur)) Hierin is grijs de kleur voor als er geen blaadje aanwezig is. Dit kan zijn omdat het zaadje niet ontkiemd was of omdat er nog geen blaadjes aan zaten. Te zien is dat de alfalfa 0.03% afwijkt qua bladkleur. Dat de alfalfa 0.03% afwijkt is iets dat continue terugkomt. Deze batch is dus niet goed gegroeid om een voor ons onbekende reden. Er was een plan voor statistische testen, echter gaat de statistiek heel ver en hebben wij het opgegeven omdat er geen reactie terugkwam van de desbetreffende docent en de wiskunde voor ons niet te begrijpen is.  
 
